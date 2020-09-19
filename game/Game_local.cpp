@@ -5738,7 +5738,7 @@ void idGameLocal::RadiusDamage( const idVec3 &origin, idEntity *inflictor, idEnt
 			continue;
 		}
 
-		// Dont damage inflictor or the ignore entity
+		// Dont damage inflictor or the ignore entity or the attacker
 		if( ent == inflictor || ent == ignoreDamage ) {
 			continue;
 		}

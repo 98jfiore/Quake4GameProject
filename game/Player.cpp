@@ -10151,6 +10151,22 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 
 	if ( knockback != 0 && !fl.noknockback ) {
 		if ( !gameLocal.isMultiplayer && attacker == this ) {
+			if (true)
+			{
+				damageDef->dict.GetFloat("attackerPushScale", "2", attackerPushScale);
+
+				kick = dir;
+
+				kick.Normalize();
+				kick *= g_knockback.GetFloat() * knockback * attackerPushScale / 200.0f;
+
+				physicsObj.SetLinearVelocity(physicsObj.GetLinearVelocity() + kick);
+
+				// set the timer so that the player can't cancel out the movement immediately
+				physicsObj.SetKnockBack(idMath::ClampInt(50, 200, knockback * 2));
+
+				return;
+			}
 			//In SP, no knockback from your own stuff
 			knockback = 0;
 		} else {

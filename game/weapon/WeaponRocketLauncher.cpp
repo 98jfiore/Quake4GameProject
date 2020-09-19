@@ -3,6 +3,8 @@
 
 #include "../Game_local.h"
 #include "../Weapon.h"
+#include "../ai/AI.h"
+#include "../ai/AI_Manager.h"
 #include "../client/ClientEffect.h"
 
 #ifndef __GAME_PROJECTILE_H__
@@ -24,6 +26,8 @@ public:
 	void					Restore( idRestoreGame *saveFile );
 	void					PreSave				( void );
 	void					PostSave			( void );
+	void					Attack				(bool altAttack, int num_attacks, float spread, float fuseOffset, float power);
+	void					LaunchProjectiles	(idDict& dict, const idVec3& muzzleOrigin, const idMat3& muzzleAxis, int num_projectiles, float spread, float fuseOffset, float power);
 
 
 #ifdef _XENON
@@ -309,6 +313,227 @@ void rvWeaponRocketLauncher::PostSave ( void ) {
 
 
 /*
+================
+rvWeaponRocketLauncher::Attack
+================
+*/
+void rvWeaponRocketLauncher::Attack(bool altAttack, int num_attacks, float spread, float fuseOffset, float power) {
+	idVec3 muzzleOrigin;
+	idMat3 muzzleAxis;
+
+	if (!viewModel) {
+		common->Warning("NULL viewmodel %s\n", __FUNCTION__);
+		return;
+	}
+
+	if (viewModel->IsHidden()) {
+		return;
+	}
+
+	// avoid all ammo considerations on an MP client
+	if (!gameLocal.isClient) {
+		//Don't remove ammo from clip
+		/*
+		// check if we're out of ammo or the clip is empty
+		int ammoAvail = owner->inventory.HasAmmo(ammoType, ammoRequired);
+		if (!ammoAvail || ((clipSize != 0) && (ammoClip <= 0))) {
+			return;
+		}
+
+		owner->inventory.UseAmmo(ammoType, ammoRequired);
+		if (clipSize && ammoRequired) {
+			clipPredictTime = gameLocal.time;	// mp client: we predict this. mark time so we're not confused by snapshots
+			ammoClip -= 1;
+		}*/
+
+		// wake up nearby monsters
+		if (!wfl.silent_fire) {
+			gameLocal.AlertAI(owner);
+		}
+	}
+
+	// set the shader parm to the time of last projectile firing,
+	// which the gun material shaders can reference for single shot barrel glows, etc
+	viewModel->SetShaderParm(SHADERPARM_DIVERSITY, gameLocal.random.CRandomFloat());
+	viewModel->SetShaderParm(SHADERPARM_TIMEOFFSET, -MS2SEC(gameLocal.realClientTime));
+
+	if (worldModel.GetEntity()) {
+		worldModel->SetShaderParm(SHADERPARM_DIVERSITY, viewModel->GetRenderEntity()->shaderParms[SHADERPARM_DIVERSITY]);
+		worldModel->SetShaderParm(SHADERPARM_TIMEOFFSET, viewModel->GetRenderEntity()->shaderParms[SHADERPARM_TIMEOFFSET]);
+	}
+
+	// calculate the muzzle position
+	if (barrelJointView != INVALID_JOINT && spawnArgs.GetBool("launchFromBarrel")) {
+		// there is an explicit joint for the muzzle
+		GetGlobalJointTransform(true, barrelJointView, muzzleOrigin, muzzleAxis);
+	}
+	else {
+		// go straight out of the view
+		muzzleOrigin = playerViewOrigin;
+		muzzleAxis = playerViewAxis;
+		muzzleOrigin += playerViewAxis[0] * muzzleOffset;
+	}
+
+	// add some to the kick time, incrementally moving repeat firing weapons back
+	if (kick_endtime < gameLocal.realClientTime) {
+		kick_endtime = gameLocal.realClientTime;
+	}
+	kick_endtime += muzzle_kick_time;
+	if (kick_endtime > gameLocal.realClientTime + muzzle_kick_maxtime) {
+		kick_endtime = gameLocal.realClientTime + muzzle_kick_maxtime;
+	}
+
+	// add the muzzleflash
+	MuzzleFlash();
+
+	// quad damage overlays a sound
+	if (owner->PowerUpActive(POWERUP_QUADDAMAGE)) {
+		viewModel->StartSound("snd_quaddamage", SND_CHANNEL_VOICE, 0, false, NULL);
+	}
+
+	// Muzzle flash effect
+	bool muzzleTint = spawnArgs.GetBool("muzzleTint");
+	viewModel->PlayEffect("fx_muzzleflash", flashJointView, false, vec3_origin, false, EC_IGNORE, muzzleTint ? owner->GetHitscanTint() : vec4_one);
+
+	if (worldModel && flashJointWorld != INVALID_JOINT) {
+		worldModel->PlayEffect(gameLocal.GetEffect(weaponDef->dict, "fx_muzzleflash_world"), flashJointWorld, vec3_origin, mat3_identity, false, vec3_origin, false, EC_IGNORE, muzzleTint ? owner->GetHitscanTint() : vec4_one);
+	}
+
+	owner->WeaponFireFeedback(&weaponDef->dict);
+
+	// Inform the gui of the ammo change
+	viewModel->PostGUIEvent("weapon_ammo");
+	if (ammoClip == 0 && AmmoAvailable() == 0) {
+		viewModel->PostGUIEvent("weapon_noammo");
+	}
+
+	// The attack is a launched projectile, do that now.
+	if (!gameLocal.isClient) {
+		idDict& dict = altAttack ? attackAltDict : attackDict;
+		LaunchProjectiles(dict, muzzleOrigin, muzzleAxis, num_attacks, spread, fuseOffset, power);
+		//asalmon:  changed to keep stats even in single player 
+		statManager->WeaponFired(owner, weaponIndex, num_attacks);
+	}
+}
+
+/*
+================
+rvWeapon::LaunchProjectiles
+================
+*/
+void rvWeaponRocketLauncher::LaunchProjectiles(idDict& dict, const idVec3& muzzleOrigin, const idMat3& muzzleAxis, int num_projectiles, float spread, float fuseOffset, float power) {
+	idProjectile*	proj;
+	idEntity*		ent;
+	int				i;
+	float			spreadRad;
+	idVec3			dir;
+	idBounds		ownerBounds;
+
+	if (gameLocal.isClient) {
+		return;
+	}
+
+	// Let the AI know about the new attack
+	if (!gameLocal.isMultiplayer) {
+		aiManager.ReactToPlayerAttack(owner, muzzleOrigin, muzzleAxis[0]);
+	}
+
+	ownerBounds = owner->GetPhysics()->GetAbsBounds();
+	spreadRad = DEG2RAD(spread);
+
+	idVec3 dirOffset;
+	idVec3 startOffset;
+
+	spawnArgs.GetVector("dirOffset", "0 0 0", dirOffset);
+	spawnArgs.GetVector("startOffset", "0 0 0", startOffset);
+
+	for (i = 0; i < num_projectiles; i++) {
+		float	 ang;
+		float	 spin;
+		idVec3	 dir;
+		idBounds projBounds;
+		idVec3	 muzzle_pos;
+
+		// Calculate a random launch direction based on the spread
+		ang = idMath::Sin(spreadRad * gameLocal.random.RandomFloat());
+		spin = (float)DEG2RAD(360.0f) * gameLocal.random.RandomFloat();
+		//RAVEN BEGIN
+		//asalmon: xbox must use muzzle Axis for aim assistance
+#ifdef _XBOX
+		dir = muzzleAxis[0] + muzzleAxis[2] * (ang * idMath::Sin(spin)) - muzzleAxis[1] * (ang * idMath::Cos(spin));
+		dir += dirOffset;
+#else
+		dir = playerViewAxis[0] + playerViewAxis[2] * (ang * idMath::Sin(spin)) - playerViewAxis[1] * (ang * idMath::Cos(spin));
+		dir += dirOffset;
+#endif
+		//RAVEN END
+		dir.Normalize();
+
+		// If a projectile entity has already been created then use that one, otherwise
+		// spawn a new one based on the given dictionary
+		if (projectileEnt) {
+			ent = projectileEnt;
+			ent->Show();
+			ent->Unbind();
+			projectileEnt = NULL;
+		}
+		else {
+			dict.SetInt("instance", owner->GetInstance());
+			gameLocal.SpawnEntityDef(dict, &ent, false);
+		}
+
+		// Make sure it spawned
+		if (!ent) {
+			gameLocal.Error("failed to spawn projectile for weapon '%s'", weaponDef->GetName());
+		}
+
+		assert(ent->IsType(idProjectile::GetClassType()));
+
+		// Create the projectile
+		proj = static_cast<idProjectile*>(ent);
+		proj->Create(owner, muzzleOrigin + startOffset, dir, NULL, owner->extraProjPassEntity);
+
+		projBounds = proj->GetPhysics()->GetBounds().Rotate(proj->GetPhysics()->GetAxis());
+
+		// make sure the projectile starts inside the bounding box of the owner
+		if (i == 0) {
+			idVec3  start;
+			float   distance;
+			trace_t	tr;
+			//RAVEN BEGIN
+			//asalmon: xbox must use muzzle Axis for aim assistance
+#ifdef _XBOX
+			muzzle_pos = muzzleOrigin + muzzleAxis[0] * 2.0f;
+			if ((ownerBounds - projBounds).RayIntersection(muzzle_pos, muzzleAxis[0], distance)) {
+				start = muzzle_pos + distance * muzzleAxis[0];
+			}
+#else
+			muzzle_pos = muzzleOrigin + playerViewAxis[0] * 2.0f;
+			if ((ownerBounds - projBounds).RayIntersection(muzzle_pos, playerViewAxis[0], distance)) {
+				start = muzzle_pos + distance * playerViewAxis[0];
+			}
+#endif
+			//RAVEN END
+			else {
+				start = ownerBounds.GetCenter();
+			}
+			// RAVEN BEGIN
+			// ddynerman: multiple clip worlds
+			gameLocal.Translation(owner, tr, start, muzzle_pos, proj->GetPhysics()->GetClipModel(), proj->GetPhysics()->GetClipModel()->GetAxis(), MASK_SHOT_RENDERMODEL, owner);
+			// RAVEN END
+			muzzle_pos = tr.endpos;
+		}
+
+		// Launch the actual projectile
+		proj->Launch(muzzle_pos + startOffset, dir, pushVelocity, fuseOffset, power);
+
+		// Increment the projectile launch count and let the derived classes
+		// mess with it if they want.
+		OnLaunchProjectile(proj);
+	}
+}
+
+/*
 ===============================================================================
 
 	States 
@@ -424,7 +649,7 @@ stateResult_t rvWeaponRocketLauncher::State_Idle( const stateParms_t& parms ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
 			}		
-			if ( gameLocal.time > nextAttackTime && wsfl.attack && ( gameLocal.isClient || AmmoInClip ( ) ) ) {
+			if ( gameLocal.time > nextAttackTime && ( gameLocal.isClient || AmmoInClip ( ) ) ) {
 				SetState ( "Fire", 2 );
 				return SRESULT_DONE;
 			}
