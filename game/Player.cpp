@@ -10151,7 +10151,9 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 
 	if ( knockback != 0 && !fl.noknockback ) {
 		if ( !gameLocal.isMultiplayer && attacker == this ) {
-			if (true)
+			// If you are doing damage to yourself, don't do damage, but take knockback
+			const char* inflName = inflictor->GetName();
+			if ( strlen(inflName) > 29  && strstr(inflName, "idProjectile_projectile_rocket") != NULL  )
 			{
 				damageDef->dict.GetFloat("attackerPushScale", "2", attackerPushScale);
 

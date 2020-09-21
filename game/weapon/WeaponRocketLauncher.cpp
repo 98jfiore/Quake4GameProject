@@ -676,7 +676,7 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:			
-			if ( wsfl.attack && gameLocal.time >= nextAttackTime && ( gameLocal.isClient || AmmoInClip ( ) ) && !wsfl.lowerWeapon ) {
+			if ( gameLocal.time >= nextAttackTime && !wsfl.lowerWeapon ) {
 				SetState ( "Fire", 0 );
 				return SRESULT_DONE;
 			}
