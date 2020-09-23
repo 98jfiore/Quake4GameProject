@@ -10155,6 +10155,7 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 			const char* inflName = inflictor->GetName();
 			if ( strlen(inflName) > 29  && strstr(inflName, "idProjectile_projectile_rocket") != NULL  )
 			{
+
 				damageDef->dict.GetFloat("attackerPushScale", "2", attackerPushScale);
 
 				kick = dir;
