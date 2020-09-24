@@ -715,7 +715,7 @@ stateResult_t rvWeaponRocketLauncher::State_Rocket_Idle ( const stateParms_t& pa
 			if ( AmmoAvailable ( ) > AmmoInClip() ) {
 				if ( idleEmpty ) {
 					SetRocketState ( "Rocket_Reload", 0 );
-					return SRESULT_DONE;
+					return SRESULT_DONE;  
 				} else if ( ClipSize ( ) > 1 ) {
 					if ( gameLocal.time > nextAttackTime && AmmoInClip ( ) < ClipSize( ) ) {
 						if ( !AmmoInClip() || !wsfl.attack ) {
