@@ -7688,6 +7688,8 @@ idEntity* idGameLocal::HitScan(
 
 				// Apply force to the entity that was hit
 				ent->ApplyImpulse( owner, tr.c.id, tr.c.point, -tr.c.normal, &hitscanDict );
+				//Print the classname hit for debugging
+				common->Printf("%s\n", ent->GetClassname());
 
 				// Handle damage to the entity
 				if ( ent->fl.takedamage && !(( tr.c.material != NULL ) && ( tr.c.material->GetSurfaceFlags() & SURF_NODAMAGE )) ) {		

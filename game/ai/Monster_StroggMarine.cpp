@@ -301,7 +301,9 @@ rvMonsterStroggMarine::CheckAction_CrouchRangedAttack
 */
 bool rvMonsterStroggMarine::CheckAction_CrouchRangedAttack ( rvAIAction* action, int animNum )
 {
-	if ( !enemy.ent || !enemy.fl.inFov ) {
+	//Turned off attack
+	return false;
+	/*if ( !enemy.ent || !enemy.fl.inFov ) {
 		return false;
 	}
 	if ( !IsEnemyRecentlyVisible ( ) || enemy.ent->DistanceTo ( enemy.lastKnownPosition ) > 128.0f ) {
@@ -320,7 +322,7 @@ bool rvMonsterStroggMarine::CheckAction_CrouchRangedAttack ( rvAIAction* action,
 	if ( animNum != -1 && !CanHitEnemyFromAnim( animNum ) ) {
 		return false;
 	}
-	return true;
+	return true;*/
 }
 
 /*
@@ -330,13 +332,15 @@ rvMonsterStroggMarine::CheckAction_RollAttack
 */
 bool rvMonsterStroggMarine::CheckAction_RollAttack ( rvAIAction* action, int animNum )
 {
-	if ( !enemy.ent || !enemy.fl.inFov || !enemy.fl.visible ) {
+	//Turned off roll
+	return false;
+	/*if ( !enemy.ent || !enemy.fl.inFov || !enemy.fl.visible ) {
 		return false;
 	}
 	if ( !TestAnimMove ( animNum ) ) {
 		return false;
 	}
-	return true;
+	return true;*/
 }
 
 /*

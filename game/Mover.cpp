@@ -4225,11 +4225,12 @@ void idDoor::Spawn( void ) {
 		ProcessEvent( &EV_Mover_ClosePortal );
 	}
 
-	int locked = spawnArgs.GetInt( "locked" );
+	//Don't lock doors
+	/*int locked = spawnArgs.GetInt( "locked" );
 	if ( locked ) {
 		// make sure all members of the team get locked
 		PostEventMS( &EV_Door_Lock, 0, locked );
-	}
+	}*/
 
 	if ( spawnArgs.GetBool( "continuous" ) ) {
 		PostEventSec( &EV_Activate, spawnArgs.GetFloat( "delay" ), this );
@@ -4842,7 +4843,8 @@ void idDoor::Event_Touch( idEntity *other, trace_t *trace ) {
 	}
 
 	if ( trigger && trace->c.id == trigger->GetId() ) {
-		if ( !IsNoTouch() && !IsLocked() && GetMoverState() != MOVER_1TO2 ) {
+		//Don't check for locked doors
+		if (!IsNoTouch() && GetMoverState() != MOVER_1TO2) {//!IsLocked() && GetMoverState() != MOVER_1TO2 ) {
 // RAVEN BEGIN
 // abahr: allowing animated door frames
 			if( doorFrameController.IsValid() && doorFrameController != other ) {
@@ -4906,8 +4908,10 @@ idDoor::Event_Activate
 ================
 */
 void idDoor::Event_Activate( idEntity *activator ) {
-	int old_lock;
+	//int old_lock;
 
+	//Disregard locks
+	/*
 	if ( spawnArgs.GetInt( "locked" ) ) {
 		if ( !trigger ) {
 			PostEventMS( &EV_Door_SpawnDoorTrigger, 0 );
@@ -4919,7 +4923,7 @@ void idDoor::Event_Activate( idEntity *activator ) {
 		if ( old_lock == 2 ) {
 			return;
 		}
-	}
+	}*/
 
   	if ( syncLock.Length() ) {
 		idEntity *sync = gameLocal.FindEntity( syncLock );

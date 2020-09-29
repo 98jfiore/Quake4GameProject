@@ -373,6 +373,9 @@ bool idAI::CheckActions ( void ) {
 		return true;
 	}
 
+	//Don't attack
+	return false;
+	/*
 	// Actions are limited at a cover position to shooting and leaning
 	if ( IsBehindCover ( ) ) {
 		// Test ranged attack first
@@ -391,7 +394,7 @@ bool idAI::CheckActions ( void ) {
 		}
 	}
 	
-	return false;
+	return false;*/
 }
 
 /*
@@ -456,6 +459,9 @@ bool idAI::PerformAction ( rvAIAction* action, bool (idAI::*condition)(rvAIActio
 
 	// Special code for attacks	
 	if ( action->fl.isAttack ) {
+		action->status = rvAIAction::STATUS_FAIL_DISABLED;
+		return false;
+		/*
 		// Attacks disabled?
 		if ( ai_disableAttacks.GetBool() ) {
 			action->status = rvAIAction::STATUS_FAIL_DISABLED;
@@ -465,7 +471,7 @@ bool idAI::PerformAction ( rvAIAction* action, bool (idAI::*condition)(rvAIActio
 		if ( !enemy.ent || enemy.ent->health <= 0 ) {
 			action->status = rvAIAction::STATUS_FAIL_NOENEMY;
 			return false;
-		}
+		}*/
 	}		
 
 	// Min Range check	
