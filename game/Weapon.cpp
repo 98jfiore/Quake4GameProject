@@ -2326,7 +2326,7 @@ const char* rvWeapon::GetAmmoNameForIndex( int index ) {
 		gameLocal.Error( "Could not find entity definition for 'ammo_types'\n" );
 	}
 
-	sprintf( text, "%d", index );
+	sprintf_s( text, "%d", index );
 
 	num = ammoDict->GetNumKeyVals();
 	for( i = 0; i < num; i++ ) {

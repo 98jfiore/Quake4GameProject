@@ -3962,9 +3962,13 @@ idPlayer::FireWeapon
 ===============
 */
 void idPlayer::FireWeapon( void ) {
-	idMat3 axis;
-	idVec3 muzzle;
+	//idMat3 axis;
+	//idVec3 muzzle;
 
+	//Player should not be able to attack
+	return;
+
+	/*
 //RITUAL BEGIN
 	if( gameLocal.GetIsFrozen() && gameLocal.gameType == GAME_DEADZONE )
 	{
@@ -4003,7 +4007,7 @@ void idPlayer::FireWeapon( void ) {
 	// If reloading when fire is hit cancel the reload
 	else if ( weapon->IsReloading() ) {
 		weapon->CancelReload();
-	}
+	}*/
 /* twhitaker: removed this at the request of Matt Vainio.
 	if ( !gameLocal.isMultiplayer ) {
 		if ( hud && tipUp ) {
@@ -4016,14 +4020,14 @@ void idPlayer::FireWeapon( void ) {
 		}
 	}
 */
-	if( hud && weaponChangeIconsUp ) {
+	/*if( hud && weaponChangeIconsUp ) {
 		hud->HandleNamedEvent( "weaponFire" );
 		// nrausch: objectiveSystem does not necessarily exist (in mp it doesn't)
 		if ( objectiveSystem ) {
 			objectiveSystem->HandleNamedEvent( "weaponFire" );
 		}
 		weaponChangeIconsUp = false;
-	}
+	}*/
 }
 
 /*

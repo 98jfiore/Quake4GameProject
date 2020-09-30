@@ -632,6 +632,9 @@ idItem::Pickup
 */
 bool idItem::Pickup( idPlayer *player ) {
 	//dropped weapon?
+	//Can't pick up anything
+	return false;
+	/*
 	bool dropped = spawnArgs.GetBool( "dropped" );
 
 	if ( gameLocal.isMultiplayer && !dropped && spawnArgs.FindKey( "weaponclass" ) 
@@ -751,7 +754,7 @@ bool idItem::Pickup( idPlayer *player ) {
 	
 	StopEffect( "fx_idle" );
 
-	return true;
+	return true;*/
 }
 
 /*
