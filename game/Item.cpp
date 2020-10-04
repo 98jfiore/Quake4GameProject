@@ -1631,7 +1631,7 @@ void idMoveableItem::DropItems( idAnimatedEntity  *ent, const char *type, idList
 			}
 			if ( g_dropItemRotation.GetString()[0] ) {
 				angles.Zero();
-				sscanf( g_dropItemRotation.GetString(), "%f %f %f", &angles.pitch, &angles.yaw, &angles.roll );
+				sscanf_s( g_dropItemRotation.GetString(), "%f %f %f", &angles.pitch, &angles.yaw, &angles.roll );
 			} else {
 				key = kv->GetKey().c_str() + 4;
 				key += "Rotation";

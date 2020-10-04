@@ -1062,7 +1062,9 @@ idAI::Event_Attack
 ================
 */
 void idAI::Event_Attack ( const char* attackName, const char* jointName ) { 
-	Attack ( attackName, animator.GetJointHandle ( jointName ), enemy.ent ); // , physicsObj.GetPushedLinearVelocity ( ) ); 
+	//AI shouldn't attack
+	return;
+	//Attack ( attackName, animator.GetJointHandle ( jointName ), enemy.ent ); // , physicsObj.GetPushedLinearVelocity ( ) ); 
 }
 
 /*

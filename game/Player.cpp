@@ -1342,6 +1342,19 @@ idPlayer::idPlayer() {
 	teamAmmoRegenPending	= false;
 	teamDoubler			= NULL;		
 	teamDoublerPending		= false;
+
+
+
+
+
+
+
+
+
+
+	inDate = false;
+
+
 }
 
 /*
@@ -3392,14 +3405,30 @@ void idPlayer::UpdateHudStats( idUserInterface *_hud ) {
 	
 	assert ( _hud );
 
-	temp = _hud->State().GetInt ( "player_health", "-1" );
+
+
+
+
+
+
+
+	//Don't update player health
+	/*temp = _hud->State().GetInt ( "player_health", "-1" );
 	if ( temp != health ) {		
 		_hud->SetStateInt   ( "player_healthDelta", temp == -1 ? 0 : (temp - health) );
 		_hud->SetStateInt	( "player_health", health < -100 ? -100 : health );
 		_hud->SetStateFloat	( "player_healthpct", idMath::ClampFloat ( 0.0f, 1.0f, (float)health / (float)inventory.maxHealth ) );
 		_hud->HandleNamedEvent ( "updateHealth" );
-	}
-		
+	}*/
+
+
+
+
+
+
+
+
+
 	temp = _hud->State().GetInt ( "player_armor", "-1" );
 	if ( temp != inventory.armor ) {
 		_hud->SetStateInt ( "player_armorDelta", temp == -1 ? 0 : (temp - inventory.armor) );
@@ -3962,13 +3991,13 @@ idPlayer::FireWeapon
 ===============
 */
 void idPlayer::FireWeapon( void ) {
-	//idMat3 axis;
-	//idVec3 muzzle;
+	idMat3 axis;
+	idVec3 muzzle;
 
 	//Player should not be able to attack
-	return;
+	//return;
 
-	/*
+	
 //RITUAL BEGIN
 	if( gameLocal.GetIsFrozen() && gameLocal.gameType == GAME_DEADZONE )
 	{
@@ -4007,7 +4036,7 @@ void idPlayer::FireWeapon( void ) {
 	// If reloading when fire is hit cancel the reload
 	else if ( weapon->IsReloading() ) {
 		weapon->CancelReload();
-	}*/
+	}
 /* twhitaker: removed this at the request of Matt Vainio.
 	if ( !gameLocal.isMultiplayer ) {
 		if ( hud && tipUp ) {
@@ -4020,14 +4049,14 @@ void idPlayer::FireWeapon( void ) {
 		}
 	}
 */
-	/*if( hud && weaponChangeIconsUp ) {
+	if( hud && weaponChangeIconsUp ) {
 		hud->HandleNamedEvent( "weaponFire" );
 		// nrausch: objectiveSystem does not necessarily exist (in mp it doesn't)
 		if ( objectiveSystem ) {
 			objectiveSystem->HandleNamedEvent( "weaponFire" );
 		}
 		weaponChangeIconsUp = false;
-	}*/
+	}
 }
 
 /*
@@ -7212,7 +7241,7 @@ void idPlayer::UpdateFocus( void ) {
 					}
 				}
 
-				ui->SetStateString( "player_health", va("%i", health ) );
+				ui->SetStateString( "player_health", va("<3" ) );
 				ui->SetStateString( "player_armor", va( "%i%%", inventory.armor ) );
 
 				kv = ent->spawnArgs.MatchPrefix( "gui_", NULL );
@@ -8962,6 +8991,15 @@ void idPlayer::Move( void ) {
 	idVec3 oldVelocity;
 	idVec3 pushVelocity;
 
+
+
+	//Don't move if you're in a date
+	if (inDate)
+	{
+		return;
+	}
+
+
 	// save old origin and velocity for crashlanding
 	oldOrigin = physicsObj.GetOrigin();
 	oldVelocity = physicsObj.GetLinearVelocity();
@@ -10267,7 +10305,17 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 		}
 
 		int oldHealth = health;
-		health -= damage;
+
+
+
+
+		//Don't actually take damage
+		//health -= damage;
+
+
+
+
+
 
 		GAMELOG_ADD ( va("player%d_damage_taken", entityNumber ), damage );
 		GAMELOG_ADD ( va("player%d_damage_%s", entityNumber, damageDefName), damage );
@@ -10281,7 +10329,18 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 			}
 		}
 
-		if ( health <= 0 ) {
+
+
+
+
+
+		//If damage would've been fatal you can die
+		if ( health - damage <= 0 ) {
+
+
+
+
+
 
 			if ( health < -999 ) {
 				health = -999;
@@ -11374,8 +11433,11 @@ idPlayer::Event_GetMove
 ==================
 */
 void idPlayer::Event_GetMove( void ) {
-	idVec3 move( usercmd.forwardmove, usercmd.rightmove, usercmd.upmove );
-	idThread::ReturnVector( move );
+	if (!inDate)
+	{
+		idVec3 move(usercmd.forwardmove, usercmd.rightmove, usercmd.upmove);
+		idThread::ReturnVector(move);
+	}
 }
 
 /*
@@ -14082,3 +14144,13 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 }
 
 // RITUAL END
+
+
+
+
+
+void idPlayer::StartDate(idAI* dateMate)
+{
+	inDate = true;
+	gameLocal.Printf("START DATE WITH: %s", dateMate->GetName());
+}

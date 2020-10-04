@@ -3715,7 +3715,7 @@ TIME_THIS_SCOPE("idGameLocal::RunFrame - gameDebug.BeginFrame()");
 
 		// see if a target_sessionCommand has forced a changelevel
 		if ( sessionCommand.Length() ) {
-			strncpy( ret.sessionCommand, sessionCommand, sizeof( ret.sessionCommand ) );
+			strncpy_s( ret.sessionCommand, sessionCommand, sizeof( ret.sessionCommand ) );
 			sessionCommand = "";
 			break;
 		}
@@ -4854,7 +4854,7 @@ bool idGameLocal::SpawnEntityDef( const idDict &args, idEntity **ent, bool setDe
 				char		tempSpawn[128];
 				const char	*tempClassname;
 
-				sprintf( tempSpawn, "def_spawn_type%d", i );
+				sprintf_s( tempSpawn, "def_spawn_type%d", i );
 				tempClassname = spawnArgs.GetString( tempSpawn, NULL );
 				if ( tempClassname ) {
 					const idDeclEntityDef *tempDef = FindEntityDef( tempClassname, false );
@@ -7688,11 +7688,42 @@ idEntity* idGameLocal::HitScan(
 
 				// Apply force to the entity that was hit
 				ent->ApplyImpulse( owner, tr.c.id, tr.c.point, -tr.c.normal, &hitscanDict );
-				//Print the classname hit for debugging
-				common->Printf("%s\n", ent->GetClassname());
 
+
+
+
+				//Print the classname hit for debugging
+				//common->Printf("%s\n", ent->GetClassname());
+				//gameLocal.Printf("%s hit by %s\n", ent->GetName(), owner->GetName());
+
+
+
+
+
+
+
+
+
+
+
+
+				//If the owner of the attack is a player, tell them to start dating
+				if (owner && owner->IsType(idPlayer::GetClassType()) && ent->IsType(idAI::GetClassType()))
+				{
+					static_cast<idPlayer*>(owner)->StartDate(static_cast<idAI*>(ent));
+				}
+
+
+
+
+
+
+
+
+				// Don't damage
 				// Handle damage to the entity
-				if ( ent->fl.takedamage && !(( tr.c.material != NULL ) && ( tr.c.material->GetSurfaceFlags() & SURF_NODAMAGE )) ) {		
+				/*if ( ent->fl.takedamage && !(( tr.c.material != NULL ) && ( tr.c.material->GetSurfaceFlags() & SURF_NODAMAGE )) ) 
+				{		
 					const char*	damage;
 				
 					damage    = NULL;
@@ -7702,30 +7733,34 @@ idEntity* idGameLocal::HitScan(
 					//	otherwise damage zones for head attachments no-worky
 					int hitJoint = CLIPMODEL_ID_TO_JOINT_HANDLE(tr.c.id);
 					if ( ent->IsType(idActor::GetClassType()) )
+					{
+						idActor* entActor = static_cast<idActor*>(ent);
+						if ( entActor && entActor->GetHead() && entActor->GetHead()->IsType(idAFAttachment::GetClassType()) )
 						{
-							idActor* entActor = static_cast<idActor*>(ent);
-							if ( entActor && entActor->GetHead() && entActor->GetHead()->IsType(idAFAttachment::GetClassType()) )
-								{
-									idAFAttachment* headEnt = static_cast<idAFAttachment*>(entActor->GetHead());
-									if ( headEnt && headEnt->entityNumber == tr.c.entityNum )
-										{//hit ent's head, get the proper joint for the head
-											hitJoint = entActor->GetAnimator()->GetJointHandle("head");
-										}
-								}
-						}	
+							idAFAttachment* headEnt = static_cast<idAFAttachment*>(entActor->GetHead());
+							if ( headEnt && headEnt->entityNumber == tr.c.entityNum )
+							{//hit ent's head, get the proper joint for the head
+								hitJoint = entActor->GetAnimator()->GetJointHandle("head");
+							}
+						}
+					}	
 					// RAVEN END
 					// Inflict damage
-					if ( tr.c.materialType ) {
+					if ( tr.c.materialType ) 
+					{
 						damage = hitscanDict.GetString( va("def_damage_%s", tr.c.materialType->GetName()) );
 					}
-					if ( !damage || !*damage ) {
+					if ( !damage || !*damage ) 
+					{
 						damage = hitscanDict.GetString ( "def_damage" );
 					}
 
-					if ( damage && damage[0] ) {
+					if ( damage && damage[0] ) 
+					{
 						// RAVEN BEGIN
 						// ddynerman: stats
-						if( owner->IsType( idPlayer::GetClassType() ) && ent->IsType( idActor::GetClassType() ) && ent != owner && !((idPlayer*)owner)->pfl.dead ) {
+						if( owner->IsType( idPlayer::GetClassType() ) && ent->IsType( idActor::GetClassType() ) && ent != owner && !((idPlayer*)owner)->pfl.dead ) 
+						{
 							statManager->WeaponHit( (idActor*)owner, ent, ((idPlayer*)owner)->GetCurrentWeapon() );
 						}
 						// RAVEN END
@@ -7733,31 +7768,57 @@ idEntity* idGameLocal::HitScan(
 					}
 
 					// Let the entity add its own damage effect
-					if ( !g_perfTest_weaponNoFX.GetBool() ) {
+					if ( !g_perfTest_weaponNoFX.GetBool() ) 
+					{
 						ent->AddDamageEffect ( tr, dir, damage, owner );
 					}
-				} else { 
+				} 
+				else 
+				{ 
 					if ( actualHitEnt
 						 && actualHitEnt != ent
 						 && (tr.c.material->GetSurfaceFlags ( ) & SURF_BOUNCE)
 						 && actualHitEnt->spawnArgs.GetBool( "takeBounceDamage" ) )
-						{//bleh...
-							const char*	damage = NULL;
-							// Inflict damage
-							if ( tr.c.materialType ) {
-								damage = hitscanDict.GetString( va("def_damage_%s", tr.c.materialType->GetName()) );
-							}
-							if ( !damage || !*damage ) {
-								damage = hitscanDict.GetString ( "def_damage" );
-							}
-							if ( damage && damage[0] ) {
-								actualHitEnt->Damage( owner, owner, dir, damage, damageScale, CLIPMODEL_ID_TO_JOINT_HANDLE( tr.c.id ) );
-							}
+					{//bleh...
+						const char*	damage = NULL;
+						// Inflict damage
+						if ( tr.c.materialType ) 
+						{
+							damage = hitscanDict.GetString( va("def_damage_%s", tr.c.materialType->GetName()) );
 						}
-					if ( !g_perfTest_weaponNoFX.GetBool() ) {
+						if ( !damage || !*damage ) 
+						{
+							damage = hitscanDict.GetString ( "def_damage" );
+						}
+						if ( damage && damage[0] ) 
+						{
+							actualHitEnt->Damage( owner, owner, dir, damage, damageScale, CLIPMODEL_ID_TO_JOINT_HANDLE( tr.c.id ) );
+						}
+					}
+					if ( !g_perfTest_weaponNoFX.GetBool() ) 
+					{
 						ent->AddDamageEffect( tr, dir, hitscanDict.GetString ( "def_damage" ), owner );
 					}
-				}
+				}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			}
 
 

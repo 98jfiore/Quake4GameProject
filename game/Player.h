@@ -359,6 +359,13 @@ public:
 	// mp stuff
 	int						spectator;
 
+
+
+
+	// Is the player in a date>
+	bool					inDate;
+
+
 	bool					scoreBoardOpen;
 	bool					forceScoreBoard;
 	bool					forceRespawn;
@@ -795,6 +802,21 @@ public:
 	void					SetCash( float newCashAmount );
 	void					ResetCash();
 // RITUAL END
+
+
+
+
+
+
+
+	//Date methods
+	void					StartDate( idAI* dateMate );
+
+
+
+
+
+
 
 protected:
 	void					SetupHead( const char* modelKeyName = "", idVec3 headOffset = idVec3(0, 0, 0) );
