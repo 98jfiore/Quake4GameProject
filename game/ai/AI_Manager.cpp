@@ -780,7 +780,6 @@ rvAIManager::ReactToStartDate
 */
 void rvAIManager::ReactToStartDate(idPlayer* player, idAI* dateMate){
 	idActor* actor;
-	float expandSize;
 
 	// Check all enemies and see if they need to react
 	for (actor = GetEnemyTeam((aiTeam_t)player->team); actor; actor = actor->teamNode.Next()) {
@@ -830,7 +829,6 @@ rvAIManager::ReactToStopDate
 */
 void rvAIManager::ReactToStopDate(idPlayer* player, idAI* dateMate){
 	idActor* actor;
-	float expandSize;
 
 	// Check all enemies and see if they need to react
 	for (actor = GetEnemyTeam((aiTeam_t)player->team); actor; actor = actor->teamNode.Next()) {
@@ -846,6 +844,7 @@ void rvAIManager::ReactToStopDate(idPlayer* player, idAI* dateMate){
 			continue;
 		}
 
+		curAI->Show();
 
 		curAI->ContThink();
 	}
@@ -862,6 +861,8 @@ void rvAIManager::ReactToStopDate(idPlayer* player, idAI* dateMate){
 		{
 			continue;
 		}
+
+		curAI->Show();
 
 
 		curAI->ContThink();

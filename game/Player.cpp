@@ -14157,6 +14157,8 @@ void idPlayer::StartDate(idAI* dateMate)
 	gameLocal.Printf("START DATE WITH: %s", dateMate->GetName());
 
 	playerView.Flash(colorBlack, 10000);
+	hud->HandleNamedEvent("startDate");
+	StopRadioChatter();
 	dateMate->StartDate();
 	aiManager.ReactToStartDate(this, dateMate);
 }
