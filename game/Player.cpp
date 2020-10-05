@@ -1353,6 +1353,7 @@ idPlayer::idPlayer() {
 
 
 	inDate = false;
+	advanceDate = false;
 
 
 }
@@ -9329,6 +9330,55 @@ Called every tic for each player
 */
 void idPlayer::Think( void ) {
 	renderEntity_t *headRenderEnt;
+
+
+
+
+
+
+
+
+
+	//Think about date when you're in Date
+	if (inDate)
+	{
+		if (advanceDate)
+		{
+			advanceDate = false;
+			StopDate(currDate);
+			return;
+		}
+
+		if (gameLocal.usercmds) {
+			// grab out usercmd
+			//usercmd_t oldCmd = usercmd;
+			usercmd = gameLocal.usercmds[entityNumber];
+			buttonMask &= usercmd.buttons;
+			usercmd.buttons &= ~buttonMask;
+			if (usercmd.buttons & BUTTON_ATTACK)
+			{
+				gameLocal.Printf("Clicked\n");
+				advanceDate = true;
+			}
+		}
+		return;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 	if ( talkingNPC ) {
 		if ( !talkingNPC.IsValid() ) {
@@ -14155,10 +14205,25 @@ void idPlayer::StartDate(idAI* dateMate)
 {
 	inDate = true;
 	gameLocal.Printf("START DATE WITH: %s", dateMate->GetName());
+	currDate = dateMate;
 
-	playerView.Flash(colorBlack, 10000);
+	playerView.Flash(colorBlack, 1000);
 	hud->HandleNamedEvent("startDate");
 	StopRadioChatter();
 	dateMate->StartDate();
 	aiManager.ReactToStartDate(this, dateMate);
+	Sleep(200);
+}
+
+
+void idPlayer::StopDate(idAI* dateMate)
+{
+	playerView.Flash(colorBlack, 1000);
+	hud->HandleNamedEvent("stopDate");
+	gameLocal.Printf("STOP DATE WITH: %s", dateMate->GetName());
+	aiManager.ReactToStopDate(this, dateMate);
+	dateMate->EndDate(false);
+	currDate = nullptr;
+	inDate = false;
+	Sleep(200);
 }

@@ -364,6 +364,11 @@ public:
 
 	// Is the player in a date>
 	bool					inDate;
+	bool					advanceDate;
+	idAI*					currDate;
+
+
+
 
 
 	bool					scoreBoardOpen;
@@ -810,7 +815,8 @@ public:
 
 
 	//Date methods
-	void					StartDate( idAI* dateMate );
+	void					StartDate(idAI* dateMate);
+	void					StopDate(idAI* dateMate);
 
 
 
