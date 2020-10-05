@@ -3994,8 +3994,11 @@ void idPlayer::FireWeapon( void ) {
 	idMat3 axis;
 	idVec3 muzzle;
 
-	//Player should not be able to attack
-	//return;
+	//Player should not be able to attack while in date
+	if (inDate)
+	{
+		return;
+	}
 
 	
 //RITUAL BEGIN
@@ -14148,11 +14151,12 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 
 
 
-
 void idPlayer::StartDate(idAI* dateMate)
 {
 	inDate = true;
 	gameLocal.Printf("START DATE WITH: %s", dateMate->GetName());
+
+	playerView.Flash(colorBlack, 10000);
 	dateMate->StartDate();
 	aiManager.ReactToStartDate(this, dateMate);
 }

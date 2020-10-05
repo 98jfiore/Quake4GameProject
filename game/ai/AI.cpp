@@ -5190,12 +5190,14 @@ bool idAI::CheckDeathCausesMissionFailure( void )
 
 void idAI::StartDate() 
 {
+	Event_ClearAnims();
 	inDate = true;
 }
 
 
 void idAI::EndDate(bool good) 
 {
+	Event_ClearAnims();
 	inDate = false;
 }
 

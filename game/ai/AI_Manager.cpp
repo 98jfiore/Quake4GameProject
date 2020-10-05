@@ -796,6 +796,27 @@ void rvAIManager::ReactToStartDate(idPlayer* player, idAI* dateMate){
 			continue;
 		}
 
+		curAI->Hide();
+
+		curAI->StopThink();
+	}
+
+	// Check all enemies and see if they need to react
+	for (actor = GetAllyTeam((aiTeam_t)player->team); actor; actor = actor->teamNode.Next()) {
+		// Skip non ai entities
+		if (!actor->IsType(idAI::Type)) {
+			continue;
+		}
+
+		idAI *curAI = static_cast<idAI*>(actor);
+		//Don't turn off date mate
+		if (curAI == dateMate)
+		{
+			continue;
+		}
+
+
+		curAI->Hide();
 
 		curAI->StopThink();
 	}
@@ -813,6 +834,23 @@ void rvAIManager::ReactToStopDate(idPlayer* player, idAI* dateMate){
 
 	// Check all enemies and see if they need to react
 	for (actor = GetEnemyTeam((aiTeam_t)player->team); actor; actor = actor->teamNode.Next()) {
+		// Skip non ai entities
+		if (!actor->IsType(idAI::Type)) {
+			continue;
+		}
+
+		idAI *curAI = static_cast<idAI*>(actor);
+		//Don't turn off date mate
+		if (curAI == dateMate)
+		{
+			continue;
+		}
+
+
+		curAI->ContThink();
+	}
+	// Check all enemies and see if they need to react
+	for (actor = GetAllyTeam((aiTeam_t)player->team); actor; actor = actor->teamNode.Next()) {
 		// Skip non ai entities
 		if (!actor->IsType(idAI::Type)) {
 			continue;
