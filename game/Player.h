@@ -365,6 +365,7 @@ public:
 	// Is the player in a date>
 	bool					inDate;
 	bool					advanceDate;
+	short					datePoint;
 	idAI*					currDate;
 
 
@@ -816,6 +817,9 @@ public:
 
 	//Date methods
 	void					StartDate(idAI* dateMate);
+	int						nextDateActionTime;
+	int						dateActionWait;
+	void					ContinueDate();
 	void					StopDate(idAI* dateMate);
 
 

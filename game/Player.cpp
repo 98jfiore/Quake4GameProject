@@ -1354,6 +1354,9 @@ idPlayer::idPlayer() {
 
 	inDate = false;
 	advanceDate = false;
+	datePoint = 0;
+	nextDateActionTime = gameLocal.time;
+	dateActionWait = 2000;
 
 
 }
@@ -9342,10 +9345,12 @@ void idPlayer::Think( void ) {
 	//Think about date when you're in Date
 	if (inDate)
 	{
+		if (gameLocal.time < nextDateActionTime) return;
+
 		if (advanceDate)
 		{
+			ContinueDate();
 			advanceDate = false;
-			StopDate(currDate);
 			return;
 		}
 
@@ -14204,21 +14209,36 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 void idPlayer::StartDate(idAI* dateMate)
 {
 	inDate = true;
+	datePoint = 0;
 	gameLocal.Printf("START DATE WITH: %s", dateMate->GetName());
 	currDate = dateMate;
-
-	playerView.Flash(colorBlack, 1000);
+	playerView.Flash(colorBlack, 2000);
 	hud->HandleNamedEvent("startDate");
 	StopRadioChatter();
 	dateMate->StartDate();
 	aiManager.ReactToStartDate(this, dateMate);
-	Sleep(200);
+	nextDateActionTime = gameLocal.time + dateActionWait;
+}
+
+void idPlayer::ContinueDate()
+{
+	if (datePoint == 0)
+	{
+		hud->HandleNamedEvent("turnOffDateStart");
+		datePoint++;
+	}
+	else
+	{
+		StopDate(currDate);
+		datePoint = 0;
+	}
+	nextDateActionTime = gameLocal.time + dateActionWait;
 }
 
 
 void idPlayer::StopDate(idAI* dateMate)
 {
-	playerView.Flash(colorBlack, 1000);
+	playerView.Flash(colorBlack, 5000);
 	hud->HandleNamedEvent("stopDate");
 	gameLocal.Printf("STOP DATE WITH: %s", dateMate->GetName());
 	aiManager.ReactToStopDate(this, dateMate);
