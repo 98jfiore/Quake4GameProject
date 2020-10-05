@@ -765,3 +765,67 @@ void rvAIManager::DebugDrawHelpers ( void ) {
 		helper->DrawDebugEntityInfo ( );
 	}
 }
+
+
+
+
+
+
+
+
+/*
+== == == == == == == ==
+rvAIManager::ReactToStartDate
+== == == == == == == ==
+*/
+void rvAIManager::ReactToStartDate(idPlayer* player, idAI* dateMate){
+	idActor* actor;
+	float expandSize;
+
+	// Check all enemies and see if they need to react
+	for (actor = GetEnemyTeam((aiTeam_t)player->team); actor; actor = actor->teamNode.Next()) {
+		// Skip non ai entities
+		if (!actor->IsType(idAI::Type)) {
+			continue;
+		}
+
+		idAI *curAI = static_cast<idAI*>(actor);
+		//Don't turn off date mate
+		if (curAI == dateMate)
+		{
+			continue;
+		}
+
+
+		curAI->StopThink();
+	}
+}
+
+
+/*
+== == == == == == == ==
+rvAIManager::ReactToStopDate
+== == == == == == == ==
+*/
+void rvAIManager::ReactToStopDate(idPlayer* player, idAI* dateMate){
+	idActor* actor;
+	float expandSize;
+
+	// Check all enemies and see if they need to react
+	for (actor = GetEnemyTeam((aiTeam_t)player->team); actor; actor = actor->teamNode.Next()) {
+		// Skip non ai entities
+		if (!actor->IsType(idAI::Type)) {
+			continue;
+		}
+
+		idAI *curAI = static_cast<idAI*>(actor);
+		//Don't turn off date mate
+		if (curAI == dateMate)
+		{
+			continue;
+		}
+
+
+		curAI->ContThink();
+	}
+}

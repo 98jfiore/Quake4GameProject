@@ -139,6 +139,14 @@ idAI::idAI ( void ) {
 	actionAnimNum	= 0;
 	actionSkipTime	= 0;
 	actionTime		= 0;
+
+
+
+
+
+	inDate = false;
+	canThink = true;
+
 }
 
 /*
@@ -1141,6 +1149,28 @@ void idAI::Think( void ) {
 	if ( CheckDormant() ) {
 		return;
 	}
+
+
+
+
+	// If you're in a date, don't think
+	if (inDate)
+	{
+		return;
+	}
+
+
+	// If you can't think, don't think
+	if (!canThink)
+	{
+		return;
+	}
+
+
+
+
+
+
 
 	// Simple think this frame?
 	aifl.simpleThink = aiManager.IsSimpleThink ( this );
@@ -5148,4 +5178,34 @@ bool idAI::CheckDeathCausesMissionFailure( void )
 		}
 	}
 	return false;
+}
+
+
+
+
+
+
+
+
+
+void idAI::StartDate() 
+{
+	inDate = true;
+}
+
+
+void idAI::EndDate(bool good) 
+{
+	inDate = false;
+}
+
+
+void idAI::StopThink()
+{
+	canThink = false;
+}
+
+void idAI::ContThink()
+{
+	canThink = true;
 }

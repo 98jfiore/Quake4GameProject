@@ -112,6 +112,18 @@ public:
 	bool				IsActive				( void );
 	bool				IsSimpleThink			( idAI* ai );
 
+
+
+
+
+
+
+	void				ReactToStartDate(idPlayer* player, idAI* dateMate);
+	void				ReactToStopDate(idPlayer* player, idAI* dateMate);
+
+
+
+
 	/*
 	===============================================================================
 									Navigation

@@ -14153,4 +14153,6 @@ void idPlayer::StartDate(idAI* dateMate)
 {
 	inDate = true;
 	gameLocal.Printf("START DATE WITH: %s", dateMate->GetName());
+	dateMate->StartDate();
+	aiManager.ReactToStartDate(this, dateMate);
 }

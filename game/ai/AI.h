@@ -547,6 +547,24 @@ public:
 	idEntityPtr<idEntity>	pusher;
 	idEntityPtr<idEntity>	scriptedActionEnt;
 
+
+
+
+
+	// Date controllers
+	bool					inDate;
+	bool					canThink;
+	void					StartDate();
+	void					EndDate(bool good);
+	void					StopThink();
+	void					ContThink();
+
+
+
+
+
+
+
 	// script variables
 	struct aiFlags_s {
 		bool		awake					:1;			// set to false until state_wakeup is called.
