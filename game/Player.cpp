@@ -14249,6 +14249,7 @@ void idPlayer::ContinueDate()
 	{
 		hud->HandleNamedEvent("turnOffDateStart");
 		hud->HandleNamedEvent("showDialog");
+		hud->SetStateString("dateDialog", "You want to date me?  But I'm a monster?");
 		datePoint = 1;
 	}
 	else if (datePoint == 1)
