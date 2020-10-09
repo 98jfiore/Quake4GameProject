@@ -58,6 +58,7 @@ windowDef Desktop
 
 	onNamedEvent startDate {
 		set "desktop::hidden" "1" ;
+		set "p_radio::visible" "0" ;
 		set "p_ammo::visible" "0" ;
 		set "p_armor::visible" "0" ;
 		set "p_health::visible" "0" ;
@@ -66,6 +67,7 @@ windowDef Desktop
 		set "date_hud::visible" "1" ;
 		set "date_start::visible" "1" ;
 		set "dialog_box::visible" "0" ;
+		set "choice_box::visible" "0" ;
 	}
 
 	onNamedEvent stopDate {
@@ -77,6 +79,7 @@ windowDef Desktop
 		set "powerups::visible" "1" ;	
 		set "date_hud::visible" "0" ;
 		set "dialog_box::visible" "0" ;
+		set "choice_box::visible" "0" ;
 	}
 
 	onNamedEvent showDialog {
@@ -85,6 +88,14 @@ windowDef Desktop
 
 	onNamedEvent hideDialog {
 		set "dialog_box::visible" "0" ;
+	}
+
+	onNamedEvent showChoices {
+		set "choice_box::visible" "1" ;
+	}
+
+	onNamedEvent hideChoices {
+		set "choice_box::visible" "0" ;
 	}
 
 	onNamedEvent turnOffDateStart {
@@ -2300,9 +2311,77 @@ windowDef Desktop
 				rect	124,42,385,69
 				visible	1
 				forecolor	1,1,1,1
-				text	"TEXT TEST"
+				text	"gui::dateDialog"
 				textscale	0.5
 				font	"fonts/marine"
+			}
+		}
+		windowDef choice_box
+		{
+			rect	41,101,558,182
+			visible	1
+			windowDef choice_left
+			{
+				rect	0,77,212,100
+				visible	1
+				windowDef choice_left_bg
+				{
+					rect	0,0,212,100
+					visible	1
+					background	"gfx/guis/common/choiceBoxLeft"
+					matcolor	1,1,1,1
+				}
+				windowDef choice_left_text
+				{
+					rect	7,24,187,69
+					visible	1
+					forecolor	0.243,0,0.243,1
+					text	"gui::dateChoiceLeft"
+					textscale	0.30
+					font	"fonts/lowpixel"
+				}
+			}
+			windowDef choice_right
+			{
+				rect	346,77,212,100
+				visible	1
+				windowDef choice_right_bg
+				{
+					rect	0,0,212,100
+					visible	1
+					background	"gfx/guis/common/choiceBoxRight"
+					matcolor	1,1,1,1
+				}
+				windowDef choice_right_text
+				{
+					rect	22,23,187,69
+					visible	1
+					forecolor	0.243,0,0.243,1
+					text	"gui::dateChoiceRight"
+					textscale	0.30
+					font	"fonts/lowpixel"
+				}
+			}
+			windowDef choice_top
+			{
+				rect	173,14,212,100
+				visible	1
+				windowDef choice_top_bg
+				{
+					rect	0,0,212,100
+					visible	1
+					background	"gfx/guis/common/choiceBoxTop"
+					matcolor	1,1,1,1
+				}
+				windowDef choice_top_text
+				{
+					rect	16,22,187,69
+					visible	1
+					forecolor	0.243,0,0.243,1
+					text	"gui::dateChoiceTop"
+					textscale	0.30
+					font	"fonts/lowpixel"
+				}
 			}
 		}
 	}

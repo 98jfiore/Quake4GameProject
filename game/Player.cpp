@@ -14248,18 +14248,23 @@ void idPlayer::ContinueDate()
 	if (datePoint == 0)
 	{
 		hud->HandleNamedEvent("turnOffDateStart");
-		hud->HandleNamedEvent("showDialog");
 		hud->SetStateString("dateDialog", "You want to date me?  But I'm a monster?");
+		hud->HandleNamedEvent("showDialog");
 		datePoint = 1;
 	}
 	else if (datePoint == 1)
 	{
 		datePoint = 2;
+		hud->SetStateString("dateChoiceLeft", "Of course! You're so pretty!");
+		hud->SetStateString("dateChoiceTop", "I'm considering it...");
+		hud->SetStateString("dateChoiceRight", "Don't bet on it uglo!");
+		hud->HandleNamedEvent("showChoices");
 		waitingOnChoice = true;
 	}
 	else if (datePoint == 2)
 	{
 		hud->HandleNamedEvent("hideDialog");
+		hud->HandleNamedEvent("hideChoices");
 		datePoint = 3;
 	}
 	else
