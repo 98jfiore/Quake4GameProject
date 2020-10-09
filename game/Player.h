@@ -433,7 +433,10 @@ public:
 	bool					inDate;
 	bool					advanceDate;
 	bool					waitingOnChoice;
+	bool					talking;
 	short					datePoint;
+	int						nextDateActionTime;
+	int						dateActionWait;
 	idAI*					currDate;
 
 
@@ -820,10 +823,9 @@ public:
 
 	//Date methods
 	void					StartDate(idAI* dateMate);
-	int						nextDateActionTime;
-	int						dateActionWait;
 	void					ContinueDate(int choice = 0);
 	void					StopDate(idAI* dateMate);
+	void					HideNotChoice(int choice);
 
 
 

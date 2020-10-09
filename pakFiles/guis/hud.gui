@@ -91,11 +91,26 @@ windowDef Desktop
 	}
 
 	onNamedEvent showChoices {
+		set "choice_left::visible" "1";
+		set "choice_right::visible" "1";
+		set "choice_top::visible" "1";
 		set "choice_box::visible" "1" ;
 	}
 
 	onNamedEvent hideChoices {
 		set "choice_box::visible" "0" ;
+	}
+
+	onNamedEvent hideLeftChoice {
+		set "choice_left::visible" "0" ;
+	}
+
+	onNamedEvent hideRightChoice {
+		set "choice_right::visible" "0" ;
+	}
+
+	onNamedEvent hideTopChoice {
+		set "choice_top::visible" "0" ;
 	}
 
 	onNamedEvent turnOffDateStart {

@@ -1355,6 +1355,7 @@ idPlayer::idPlayer() {
 	inDate = false;
 	advanceDate = false;
 	waitingOnChoice = false;
+	talking = false;
 	datePoint = 0;
 	nextDateActionTime = gameLocal.time;
 	dateActionWait = 2000;
@@ -9347,6 +9348,14 @@ void idPlayer::Think( void ) {
 	if (inDate)
 	{
 		if (gameLocal.time < nextDateActionTime) return;
+		if (talking)
+		{
+			hud->HandleNamedEvent("hideChoices");
+			nextDateActionTime = gameLocal.time + dateActionWait;
+			talking = false;
+			hud->HandleNamedEvent("showDialog");
+			return;
+		}
 
 		if (gameLocal.usercmds) {
 			// grab out usercmd
@@ -9366,28 +9375,22 @@ void idPlayer::Think( void ) {
 				{
 					waitingOnChoice = false;
 					gameLocal.Printf("Chose Top\n");		
-					ContinueDate();
+					ContinueDate(2);
 				}
 				else if (usercmd.rightmove > 0)
 				{
 					waitingOnChoice = false;
 					gameLocal.Printf("Chose Right\n");
-					ContinueDate();
+					ContinueDate(3);
 				}
 				else if (usercmd.rightmove < 0)
 				{
 					waitingOnChoice = false;
 					gameLocal.Printf("Chose Left\n");
-					ContinueDate();
+					ContinueDate(1);
 				}
 			}
 		}
-
-
-
-		//IMPULSE_23 = 23;			// select top dialog
-		//IMPULSE_24 = 24;			// select left dialog
-		//IMPULSE_25 = 25;			// select right dialog
 		return;
 	}
 
@@ -14242,6 +14245,22 @@ void idPlayer::StartDate(idAI* dateMate)
 	nextDateActionTime = gameLocal.time + dateActionWait;
 }
 
+void idPlayer::HideNotChoice(int choice)
+{
+	if (choice != 1)
+	{
+		hud->HandleNamedEvent("hideLeftChoice");
+	}
+	if (choice != 2)
+	{
+		hud->HandleNamedEvent("hideTopChoice");
+	}
+	if (choice != 3)
+	{
+		hud->HandleNamedEvent("hideRightChoice");
+	}
+}
+
 void idPlayer::ContinueDate(int choice)
 {
 	advanceDate = false;
@@ -14263,9 +14282,24 @@ void idPlayer::ContinueDate(int choice)
 	}
 	else if (datePoint == 2)
 	{
+		HideNotChoice(choice);
 		hud->HandleNamedEvent("hideDialog");
-		hud->HandleNamedEvent("hideChoices");
-		datePoint = 3;
+		if (choice == 1)
+		{
+			datePoint = 3;
+			hud->SetStateString("dateDialog", "You... you really think I'm pretty?");
+		}
+		else if (choice == 2)
+		{
+			datePoint = 15;
+			hud->SetStateString("dateDialog", "You're saying... I have a chance!?");
+		}
+		else
+		{
+			datePoint = 24;
+			hud->SetStateString("dateDialog", "I... Why did you even come over here then!");
+		}
+		talking = true;
 	}
 	else
 	{
