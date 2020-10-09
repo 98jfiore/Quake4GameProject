@@ -822,7 +822,7 @@ public:
 	void					StartDate(idAI* dateMate);
 	int						nextDateActionTime;
 	int						dateActionWait;
-	void					ContinueDate();
+	void					ContinueDate(int choice = 0);
 	void					StopDate(idAI* dateMate);
 
 

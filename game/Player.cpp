@@ -14242,7 +14242,7 @@ void idPlayer::StartDate(idAI* dateMate)
 	nextDateActionTime = gameLocal.time + dateActionWait;
 }
 
-void idPlayer::ContinueDate()
+void idPlayer::ContinueDate(int choice)
 {
 	advanceDate = false;
 	if (datePoint == 0)
