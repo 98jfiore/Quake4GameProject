@@ -358,20 +358,6 @@ public:
 
 	// mp stuff
 	int						spectator;
-
-
-
-
-	// Is the player in a date>
-	bool					inDate;
-	bool					advanceDate;
-	short					datePoint;
-	idAI*					currDate;
-
-
-
-
-
 	bool					scoreBoardOpen;
 	bool					forceScoreBoard;
 	bool					forceRespawn;
@@ -437,6 +423,23 @@ public:
 // squirrel: Mode-agnostic buymenus
 	float					buyMenuCash;
 // RITUAL END
+
+
+
+
+
+
+	// Is the player in a date>
+	bool					inDate;
+	bool					advanceDate;
+	bool					waitingOnChoice;
+	short					datePoint;
+	idAI*					currDate;
+
+
+
+
+
 
 public:
 	CLASS_PROTOTYPE( idPlayer );

@@ -64,6 +64,8 @@ windowDef Desktop
 		set "p_weapswitch::visible" "0" ;
 		set "powerups::visible" "0" ;
 		set "date_hud::visible" "1" ;
+		set "date_start::visible" "1" ;
+		set "dialog_box::visible" "0" ;
 	}
 
 	onNamedEvent stopDate {
@@ -74,6 +76,19 @@ windowDef Desktop
 		set "p_weapswitch::visible" "1" ;
 		set "powerups::visible" "1" ;	
 		set "date_hud::visible" "0" ;
+		set "dialog_box::visible" "0" ;
+	}
+
+	onNamedEvent showDialog {
+		set "dialog_box::visible" "1" ;
+	}
+
+	onNamedEvent hideDialog {
+		set "dialog_box::visible" "0" ;
+	}
+
+	onNamedEvent turnOffDateStart {
+		set "date_start::visible" "0" ;
 	}
 
 	onNamedEvent updateHealth {
@@ -660,7 +675,7 @@ windowDef Desktop
 		visible	("gui::player_armor" > 0 && "gui::mp" == 0 )
 		windowDef armor_backbar
 		{
-			rect	326,420,125,59
+			rect	400,500,125,59
 			visible	1
 			background	"gfx/guis/hud/backbar"
 			matcolor	0,0,0,0.5
@@ -668,7 +683,7 @@ windowDef Desktop
 		}
 		windowDef armor_valbar
 		{
-			rect	326,420,125,59
+			rect	400,500,125,59
 			visible	1
 			background	"gfx/guis/hud/arbar"
 			matcolor	0.698,0.811,0.427,0.2
@@ -676,12 +691,12 @@ windowDef Desktop
 		}
 		windowDef p_armor_val
 		{
-			rect	446 - ( "gui::player_armorpct" * 115 ),420,115,59
+			rect	520,500,115,59
 			visible	1
 			shear	0,-.22
 			windowDef armor_val
 			{
-				rect	-120 + ( "gui::player_armorpct" * 115 ),0,125,59
+				rect	-119,0,125,59
 				visible	1
 				background	"gfx/guis/hud/arbar"
 				matcolor	0.698,0.811,0.427,0.349
@@ -690,12 +705,12 @@ windowDef Desktop
 		}
 		windowDef d_armor_amount
 		{
-			rect	390,427,58,31
+			rect	464,507,58,31
 			visible	0
 		}
 		windowDef armor_amount
 		{
-			rect	392,429,52,26
+			rect	466,509,52,26
 			visible	1
 			forecolor	0.866,0.921,0.764,1
 			text	"gui::player_armor"
@@ -716,7 +731,7 @@ windowDef Desktop
 		}
 		windowDef icon_armorvest
 		{
-			rect	424,458,16,16
+			rect	498,538,16,16
 			visible	1
 			background	"gfx/guis/hud/icons/item_armor"
 			matcolor	0.658,0.639,0.376,0.6
@@ -940,7 +955,7 @@ windowDef Desktop
 	}
 	windowDef p_weapswitch
 	{
-		rect	0,350,640,80
+		rect	1,490,640,80
 		visible	0
 		notime	1
 
@@ -2258,6 +2273,37 @@ windowDef Desktop
 			visible	1
 			background	"gfx/guis/common/heart"
 			matcolor	1,1,1,1
+		}
+		windowDef date_start
+		{
+			rect	55,192,531,97
+			visible	1
+			forecolor	1,0,0,1
+			text	"Date Start! <3"
+			textscale	1.25
+			font	"fonts/marine"
+			textalign	1
+		}
+		windowDef dialog_box
+		{
+			rect	2,278,638,132
+			visible	1
+			windowDef dialogbox_backdrop
+			{
+				rect	93,25,452,100
+				visible	1
+				background	"gfx/guis/common/textBoxBG"
+				matcolor	1,1,1,1
+			}
+			windowDef dialog_text
+			{
+				rect	124,42,385,69
+				visible	1
+				forecolor	1,1,1,1
+				text	"TEXT TEST"
+				textscale	0.5
+				font	"fonts/marine"
+			}
 		}
 	}
 }

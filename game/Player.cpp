@@ -1354,6 +1354,7 @@ idPlayer::idPlayer() {
 
 	inDate = false;
 	advanceDate = false;
+	waitingOnChoice = false;
 	datePoint = 0;
 	nextDateActionTime = gameLocal.time;
 	dateActionWait = 2000;
@@ -9347,25 +9348,46 @@ void idPlayer::Think( void ) {
 	{
 		if (gameLocal.time < nextDateActionTime) return;
 
-		if (advanceDate)
-		{
-			ContinueDate();
-			advanceDate = false;
-			return;
-		}
-
 		if (gameLocal.usercmds) {
 			// grab out usercmd
 			//usercmd_t oldCmd = usercmd;
+			//int oldFlags = usercmd.flags;
 			usercmd = gameLocal.usercmds[entityNumber];
 			buttonMask &= usercmd.buttons;
 			usercmd.buttons &= ~buttonMask;
-			if (usercmd.buttons & BUTTON_ATTACK)
+			if (usercmd.buttons & BUTTON_ATTACK && !waitingOnChoice)
 			{
 				gameLocal.Printf("Clicked\n");
-				advanceDate = true;
+				ContinueDate();
+			}
+			else if (waitingOnChoice)
+			{
+				if (usercmd.forwardmove > 0)
+				{
+					waitingOnChoice = false;
+					gameLocal.Printf("Chose Top\n");		
+					ContinueDate();
+				}
+				else if (usercmd.rightmove > 0)
+				{
+					waitingOnChoice = false;
+					gameLocal.Printf("Chose Right\n");
+					ContinueDate();
+				}
+				else if (usercmd.rightmove < 0)
+				{
+					waitingOnChoice = false;
+					gameLocal.Printf("Chose Left\n");
+					ContinueDate();
+				}
 			}
 		}
+
+
+
+		//IMPULSE_23 = 23;			// select top dialog
+		//IMPULSE_24 = 24;			// select left dialog
+		//IMPULSE_25 = 25;			// select right dialog
 		return;
 	}
 
@@ -14222,10 +14244,22 @@ void idPlayer::StartDate(idAI* dateMate)
 
 void idPlayer::ContinueDate()
 {
+	advanceDate = false;
 	if (datePoint == 0)
 	{
 		hud->HandleNamedEvent("turnOffDateStart");
-		datePoint++;
+		hud->HandleNamedEvent("showDialog");
+		datePoint = 1;
+	}
+	else if (datePoint == 1)
+	{
+		datePoint = 2;
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 2)
+	{
+		hud->HandleNamedEvent("hideDialog");
+		datePoint = 3;
 	}
 	else
 	{
