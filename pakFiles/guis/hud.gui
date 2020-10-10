@@ -68,6 +68,7 @@ windowDef Desktop
 		set "date_start::visible" "1" ;
 		set "dialog_box::visible" "0" ;
 		set "choice_box::visible" "0" ;
+		set "date_result::visible" "0" ;
 	}
 
 	onNamedEvent stopDate {
@@ -80,6 +81,7 @@ windowDef Desktop
 		set "date_hud::visible" "0" ;
 		set "dialog_box::visible" "0" ;
 		set "choice_box::visible" "0" ;
+		set "date_result::visible" "0" ;
 	}
 
 	onNamedEvent showDialog {
@@ -115,6 +117,10 @@ windowDef Desktop
 
 	onNamedEvent turnOffDateStart {
 		set "date_start::visible" "0" ;
+	}
+
+	onNamedEvent showResult {
+		set "date_result::visible" "1" ;
 	}
 
 	onNamedEvent updateHealth {
@@ -2200,106 +2206,8 @@ windowDef Desktop
 	}
 	windowDef date_hud
 	{
-		rect	0,0,641,482
+		rect	0,0,641,480
 		visible	0
-		windowDef hearts_1
-		{
-			rect	570,419,100,71
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_2
-		{
-			rect	471,419,100,71
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_3
-		{
-			rect	372,419,100,71
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_4
-		{
-			rect	273,419,100,71
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_5
-		{
-			rect	174,419,100,71
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_6
-		{
-			rect	75,419,100,71
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_7
-		{
-			rect	-22,419,100,71
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_8
-		{
-			rect	569,-8,100,64
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_9
-		{
-			rect	470,-8,100,64
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_10
-		{
-			rect	371,-8,100,64
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_11
-		{
-			rect	272,-8,100,64
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_12
-		{
-			rect	172,-8,100,64
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_13
-		{
-			rect	72,-8,100,64
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
-		windowDef hearts_14
-		{
-			rect	-26,-8,100,64
-			visible	1
-			background	"gfx/guis/common/heart"
-			matcolor	1,1,1,1
-		}
 		windowDef date_start
 		{
 			rect	55,192,531,97
@@ -2398,6 +2306,120 @@ windowDef Desktop
 					font	"fonts/lowpixel"
 				}
 			}
+		}
+		windowDef border
+		{
+			rect	0,0,641,480
+			visible	1
+			windowDef hearts_1
+			{
+				rect	570,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_2
+			{
+				rect	471,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_3
+			{
+				rect	372,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_4
+			{
+				rect	273,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_5
+			{
+				rect	174,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_6
+			{
+				rect	75,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_7
+			{
+				rect	-21,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_8
+			{
+				rect	569,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_9
+			{
+				rect	470,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_10
+			{
+				rect	371,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_11
+			{
+				rect	272,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_12
+			{
+				rect	172,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_13
+			{
+				rect	72,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_14
+			{
+				rect	-25,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+		}
+		windowDef date_result
+		{
+			rect	0,186,640,102
+			visible	1
+			forecolor	0.250,0,0.250,0.968
+			text	"gui::dateResult"
+			textscale	1.5
+			font	"fonts/marine"
+			textalign	1
+			backcolor	0.980,0.482,1,1
 		}
 	}
 }

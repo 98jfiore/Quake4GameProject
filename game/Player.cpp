@@ -14291,15 +14291,132 @@ void idPlayer::ContinueDate(int choice)
 		}
 		else if (choice == 2)
 		{
-			datePoint = 15;
+			datePoint = 10;
 			hud->SetStateString("dateDialog", "You're saying... I have a chance!?");
 		}
 		else
 		{
-			datePoint = 24;
+			datePoint = 14;
 			hud->SetStateString("dateDialog", "I... Why did you even come over here then!");
 		}
 		talking = true;
+	}
+	else if (datePoint == 3)
+	{
+		datePoint = 4;
+		hud->SetStateString("dateChoiceLeft", "Your eyes... they draw me in.");
+		hud->SetStateString("dateChoiceTop", "It's in the eye of the beholder.");
+		hud->SetStateString("dateChoiceRight", "Um.... Yeah...");
+		hud->HandleNamedEvent("showChoices");
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 4)
+	{
+		HideNotChoice(choice);
+		hud->HandleNamedEvent("hideDialog");
+		if (choice == 1)
+		{
+			datePoint = 5;
+			hud->SetStateString("dateDialog", "Oh!  You're so romantic!");
+		}
+		else if (choice == 2)
+		{
+			datePoint = 7;
+			hud->SetStateString("dateDialog", "So you're saying I'm ugly!");
+		}
+		else
+		{
+			datePoint = 21;
+			hud->SetStateString("dateDialog", "What... why would you... you lied!?");
+		}
+		talking = true;
+	}
+	else if (datePoint == 5)
+	{
+		datePoint = 6;
+		hud->SetStateString("dateChoiceLeft", "Only for you."); 
+		hud->SetStateString("dateChoiceRight", "It's just the way I am.");
+		hud->HandleNamedEvent("showChoices");
+		hud->HandleNamedEvent("hideTopChoice");
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 6)
+	{
+		if (choice == 2)
+		{
+			return;
+		}
+		HideNotChoice(choice);
+		hud->HandleNamedEvent("hideDialog");
+		if (choice == 1)
+		{
+			datePoint = 21;
+			hud->SetStateString("dateDialog", "I'm... I'm sotty this is too much for me...");
+		}
+		else
+		{
+			datePoint = 18;
+			hud->SetStateString("dateDialog", "You're such a sweetheart!  I'm not sure I can keep up!");
+		}
+		talking = true;
+	}
+	else if (datePoint == 7)
+	{
+		datePoint = 8;
+		hud->SetStateString("dateChoiceLeft", "Never! Only that you are the most beautiful Strogg!");
+		hud->SetStateString("dateChoiceTop", "No.  I think you're perfect the way you are.");
+		hud->SetStateString("dateChoiceRight", "Yes, but it doesn't matter to me!");
+		hud->HandleNamedEvent("showChoices");
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 8)
+	{
+		HideNotChoice(choice);
+		hud->HandleNamedEvent("hideDialog");
+		if (choice == 1)
+		{
+			datePoint = 19;
+			hud->SetStateString("dateDialog", "Oh!  You're so romantic!");
+		}
+		else if (choice == 2)
+		{
+			datePoint = 21;
+			hud->SetStateString("dateDialog", "So you're saying I'm ugly!");
+		}
+		else
+		{
+			datePoint = 20;
+			hud->SetStateString("dateDialog", "What... why would you... you lied!?");
+		}
+		talking = true;
+	}
+	else if (datePoint == 18)
+	{
+		hud->HandleNamedEvent("hideDialog");
+		hud->SetStateString("dateResult", "GOOD DATE <3");
+		hud->HandleNamedEvent("showResult");
+		datePoint = 22;
+	}
+	else if (datePoint == 19)
+	{
+		hud->HandleNamedEvent("hideDialog");
+		hud->SetStateString("dateResult", "GOOD DATE <3");
+		hud->HandleNamedEvent("showResult");
+		datePoint = 22;
+	}
+	else if (datePoint == 20)
+	{
+		hud->HandleNamedEvent("hideDialog");
+		hud->SetStateString("dateResult", "GOOD DATE <3");
+		hud->HandleNamedEvent("showResult");
+		datePoint = 22;
+	}
+	else if (datePoint == 21)
+	{
+		hud->HandleNamedEvent("hideDialog");
+		hud->SetStateString("dateResult", "BAD DATE </3");
+		hud->HandleNamedEvent("showResult");
+		datePoint = 22;
 	}
 	else
 	{
