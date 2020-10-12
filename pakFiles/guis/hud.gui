@@ -2254,7 +2254,7 @@ windowDef Desktop
 				visible	1
 				forecolor	1,1,1,1
 				text	"gui::dateDialog"
-				textscale	0.5
+				textscale	0.3
 				font	"fonts/marine"
 			}
 		}
@@ -2472,6 +2472,135 @@ windowDef Desktop
 				visible	1
 				background	"gfx/guis/common/minigamePlayer"
 				matcolor	1,1,1,1
+			}
+			windowDef minigame_1_questions1
+			{
+				rect	0,"gui::minigame1Question1Y",640,52
+				visible	1
+				windowDef minigame_1_questions1_1
+				{
+					rect	0,0,304,52
+					visible	1
+					background	"gfx/guis/common/hardQuestion"
+					matcolor	1,1,1,1
+					forecolor	0,0,0,1
+					text	"Do I look fat in this?"
+					textscale	0.3
+					font	"fonts/marine"
+					textalign	1
+					textaligny	15
+				}
+				windowDef minigame_1_questions1_2
+				{
+					rect	421,0,218,52
+					visible	1
+					background	"gfx/guis/common/hardQuestion"
+					matcolor	1,1,1,1
+					forecolor	0,0,0,1
+					text	"What do you do?"
+					textscale	0.3
+					textaligny	15
+					font	"fonts/marine"
+					textalign	1
+				}
+			}
+			windowDef minigame_1_questions2
+			{
+				rect	0,"gui::minigame1Question2Y",640,52
+				visible	1
+				windowDef minigame_1_questions2_1
+				{
+					rect	0,0,155,52
+					visible	1
+					background	"gfx/guis/common/hardQuestion"
+					matcolor	1,1,1,1
+					forecolor	0,0,0,1
+					text	"Do you like her?"
+					textscale	0.3
+					font	"fonts/marine"
+					textalign	1
+					textaligny	15
+				}
+				windowDef minigame_1_questions2_2
+				{
+					rect	247,0,392,52
+					visible	1
+					background	"gfx/guis/common/hardQuestion"
+					matcolor	1,1,1,1
+					forecolor	0,0,0,1
+					text	"Do you think it's okay to keep secrets?"
+					textscale	0.3
+					textaligny	15
+					font	"fonts/marine"
+					textalign	1
+				}
+			}
+			windowDef minigame_1_questions3
+			{
+				rect	0,"gui::minigame1Question3Y",640,52
+				visible	1
+				windowDef minigame_1_questions3_1
+				{
+					rect	0,0,256,52
+					visible	1
+					background	"gfx/guis/common/hardQuestion"
+					matcolor	1,1,1,1
+					forecolor	0,0,0,1
+					text	"Friends or family?"
+					textscale	0.3
+					font	"fonts/marine"
+					textalign	1
+					textaligny	15
+				}
+				windowDef minigame_1_questions3_2
+				{
+					rect	337,0,302,52
+					visible	1
+					background	"gfx/guis/common/hardQuestion"
+					matcolor	1,1,1,1
+					forecolor	0,0,0,1
+					text	"What do you like about me?"
+					textscale	0.3
+					textaligny	15
+					font	"fonts/marine"
+					textalign	1
+				}
+			}
+			windowDef minigame_1_questions4
+			{
+				rect	0,"gui::minigame1Question4Y",640,52
+				visible	1
+				windowDef minigame_1_questions4_1
+				{
+					rect	0,0,566,52
+					visible	1
+					background	"gfx/guis/common/hardQuestion"
+					matcolor	1,1,1,1
+					forecolor	0,0,0,1
+					text	"Do you like Intelligence or good looks?"
+					textscale	0.3
+					font	"fonts/marine"
+					textalign	1
+					textaligny	15
+				}
+			}
+			windowDef minigame_1_questions5
+			{
+				rect	0,"gui::minigame1Question5Y",640,52
+				visible	1
+				windowDef minigame_1_questions5_2
+				{
+					rect	83,0,556,52
+					visible	1
+					background	"gfx/guis/common/hardQuestion"
+					matcolor	1,1,1,1
+					forecolor	0,0,0,1
+					text	"What's one thing you'd want me to change?"
+					textscale	0.3
+					textaligny	15
+					font	"fonts/marine"
+					textalign	1
+				}
 			}
 		}
 	}

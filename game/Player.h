@@ -443,6 +443,8 @@ public:
 	int						minigamePoint;
 	int						minigameStartTime;
 	int						minigamePlayerX;
+	int						minigame1QuestionYs[5];
+	bool					minigame1QuestionActive[5];
 
 
 
