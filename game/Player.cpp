@@ -9386,13 +9386,19 @@ void idPlayer::Think( void ) {
 				usercmd = gameLocal.usercmds[entityNumber];
 				if (usercmd.rightmove > 0)
 				{
-					minigamePlayerX += 5;
-					hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+					if (minigamePlayerX < 600)
+					{
+						minigamePlayerX += 5;
+						hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+					}
 				}
 				else if (usercmd.rightmove < 0)
 				{
-					minigamePlayerX -= 5;
-					hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+					if (minigamePlayerX > 0)
+					{
+						minigamePlayerX -= 5;
+						hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+					}
 				}
 			}
 			nextDateActionTime = gameLocal.time + 20;
