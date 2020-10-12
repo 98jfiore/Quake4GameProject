@@ -1375,6 +1375,17 @@ idPlayer::idPlayer() {
 	minigame1QuestionNames[3] = "minigame1Question4Y";
 	minigame1QuestionNames[4] = "minigame1Question5Y";
 
+	minigame1LeftClear[0] = 304;
+	minigame1LeftClear[1] = 155;
+	minigame1LeftClear[2] = 256;
+	minigame1LeftClear[3] = 566;
+	minigame1LeftClear[4] = 0;
+
+	minigame1RightClear[0] = 421;
+	minigame1RightClear[1] = 247;
+	minigame1RightClear[2] = 337;
+	minigame1RightClear[3] = 640;
+	minigame1RightClear[4] = 83;
 
 }
 
@@ -9458,20 +9469,37 @@ void idPlayer::Think( void ) {
 							minigame1QuestionActive[i] = false;
 						}
 						hud->SetStateInt(minigame1QuestionNames[i], minigame1QuestionYs[i]);
+						//If the question can intersect with player, check collision
+						if (minigame1QuestionYs[i] >= 250 && minigame1QuestionYs[i] <= 290)
+						{
+							if (minigamePlayerX < minigame1LeftClear[i] || minigamePlayerX > minigame1RightClear[i])
+							{
+								minigamePoint = 4;
+							}
+						}
 					}
 				}
 
 				nextDateActionTime = gameLocal.time + 20;
 			}
 			//Good end to the date
-			else
+			else if (minigamePoint == 3)
 			{
 				hud->HandleNamedEvent("hideMinigame1");
 				inMinigame = false;
-				hud->HandleNamedEvent("hideDialog");
-				hud->SetStateString("dateResult", "GOOD DATE <3");
-				hud->HandleNamedEvent("showResult");
-				datePoint = 22;
+				hud->SetStateString("minigameResult", "SUCCESS");
+				hud->HandleNamedEvent("showMGameResult");
+				datePoint = 21;
+				nextDateActionTime = gameLocal.time + dateActionWait;
+			}
+			//Bad end to the date
+			else if (minigamePoint == 4)
+			{
+				hud->HandleNamedEvent("hideMinigame1");
+				inMinigame = false;
+				hud->SetStateString("minigameResult", "FAILURE");
+				hud->HandleNamedEvent("showMGameResult");
+				datePoint = 20;
 				nextDateActionTime = gameLocal.time + dateActionWait;
 			}
 			return;
@@ -14680,6 +14708,7 @@ void idPlayer::ContinueDate(int choice)
 	else if (datePoint == 20)
 	{
 		hud->HandleNamedEvent("hideDialog");
+		hud->HandleNamedEvent("hideMGameResult");
 		hud->SetStateString("dateResult", "BAD DATE </3");
 		hud->HandleNamedEvent("showResult");
 		datePoint = 22;
@@ -14687,6 +14716,7 @@ void idPlayer::ContinueDate(int choice)
 	else if (datePoint == 21)
 	{
 		hud->HandleNamedEvent("hideDialog");
+		hud->HandleNamedEvent("hideMGameResult");
 		hud->SetStateString("dateResult", "GOOD DATE <3");
 		hud->HandleNamedEvent("showResult");
 		datePoint = 22;

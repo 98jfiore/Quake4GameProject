@@ -70,6 +70,7 @@ windowDef Desktop
 		set "choice_box::visible" "0" ;
 		set "date_result::visible" "0" ;
 		set "minigame_1::visible" "0" ;
+		set "minigameResult::visible" "0" ;
 	}
 
 	onNamedEvent stopDate {
@@ -84,6 +85,7 @@ windowDef Desktop
 		set "choice_box::visible" "0" ;
 		set "date_result::visible" "0" ;
 		set "minigame_1::visible" "0" ;
+		set "minigameResult::visible" "0" ;
 	}
 
 	onNamedEvent showDialog {
@@ -140,6 +142,14 @@ windowDef Desktop
 
 	onNamedEvent hideMinigame1 {
 		set "minigame_1::visible" "0" ;
+	}
+
+	onNamedEvent showMGameResult {
+		set "minigameResult::visible" "1" ;
+	}
+
+	onNamedEvent hideMGameResult {
+		set "minigameResult::visible" "0" ;
 	}
 
 	onNamedEvent updateHealth {
@@ -2337,108 +2347,17 @@ windowDef Desktop
 			textalign	1
 			backcolor	0.980,0.482,1,1
 		}
-		windowDef border
+		windowDef minigameResult
 		{
-			rect	0,0,641,480
+			rect	0,47,640,381
 			visible	1
-			windowDef hearts_1
-			{
-				rect	570,419,100,71
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_2
-			{
-				rect	471,419,100,71
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_3
-			{
-				rect	372,419,100,71
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_4
-			{
-				rect	273,419,100,71
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_5
-			{
-				rect	174,419,100,71
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_6
-			{
-				rect	75,419,100,71
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_7
-			{
-				rect	-21,419,100,71
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_8
-			{
-				rect	569,-7,100,64
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_9
-			{
-				rect	470,-7,100,64
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_10
-			{
-				rect	371,-7,100,64
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_11
-			{
-				rect	272,-7,100,64
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_12
-			{
-				rect	172,-7,100,64
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_13
-			{
-				rect	72,-7,100,64
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
-			windowDef hearts_14
-			{
-				rect	-25,-7,100,64
-				visible	1
-				background	"gfx/guis/common/heart"
-				matcolor	1,1,1,1
-			}
+			backcolor	0,0,0,1
+			forecolor	1,1,1,1
+			text	"gui::minigameResult"
+			textscale	2
+			font	"fonts/marine"
+			textalign	1
+			textaligny	100
 		}
 		windowDef minigame_1
 		{
@@ -2601,6 +2520,109 @@ windowDef Desktop
 					font	"fonts/marine"
 					textalign	1
 				}
+			}
+		}
+		windowDef border
+		{
+			rect	0,0,641,480
+			visible	1
+			windowDef hearts_1
+			{
+				rect	570,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_2
+			{
+				rect	471,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_3
+			{
+				rect	372,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_4
+			{
+				rect	273,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_5
+			{
+				rect	174,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_6
+			{
+				rect	75,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_7
+			{
+				rect	-21,419,100,71
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_8
+			{
+				rect	569,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_9
+			{
+				rect	470,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_10
+			{
+				rect	371,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_11
+			{
+				rect	272,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_12
+			{
+				rect	172,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_13
+			{
+				rect	72,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+			windowDef hearts_14
+			{
+				rect	-25,-7,100,64
+				visible	1
+				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
 			}
 		}
 	}
