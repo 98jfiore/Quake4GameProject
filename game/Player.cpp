@@ -9470,7 +9470,7 @@ void idPlayer::Think( void ) {
 						}
 						hud->SetStateInt(minigame1QuestionNames[i], minigame1QuestionYs[i]);
 						//If the question can intersect with player, check collision
-						if (minigame1QuestionYs[i] >= 250 && minigame1QuestionYs[i] <= 290)
+						if (minigame1QuestionYs[i] + 52 >= 250 && minigame1QuestionYs[i] <= 290)
 						{
 							if (minigamePlayerX < minigame1LeftClear[i] || minigamePlayerX > minigame1RightClear[i])
 							{
