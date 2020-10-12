@@ -9352,7 +9352,7 @@ void idPlayer::Think( void ) {
 		if (talking)
 		{
 			hud->HandleNamedEvent("hideChoices");
-			nextDateActionTime = gameLocal.time + dateActionWait;
+			nextDateActionTime = gameLocal.time + 3000;
 			talking = false;
 			hud->HandleNamedEvent("showDialog");
 			return;
@@ -9362,6 +9362,7 @@ void idPlayer::Think( void ) {
 			hud->HandleNamedEvent("hideDialog");
 			hud->HandleNamedEvent("showMinigame1");
 			nextDateActionTime = gameLocal.time + 3000;
+			minigamePlayerX = 300;
 			minigamePoint = 1;
 		}
 		else if (minigamePoint == 1)
@@ -9369,7 +9370,7 @@ void idPlayer::Think( void ) {
 			minigameStartTime = gameLocal.time;
 			hud->HandleNamedEvent("hideMinigame1Title");
 			hud->SetStateInt("minigame1Time", 30);
-			hud->SetStateInt("minigamePlayerX", 300);
+			hud->SetStateInt("minigamePlayerX", minigamePlayerX);
 			minigamePoint = 2;
 		}
 		else if (minigamePoint == 2)
@@ -9378,7 +9379,21 @@ void idPlayer::Think( void ) {
 			hud->SetStateInt("minigame1Time", time);
 			if (time == 0)
 			{
-				minigamePoint = 30;
+				minigamePoint = 3;
+			}
+			if (gameLocal.usercmds) {
+				// grab out usercmd
+				usercmd = gameLocal.usercmds[entityNumber];
+				if (usercmd.rightmove > 0)
+				{
+					minigamePlayerX += 5;
+					hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+				}
+				else if (usercmd.rightmove < 0)
+				{
+					minigamePlayerX -= 5;
+					hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+				}
 			}
 			nextDateActionTime = gameLocal.time + 20;
 		}
@@ -14409,14 +14424,12 @@ void idPlayer::ContinueDate(int choice)
 		}
 		else
 		{
-			nextDateActionTime = gameLocal.time + 3000;
 			inMinigame = true;
 			whichMinigame = 1;
 			minigamePoint = 0;
 			datePoint = 17;
 			hud->SetStateString("dateDialog", "You're such a sweetheart!  I'm not sure I can keep up!");
 			talking = true;
-			return;
 		}
 		talking = true;
 	}

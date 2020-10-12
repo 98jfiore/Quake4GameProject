@@ -442,6 +442,7 @@ public:
 	int						whichMinigame;
 	int						minigamePoint;
 	int						minigameStartTime;
+	int						minigamePlayerX;
 
 
 
