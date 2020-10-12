@@ -9369,6 +9369,7 @@ void idPlayer::Think( void ) {
 			minigameStartTime = gameLocal.time;
 			hud->HandleNamedEvent("hideMinigame1Title");
 			hud->SetStateInt("minigame1Time", 30);
+			hud->SetStateInt("minigamePlayerX", 300);
 			minigamePoint = 2;
 		}
 		else if (minigamePoint == 2)
