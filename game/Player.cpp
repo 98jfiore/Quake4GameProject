@@ -9370,104 +9370,122 @@ void idPlayer::Think( void ) {
 			hud->HandleNamedEvent("showDialog");
 			return;
 		}
-		//If the minigame is starting, start it
-		if (minigamePoint == 0)
+		//Which minigame are you doing?
+		if (whichMinigame == 1)
 		{
-			hud->HandleNamedEvent("hideDialog");
-			hud->HandleNamedEvent("showMinigame1");
-			//Initialize player location
-			minigamePlayerX = 300;
-			hud->SetStateInt("minigamePlayerX", minigamePlayerX);
-			//Initialize question locations
-			for (int i = 0; i < 5; i++)
+			//If the minigame is starting, start it
+			if (minigamePoint == 0)
 			{
-				minigame1QuestionYs[i] = -60;
-				minigame1QuestionActive[i] = false;
-			}
-			hud->SetStateInt("minigame1Question1Y", minigame1QuestionYs[0]);
-			hud->SetStateInt("minigame1Question2Y", minigame1QuestionYs[1]);
-			hud->SetStateInt("minigame1Question3Y", minigame1QuestionYs[2]);
-			hud->SetStateInt("minigame1Question4Y", minigame1QuestionYs[3]);
-			hud->SetStateInt("minigame1Question5Y", minigame1QuestionYs[4]);
-			//Don't do anything for a little after setting everything up
-			nextDateActionTime = gameLocal.time + 3000;
-			minigamePoint = 1;
-		}
-		else if (minigamePoint == 1)
-		{
-			//Start timer and show the minigame info
-			minigameStartTime = gameLocal.time + 1000;
-			hud->HandleNamedEvent("hideMinigame1Title");
-			hud->SetStateInt("minigame1Time", 30);
-			nextDateActionTime = gameLocal.time + 1000;
-			minigame1Next = gameLocal.time + 1500;
-			minigamePoint = 2;
-		}
-		else if (minigamePoint == 2)
-		{
-			//Tick the timer down, if the game is over, end it.
-			int time = 30 - ((gameLocal.time - minigameStartTime)/1000);
-			hud->SetStateInt("minigame1Time", time);
-			if (time == 0)
-			{
-				minigamePoint = 3;
-			}
-			//If it's time for a new question to move, do that
-			if (gameLocal.time > minigame1Next)
-			{
-				minigame1QuestionActive[rand() % 5] = true;
-				minigame1Next = gameLocal.time + 3000;
-			}
-			//If the user is moving left or right, do that
-			if (gameLocal.usercmds) {
-				// grab out usercmd
-				usercmd = gameLocal.usercmds[entityNumber];
-				if (usercmd.rightmove > 0)
+				hud->HandleNamedEvent("hideDialog");
+				hud->HandleNamedEvent("showMinigame1");
+				//Initialize player location
+				minigamePlayerX = 300;
+				hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+				//Initialize question locations
+				for (int i = 0; i < 5; i++)
 				{
-					if (minigamePlayerX < 600)
-					{
-						minigamePlayerX += 10;
-						hud->SetStateInt("minigamePlayerX", minigamePlayerX);
-					}
+					minigame1QuestionYs[i] = -60;
+					minigame1QuestionActive[i] = false;
 				}
-				else if (usercmd.rightmove < 0)
-				{
-					if (minigamePlayerX > 0)
-					{
-						minigamePlayerX -= 10;
-						hud->SetStateInt("minigamePlayerX", minigamePlayerX);
-					}
-				}
+				hud->SetStateInt("minigame1Question1Y", minigame1QuestionYs[0]);
+				hud->SetStateInt("minigame1Question2Y", minigame1QuestionYs[1]);
+				hud->SetStateInt("minigame1Question3Y", minigame1QuestionYs[2]);
+				hud->SetStateInt("minigame1Question4Y", minigame1QuestionYs[3]);
+				hud->SetStateInt("minigame1Question5Y", minigame1QuestionYs[4]);
+				//Don't do anything for a little after setting everything up
+				nextDateActionTime = gameLocal.time + 3000;
+				minigamePoint = 1;
 			}
-			//Move down questions
-			for (int i = 0; i < 5; i++)
+			else if (minigamePoint == 1)
 			{
-				if (minigame1QuestionActive[i])
-				{
-					minigame1QuestionYs[i] += 5;
-					if (minigame1QuestionYs[i] >= 390)
-					{
-						minigame1QuestionYs[i] = -60;
-						minigame1QuestionActive[i] = false;
-					}
-					hud->SetStateInt(minigame1QuestionNames[i], minigame1QuestionYs[i]);
-				}
+				//Start timer and show the minigame info
+				minigameStartTime = gameLocal.time + 1000;
+				hud->HandleNamedEvent("hideMinigame1Title");
+				hud->SetStateInt("minigame1Time", 30);
+				nextDateActionTime = gameLocal.time + 1000;
+				minigame1Next = gameLocal.time + 1500;
+				minigamePoint = 2;
 			}
+			else if (minigamePoint == 2)
+			{
 
-			nextDateActionTime = gameLocal.time + 20;
+				//Tick the timer down, if the game is over, end it.
+				int time = 30 - ((gameLocal.time - minigameStartTime) / 1000);
+				hud->SetStateInt("minigame1Time", time);
+				if (time == 0)
+				{
+					minigamePoint = 3;
+				}
+
+				//If it's time for a new question to move, do that
+				if (gameLocal.time > minigame1Next)
+				{
+					minigame1QuestionActive[rand() % 5] = true;
+					minigame1Next = gameLocal.time + 4000;
+				}
+
+				//If the user is moving left or right, do that
+				if (gameLocal.usercmds) {
+					// grab out usercmd
+					usercmd = gameLocal.usercmds[entityNumber];
+					if (usercmd.rightmove > 0)
+					{
+						if (minigamePlayerX < 600)
+						{
+							minigamePlayerX += 10;
+							hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+						}
+					}
+					else if (usercmd.rightmove < 0)
+					{
+						if (minigamePlayerX > 0)
+						{
+							minigamePlayerX -= 10;
+							hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+						}
+					}
+				}
+
+				//Move down questions
+				for (int i = 0; i < 5; i++)
+				{
+					if (minigame1QuestionActive[i])
+					{
+						minigame1QuestionYs[i] += 5;
+						if (minigame1QuestionYs[i] >= 390)
+						{
+							minigame1QuestionYs[i] = -60;
+							minigame1QuestionActive[i] = false;
+						}
+						hud->SetStateInt(minigame1QuestionNames[i], minigame1QuestionYs[i]);
+					}
+				}
+
+				nextDateActionTime = gameLocal.time + 20;
+			}
+			//Good end to the date
+			else
+			{
+				hud->HandleNamedEvent("hideMinigame1");
+				inMinigame = false;
+				hud->HandleNamedEvent("hideDialog");
+				hud->SetStateString("dateResult", "GOOD DATE <3");
+				hud->HandleNamedEvent("showResult");
+				datePoint = 22;
+				nextDateActionTime = gameLocal.time + dateActionWait;
+			}
+			return;
 		}
-		//Good end to the date
 		else
 		{
-			hud->HandleNamedEvent("hideMinigame1");
 			inMinigame = false;
 			hud->HandleNamedEvent("hideDialog");
 			hud->SetStateString("dateResult", "GOOD DATE <3");
 			hud->HandleNamedEvent("showResult");
 			datePoint = 22;
 			nextDateActionTime = gameLocal.time + dateActionWait;
+			return;
 		}
-		return;
 	}
 
 
@@ -14484,11 +14502,10 @@ void idPlayer::ContinueDate(int choice)
 		else
 		{
 			inMinigame = true;
-			whichMinigame = 1;
+			whichMinigame = 2;
 			minigamePoint = 0;
 			datePoint = 17;
 			hud->SetStateString("dateDialog", "You're such a sweetheart!  I'm not sure I can keep up!");
-			talking = true;
 		}
 		talking = true;
 	}
@@ -14507,6 +14524,9 @@ void idPlayer::ContinueDate(int choice)
 		hud->HandleNamedEvent("hideDialog");
 		if (choice == 1)
 		{
+			inMinigame = true;
+			whichMinigame = 1;
+			minigamePoint = 0;
 			datePoint = 18;
 			hud->SetStateString("dateDialog", "You're so nice to me, but why didn't you lead with that?");
 		}
@@ -14517,6 +14537,9 @@ void idPlayer::ContinueDate(int choice)
 		}
 		else
 		{
+			inMinigame = true;
+			whichMinigame = 3;
+			minigamePoint = 0;
 			datePoint = 19;
 			hud->SetStateString("dateDialog", "What... why would you... you lied!?");
 		}
@@ -14537,7 +14560,10 @@ void idPlayer::ContinueDate(int choice)
 		hud->HandleNamedEvent("hideDialog");
 		if (choice == 1)
 		{
-			datePoint = 19;
+			inMinigame = true;
+			whichMinigame = 4;
+			minigamePoint = 0;
+			datePoint = 21;
 			hud->SetStateString("dateDialog", "And why is that?");
 		}
 		else if (choice == 2)
@@ -14567,6 +14593,9 @@ void idPlayer::ContinueDate(int choice)
 		hud->HandleNamedEvent("hideDialog");
 		if (choice == 1)
 		{
+			inMinigame = true;
+			whichMinigame = 2;
+			minigamePoint = 0;
 			datePoint = 17;
 			hud->SetStateString("dateDialog", "Really?");
 		}
@@ -14577,6 +14606,9 @@ void idPlayer::ContinueDate(int choice)
 		}
 		else
 		{
+			inMinigame = true;
+			whichMinigame = 1;
+			minigamePoint = 0;
 			datePoint = 18;
 			hud->SetStateString("dateDialog", "Is it that you think my standards are too low?");
 		}
@@ -14637,36 +14669,25 @@ void idPlayer::ContinueDate(int choice)
 		}
 		else
 		{
-			datePoint = 19;
+			inMinigame = true;
+			whichMinigame = 3;
+			minigamePoint = 0;
+			datePoint = 21;
 			hud->SetStateString("dateDialog", "You are aren't you!  If you can't admit it I'm leaving!");
 		}
 		talking = true;
-	}
-	else if (datePoint == 17)
-	{
-		hud->HandleNamedEvent("hideDialog");
-		hud->SetStateString("dateResult", "GOOD DATE <3");
-		hud->HandleNamedEvent("showResult");
-		datePoint = 22;
-	}
-	else if (datePoint == 18)
-	{
-		hud->HandleNamedEvent("hideDialog");
-		hud->SetStateString("dateResult", "GOOD DATE <3");
-		hud->HandleNamedEvent("showResult");
-		datePoint = 22;
-	}
-	else if (datePoint == 19)
-	{
-		hud->HandleNamedEvent("hideDialog");
-		hud->SetStateString("dateResult", "GOOD DATE <3");
-		hud->HandleNamedEvent("showResult");
-		datePoint = 22;
 	}
 	else if (datePoint == 20)
 	{
 		hud->HandleNamedEvent("hideDialog");
 		hud->SetStateString("dateResult", "BAD DATE </3");
+		hud->HandleNamedEvent("showResult");
+		datePoint = 22;
+	}
+	else if (datePoint == 21)
+	{
+		hud->HandleNamedEvent("hideDialog");
+		hud->SetStateString("dateResult", "GOOD DATE <3");
 		hud->HandleNamedEvent("showResult");
 		datePoint = 22;
 	}
