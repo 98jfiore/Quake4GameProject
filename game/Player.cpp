@@ -1356,6 +1356,7 @@ idPlayer::idPlayer() {
 	inMinigame = false;
 	whichMinigame = -1;
 	minigamePoint = 0;
+	minigameStartTime = -1;
 	advanceDate = false;
 	waitingOnChoice = false;
 	talking = false;
@@ -9363,13 +9364,35 @@ void idPlayer::Think( void ) {
 			nextDateActionTime = gameLocal.time + 3000;
 			minigamePoint = 1;
 		}
-		else if (minigamePoint = 1)
+		else if (minigamePoint == 1)
 		{
+			minigameStartTime = gameLocal.time;
+			hud->HandleNamedEvent("hideMinigame1Title");
+			hud->SetStateInt("minigame1Time", 30);
+			minigamePoint = 2;
+		}
+		else if (minigamePoint == 2)
+		{
+			int time = 30 - ((gameLocal.time - minigameStartTime)/1000);
+			hud->SetStateInt("minigame1Time", time);
+			if (time == 0)
+			{
+				minigamePoint = 30;
+			}
+			nextDateActionTime = gameLocal.time + 200;
+		}
+		else
+		{
+			hud->HandleNamedEvent("hideMinigame1");
 			gameLocal.Printf("GAME POINT 2");
 			inMinigame = false;
-			hud->HandleNamedEvent("hideMinigame1");
+			hud->HandleNamedEvent("hideDialog");
+			hud->SetStateString("dateResult", "GOOD DATE <3");
+			hud->HandleNamedEvent("showResult");
+			datePoint = 22;
 			nextDateActionTime = gameLocal.time + dateActionWait;
 		}
+		return;
 	}
 
 

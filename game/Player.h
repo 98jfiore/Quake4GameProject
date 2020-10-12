@@ -441,6 +441,7 @@ public:
 	bool					inMinigame;
 	int						whichMinigame;
 	int						minigamePoint;
+	int						minigameStartTime;
 
 
 

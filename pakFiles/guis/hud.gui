@@ -124,16 +124,18 @@ windowDef Desktop
 	onNamedEvent showResult {
 		set "date_result::visible" "1" ;
 	}
-	
+
 	onNamedEvent showMinigame1 {
 		set "minigame_1::visible" "1" ;
 		set "minigame_1_title::visible" "1" ;
+		set "minigame_1_timer::visible" "0" ;
 	}
-	
+
 	onNamedEvent hideMinigame1Title {
 		set "minigame_1_title::visible" "0" ;
+		set "minigame_1_timer::visible" "1" ;
 	}
-	
+
 	onNamedEvent hideMinigame1 {
 		set "minigame_1::visible" "0" ;
 	}
@@ -2451,6 +2453,16 @@ windowDef Desktop
 				font	"fonts/marine"
 				textalign	1
 				textstyle	2
+			}
+			windowDef minigame_1_timer
+			{
+				rect	3,4,100,65
+				visible	1
+				forecolor	1,1,1,1
+				text	"gui::minigame1Time"
+				textscale	1
+				textalign	1
+				font	"fonts/marine"
 			}
 		}
 	}
