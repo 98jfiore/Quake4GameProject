@@ -1362,7 +1362,7 @@ idPlayer::idPlayer() {
 	talking = false;
 	datePoint = 0;
 	nextDateActionTime = gameLocal.time;
-	dateActionWait = 2000;
+	dateActionWait = 1000;
 
 
 }
@@ -9379,7 +9379,7 @@ void idPlayer::Think( void ) {
 			{
 				minigamePoint = 30;
 			}
-			nextDateActionTime = gameLocal.time + 200;
+			nextDateActionTime = gameLocal.time + 20;
 		}
 		else
 		{
@@ -14408,12 +14408,14 @@ void idPlayer::ContinueDate(int choice)
 		}
 		else
 		{
-			nextDateActionTime = gameLocal.time + dateActionWait;
+			nextDateActionTime = gameLocal.time + 3000;
 			inMinigame = true;
 			whichMinigame = 1;
 			minigamePoint = 0;
 			datePoint = 17;
 			hud->SetStateString("dateDialog", "You're such a sweetheart!  I'm not sure I can keep up!");
+			talking = true;
+			return;
 		}
 		talking = true;
 	}

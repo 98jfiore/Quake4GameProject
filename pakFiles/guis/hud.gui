@@ -129,11 +129,13 @@ windowDef Desktop
 		set "minigame_1::visible" "1" ;
 		set "minigame_1_title::visible" "1" ;
 		set "minigame_1_timer::visible" "0" ;
+		set "minigame_1_player::visible" "0" ;
 	}
 
 	onNamedEvent hideMinigame1Title {
 		set "minigame_1_title::visible" "0" ;
 		set "minigame_1_timer::visible" "1" ;
+		set "minigame_1_player::visible" "1" ;
 	}
 
 	onNamedEvent hideMinigame1 {
@@ -2463,6 +2465,13 @@ windowDef Desktop
 				textscale	1
 				textalign	1
 				font	"fonts/marine"
+			}
+			windowDef minigame_1_player
+			{
+				rect	303,231,40,40
+				visible	1
+				background	"gfx/guis/common/minigamePlayer"
+				matcolor	1,1,1,1
 			}
 		}
 	}
