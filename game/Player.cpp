@@ -1353,6 +1353,9 @@ idPlayer::idPlayer() {
 
 
 	inDate = false;
+	inMinigame = false;
+	whichMinigame = -1;
+	minigamePoint = 0;
 	advanceDate = false;
 	waitingOnChoice = false;
 	talking = false;
@@ -9341,7 +9344,33 @@ void idPlayer::Think( void ) {
 
 
 
-
+	//If you're in a minigame, think about that minigame
+	if (inMinigame)
+	{
+		if (gameLocal.time < nextDateActionTime) return;
+		if (talking)
+		{
+			hud->HandleNamedEvent("hideChoices");
+			nextDateActionTime = gameLocal.time + dateActionWait;
+			talking = false;
+			hud->HandleNamedEvent("showDialog");
+			return;
+		}
+		if (minigamePoint == 0)
+		{
+			hud->HandleNamedEvent("hideDialog");
+			hud->HandleNamedEvent("showMinigame1");
+			nextDateActionTime = gameLocal.time + 3000;
+			minigamePoint = 1;
+		}
+		else if (minigamePoint = 1)
+		{
+			gameLocal.Printf("GAME POINT 2");
+			inMinigame = false;
+			hud->HandleNamedEvent("hideMinigame1");
+			nextDateActionTime = gameLocal.time + dateActionWait;
+		}
+	}
 
 
 	//Think about date when you're in Date
@@ -14352,10 +14381,14 @@ void idPlayer::ContinueDate(int choice)
 		if (choice == 1)
 		{
 			datePoint = 20;
-			hud->SetStateString("dateDialog", "I'm... I'm sotty this is too much for me...");
+			hud->SetStateString("dateDialog", "I'm... I'm sorry this is too much for me...");
 		}
 		else
 		{
+			nextDateActionTime = gameLocal.time + dateActionWait;
+			inMinigame = true;
+			whichMinigame = 1;
+			minigamePoint = 0;
 			datePoint = 17;
 			hud->SetStateString("dateDialog", "You're such a sweetheart!  I'm not sure I can keep up!");
 		}

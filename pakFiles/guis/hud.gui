@@ -69,6 +69,7 @@ windowDef Desktop
 		set "dialog_box::visible" "0" ;
 		set "choice_box::visible" "0" ;
 		set "date_result::visible" "0" ;
+		set "minigame_1::visible" "0" ;
 	}
 
 	onNamedEvent stopDate {
@@ -82,6 +83,7 @@ windowDef Desktop
 		set "dialog_box::visible" "0" ;
 		set "choice_box::visible" "0" ;
 		set "date_result::visible" "0" ;
+		set "minigame_1::visible" "0" ;
 	}
 
 	onNamedEvent showDialog {
@@ -121,6 +123,19 @@ windowDef Desktop
 
 	onNamedEvent showResult {
 		set "date_result::visible" "1" ;
+	}
+	
+	onNamedEvent showMinigame1 {
+		set "minigame_1::visible" "1" ;
+		set "minigame_1_title::visible" "1" ;
+	}
+	
+	onNamedEvent hideMinigame1Title {
+		set "minigame_1_title::visible" "0" ;
+	}
+	
+	onNamedEvent hideMinigame1 {
+		set "minigame_1::visible" "0" ;
 	}
 
 	onNamedEvent updateHealth {
@@ -2307,6 +2322,17 @@ windowDef Desktop
 				}
 			}
 		}
+		windowDef date_result
+		{
+			rect	0,186,640,102
+			visible	1
+			forecolor	0.250,0,0.250,0.968
+			text	"gui::dateResult"
+			textscale	1.5
+			font	"fonts/marine"
+			textalign	1
+			backcolor	0.980,0.482,1,1
+		}
 		windowDef border
 		{
 			rect	0,0,641,480
@@ -2410,16 +2436,22 @@ windowDef Desktop
 				matcolor	1,1,1,1
 			}
 		}
-		windowDef date_result
+		windowDef minigame_1
 		{
-			rect	0,186,640,102
+			rect	0,47,640,383
 			visible	1
-			forecolor	0.250,0,0.250,0.968
-			text	"gui::dateResult"
-			textscale	1.5
-			font	"fonts/marine"
-			textalign	1
-			backcolor	0.980,0.482,1,1
+			backcolor	0,0,0,1
+			windowDef minigame_1_title
+			{
+				rect	20,41,596,320
+				visible	1
+				forecolor	1,1,1,1
+				text	"Dodging The Hard Questions"
+				textscale	1.5
+				font	"fonts/marine"
+				textalign	1
+				textstyle	2
+			}
 		}
 	}
 }

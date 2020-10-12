@@ -438,6 +438,9 @@ public:
 	int						nextDateActionTime;
 	int						dateActionWait;
 	idAI*					currDate;
+	bool					inMinigame;
+	int						whichMinigame;
+	int						minigamePoint;
 
 
 
