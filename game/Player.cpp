@@ -17,6 +17,7 @@
 #include "ai/AAS_tactical.h"
 #include "Healing_Station.h"
 #include "ai/AI_Medic.h"
+#include <stdlib.h>
 
 // RAVEN BEGIN
 // nrausch: support for turning the weapon change ui on and off
@@ -1368,6 +1369,11 @@ idPlayer::idPlayer() {
 		minigame1QuestionYs[i] = -60;
 		minigame1QuestionActive[i] = false;
 	}
+	minigame1QuestionNames[0] = "minigame1Question1Y";
+	minigame1QuestionNames[1] = "minigame1Question2Y";
+	minigame1QuestionNames[2] = "minigame1Question3Y";
+	minigame1QuestionNames[3] = "minigame1Question4Y";
+	minigame1QuestionNames[4] = "minigame1Question5Y";
 
 
 }
@@ -9394,6 +9400,7 @@ void idPlayer::Think( void ) {
 			hud->HandleNamedEvent("hideMinigame1Title");
 			hud->SetStateInt("minigame1Time", 30);
 			nextDateActionTime = gameLocal.time + 1000;
+			minigame1Next = gameLocal.time + 1500;
 			minigamePoint = 2;
 		}
 		else if (minigamePoint == 2)
@@ -9405,6 +9412,12 @@ void idPlayer::Think( void ) {
 			{
 				minigamePoint = 3;
 			}
+			//If it's time for a new question to move, do that
+			if (gameLocal.time > minigame1Next)
+			{
+				minigame1QuestionActive[rand() % 5] = true;
+				minigame1Next = gameLocal.time + 3000;
+			}
 			//If the user is moving left or right, do that
 			if (gameLocal.usercmds) {
 				// grab out usercmd
@@ -9413,7 +9426,7 @@ void idPlayer::Think( void ) {
 				{
 					if (minigamePlayerX < 600)
 					{
-						minigamePlayerX += 5;
+						minigamePlayerX += 10;
 						hud->SetStateInt("minigamePlayerX", minigamePlayerX);
 					}
 				}
@@ -9421,18 +9434,25 @@ void idPlayer::Think( void ) {
 				{
 					if (minigamePlayerX > 0)
 					{
-						minigamePlayerX -= 5;
+						minigamePlayerX -= 10;
 						hud->SetStateInt("minigamePlayerX", minigamePlayerX);
 					}
 				}
 			}
 			//Move down questions
-			minigame1QuestionYs[0] += 5;
-			if (minigame1QuestionYs[0] >= 390)
+			for (int i = 0; i < 5; i++)
 			{
-				minigame1QuestionYs[0] = -60;
+				if (minigame1QuestionActive[i])
+				{
+					minigame1QuestionYs[i] += 5;
+					if (minigame1QuestionYs[i] >= 390)
+					{
+						minigame1QuestionYs[i] = -60;
+						minigame1QuestionActive[i] = false;
+					}
+					hud->SetStateInt(minigame1QuestionNames[i], minigame1QuestionYs[i]);
+				}
 			}
-			hud->SetStateInt("minigame1Question1Y", minigame1QuestionYs[0]);
 
 			nextDateActionTime = gameLocal.time + 20;
 		}

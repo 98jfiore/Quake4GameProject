@@ -445,6 +445,8 @@ public:
 	int						minigamePlayerX;
 	int						minigame1QuestionYs[5];
 	bool					minigame1QuestionActive[5];
+	int						minigame1Next;
+	const char *					minigame1QuestionNames[5];
 
 
 
