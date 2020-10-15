@@ -9551,7 +9551,14 @@ void idPlayer::Think( void ) {
 				usercmd.buttons &= ~buttonMask;
 				if (usercmd.buttons & BUTTON_ATTACK)
 				{
-					gameLocal.Printf("Clicked\n");
+					minigamePlayerWidth += 4;
+					minigamePlayerHeight += 4;
+					minigamePlayerX -= 2;
+					minigamePlayerY -= 2;
+					hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+					hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+					hud->SetStateInt("minigamePlayerWidth", minigamePlayerWidth);
+					hud->SetStateInt("minigamePlayerHeight", minigamePlayerHeight);
 				}
 
 				nextDateActionTime = gameLocal.time + 20;
