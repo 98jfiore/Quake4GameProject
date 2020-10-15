@@ -9521,6 +9521,7 @@ void idPlayer::Think( void ) {
 				hud->SetStateInt("minigamePlayerY", minigamePlayerY);
 				hud->SetStateInt("minigamePlayerWidth", minigamePlayerWidth);
 				hud->SetStateInt("minigamePlayerHeight", minigamePlayerHeight);
+				hud->SetStateString("minigame4PlayerModel", "gfx/guis/common/minigame4Player");
 				//Don't do anything for a little after setting everything up
 				nextDateActionTime = gameLocal.time + 3000;
 				minigamePoint = 1;
@@ -9543,7 +9544,16 @@ void idPlayer::Think( void ) {
 				hud->SetStateInt("minigame4Time", time);
 				if (time == 0)
 				{
-					minigamePoint = 3;
+					if (minigamePlayerHeight >= 160 && minigamePlayerHeight <= 240)
+					{
+						minigamePoint = 3;
+					}
+					else
+					{
+						minigamePoint = 4;
+					}
+					nextDateActionTime = gameLocal.time + 50;
+					return;
 				}
 				//Take in player clicks
 				usercmd = gameLocal.usercmds[entityNumber];
@@ -9555,10 +9565,26 @@ void idPlayer::Think( void ) {
 					minigamePlayerHeight += 4;
 					minigamePlayerX -= 2;
 					minigamePlayerY -= 2;
-					hud->SetStateInt("minigamePlayerX", minigamePlayerX);
-					hud->SetStateInt("minigamePlayerY", minigamePlayerY);
-					hud->SetStateInt("minigamePlayerWidth", minigamePlayerWidth);
-					hud->SetStateInt("minigamePlayerHeight", minigamePlayerHeight);
+				}
+				else if (time <= 19)
+				{
+					minigamePlayerWidth -= 8;
+					minigamePlayerHeight -= 8;
+					minigamePlayerX += 4;
+					minigamePlayerY += 4;
+				}
+				hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+				hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+				hud->SetStateInt("minigamePlayerWidth", minigamePlayerWidth);
+				hud->SetStateInt("minigamePlayerHeight", minigamePlayerHeight);
+
+				if (minigamePlayerHeight <= 1 || minigamePlayerHeight >= 250)
+				{
+
+					hud->SetStateString("minigame4PlayerModel", "gfx/guis/common/minigame4PlayerFail");
+					minigamePoint = 4;
+					nextDateActionTime = gameLocal.time + 1000;
+					return;
 				}
 
 				nextDateActionTime = gameLocal.time + 20;
@@ -14820,5 +14846,5 @@ void idPlayer::StopDate(idAI* dateMate)
 	dateMate->EndDate(false);
 	currDate = nullptr;
 	inDate = false;
-	Sleep(200);
+	Sleep(500);
 }

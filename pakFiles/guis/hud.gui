@@ -2658,7 +2658,7 @@ windowDef Desktop
 				rect	20,41,596,300
 				visible	1
 				forecolor	1,1,1,1
-				text	"Pumping Yourself Up"
+				text	"Building Yourself Up"
 				textscale	1.5
 				font	"fonts/marine"
 				textalign	1
@@ -2679,7 +2679,7 @@ windowDef Desktop
 			{
 				rect	"gui::minigamePlayerX","gui::minigamePlayerY","gui::minigamePlayerWidth","gui::minigamePlayerHeight"
 				visible	1
-				background	"gfx/guis/common/minigame4Player"
+				background	"gui::minigame4PlayerModel"
 				matcolor	1,1,1,1
 			}
 			windowDef minigame_4_goodGuide
