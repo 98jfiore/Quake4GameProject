@@ -2677,7 +2677,7 @@ windowDef Desktop
 			}
 			windowDef minigame_4_player
 			{
-				rect	300,172,40,40
+				rect	"gui::minigamePlayerX","gui::minigamePlayerY","gui::minigamePlayerWidth","gui::minigamePlayerHeight"
 				visible	1
 				background	"gfx/guis/common/minigame4Player"
 				matcolor	1,1,1,1

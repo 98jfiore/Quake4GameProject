@@ -9512,6 +9512,15 @@ void idPlayer::Think( void ) {
 			{
 				hud->HandleNamedEvent("hideDialog");
 				hud->HandleNamedEvent("showMinigame4");
+				//Initialize player positions
+				minigamePlayerX = 300;
+				minigamePlayerY = 172;
+				minigamePlayerWidth = 40;
+				minigamePlayerHeight = 40;
+				hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+				hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+				hud->SetStateInt("minigamePlayerWidth", minigamePlayerWidth);
+				hud->SetStateInt("minigamePlayerHeight", minigamePlayerHeight);
 				//Don't do anything for a little after setting everything up
 				nextDateActionTime = gameLocal.time + 3000;
 				minigamePoint = 1;
@@ -9540,7 +9549,7 @@ void idPlayer::Think( void ) {
 				usercmd = gameLocal.usercmds[entityNumber];
 				buttonMask &= usercmd.buttons;
 				usercmd.buttons &= ~buttonMask;
-				if (usercmd.buttons & BUTTON_ATTACK && !waitingOnChoice)
+				if (usercmd.buttons & BUTTON_ATTACK)
 				{
 					gameLocal.Printf("Clicked\n");
 				}
