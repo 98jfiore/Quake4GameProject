@@ -70,6 +70,7 @@ windowDef Desktop
 		set "choice_box::visible" "0" ;
 		set "date_result::visible" "0" ;
 		set "minigame_1::visible" "0" ;
+		set "minigame_4::visible" "0" ;
 		set "minigameResult::visible" "0" ;
 	}
 
@@ -85,6 +86,7 @@ windowDef Desktop
 		set "choice_box::visible" "0" ;
 		set "date_result::visible" "0" ;
 		set "minigame_1::visible" "0" ;
+		set "minigame_4::visible" "0" ;
 		set "minigameResult::visible" "0" ;
 	}
 
@@ -142,6 +144,27 @@ windowDef Desktop
 
 	onNamedEvent hideMinigame1 {
 		set "minigame_1::visible" "0" ;
+	}
+
+	onNamedEvent showMinigame4 {
+		set "minigame_4::visible" "1" ;
+		set "minigame_4_title::visible" "1" ;
+		set "minigame_4_timer::visible" "0" ;
+		set "minigame_4_player::visible" "0" ;
+		set "minigame_4_goodGuide::visible" "0" ;
+		set "minigame_4_badGuide::visible" "0" ;
+	}
+
+	onNamedEvent hideMinigame4Title {
+		set "minigame_4_title::visible" "0" ;
+		set "minigame_4_timer::visible" "1" ;
+		set "minigame_4_player::visible" "1" ;
+		set "minigame_4_goodGuide::visible" "1" ;
+		set "minigame_4_badGuide::visible" "1" ;
+	}
+
+	onNamedEvent hideMinigame4 {
+		set "minigame_4::visible" "0" ;
 	}
 
 	onNamedEvent showMGameResult {
@@ -2389,7 +2412,7 @@ windowDef Desktop
 			{
 				rect	"gui::minigamePlayerX",250,40,40
 				visible	1
-				background	"gfx/guis/common/minigamePlayer"
+				background	"gfx/guis/common/minigame1Player"
 				matcolor	1,1,1,1
 			}
 			windowDef minigame_1_questions1
@@ -2622,6 +2645,55 @@ windowDef Desktop
 				rect	-25,-7,100,64
 				visible	1
 				background	"gfx/guis/common/heart"
+				matcolor	1,1,1,1
+			}
+		}
+		windowDef minigame_4
+		{
+			rect	0,47,640,384
+			visible	1
+			backcolor	0,0,0,1
+			windowDef minigame_4_title
+			{
+				rect	20,41,596,300
+				visible	1
+				forecolor	1,1,1,1
+				text	"Pumping Yourself Up"
+				textscale	1.5
+				font	"fonts/marine"
+				textalign	1
+				textstyle	2
+				textaligny	50
+			}
+			windowDef minigame_4_timer
+			{
+				rect	3,4,100,65
+				visible	1
+				forecolor	1,1,1,1
+				text	"gui::minigame4Time"
+				textscale	1
+				textalign	1
+				font	"fonts/marine"
+			}
+			windowDef minigame_4_player
+			{
+				rect	300,172,40,40
+				visible	1
+				background	"gfx/guis/common/minigame4Player"
+				matcolor	1,1,1,1
+			}
+			windowDef minigame_4_goodGuide
+			{
+				rect	240,112,160,160
+				visible	1
+				background	"gfx/guis/common/minigame4GoodGuide"
+				matcolor	1,1,1,1
+			}
+			windowDef minigame_4_badGuide
+			{
+				rect	200,72,240,240
+				visible	1
+				background	"gfx/guis/common/minigame4BadGuide"
 				matcolor	1,1,1,1
 			}
 		}

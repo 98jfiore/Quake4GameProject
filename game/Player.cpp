@@ -9504,6 +9504,71 @@ void idPlayer::Think( void ) {
 			}
 			return;
 		}
+		//Which minigame are you doing?
+		else if (whichMinigame == 4)
+		{
+			//If the minigame is starting, start it
+			if (minigamePoint == 0)
+			{
+				hud->HandleNamedEvent("hideDialog");
+				hud->HandleNamedEvent("showMinigame4");
+				//Don't do anything for a little after setting everything up
+				nextDateActionTime = gameLocal.time + 3000;
+				minigamePoint = 1;
+			}
+			else if (minigamePoint == 1)
+			{
+				//Start timer and show the minigame info
+				minigameStartTime = gameLocal.time + 1000;
+				hud->HandleNamedEvent("hideMinigame4Title");
+				hud->SetStateInt("minigame4Time", 20);
+				nextDateActionTime = gameLocal.time + 1000;
+				minigame1Next = gameLocal.time + 1500;
+				minigamePoint = 2;
+			}
+			else if (minigamePoint == 2)
+			{
+
+				//Tick the timer down, if the game is over, end it.
+				int time = 20 - ((gameLocal.time - minigameStartTime) / 1000);
+				hud->SetStateInt("minigame4Time", time);
+				if (time == 0)
+				{
+					minigamePoint = 3;
+				}
+				//Take in player clicks
+				usercmd = gameLocal.usercmds[entityNumber];
+				buttonMask &= usercmd.buttons;
+				usercmd.buttons &= ~buttonMask;
+				if (usercmd.buttons & BUTTON_ATTACK && !waitingOnChoice)
+				{
+					gameLocal.Printf("Clicked\n");
+				}
+
+				nextDateActionTime = gameLocal.time + 20;
+			}
+			//Good end to the date
+			else if (minigamePoint == 3)
+			{
+				hud->HandleNamedEvent("hideMinigame4");
+				inMinigame = false;
+				hud->SetStateString("minigameResult", "SUCCESS");
+				hud->HandleNamedEvent("showMGameResult");
+				datePoint = 21;
+				nextDateActionTime = gameLocal.time + dateActionWait;
+			}
+			//Bad end to the date
+			else if (minigamePoint == 4)
+			{
+				hud->HandleNamedEvent("hideMinigame4");
+				inMinigame = false;
+				hud->SetStateString("minigameResult", "FAILURE");
+				hud->HandleNamedEvent("showMGameResult");
+				datePoint = 20;
+				nextDateActionTime = gameLocal.time + dateActionWait;
+			}
+			return;
+		}
 		else
 		{
 			inMinigame = false;
@@ -14575,7 +14640,7 @@ void idPlayer::ContinueDate(int choice)
 	}
 	else if (datePoint == 9)
 	{
-		datePoint = 8;
+		datePoint = 10;
 		hud->SetStateString("dateChoiceLeft", "You have more than a chance...");
 		hud->SetStateString("dateChoiceTop", "Maybe...");
 		hud->SetStateString("dateChoiceRight", "Not on your life!");
