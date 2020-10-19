@@ -1387,6 +1387,15 @@ idPlayer::idPlayer() {
 	minigame1RightClear[3] = 640;
 	minigame1RightClear[4] = 83;
 
+	minigame3LetterNameXs[0] = "minigame3Letter1X";
+	minigame3LetterNameXs[1] = "minigame3Letter2X";
+	minigame3LetterNameXs[2] = "minigame3Letter3X";
+	minigame3LetterNameXs[3] = "minigame3Letter4X";
+	minigame3LetterNameXs[4] = "minigame3Letter5X";
+	minigame3LetterNameXs[5] = "minigame3Letter6X";
+	minigame3LetterNameXs[6] = "minigame3Letter7X";
+	minigame3LetterNameXs[7] = "minigame3Letter8X";
+
 }
 
 /*
@@ -9516,6 +9525,25 @@ void idPlayer::Think( void ) {
 				minigamePlayerY = 170;
 				hud->SetStateInt("minigamePlayerX", minigamePlayerX);
 				hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+				//Initialize letter locations
+				for (int i = 0; i < 4; i++)
+				{
+					minigame3LetterXs[i] = -50;
+					minigame3LettersActive[i] = false;
+				}
+				for (int i = 4; i < 8; i++)
+				{
+					minigame3LetterXs[i] = 645;
+					minigame3LettersActive[i] = false;
+				}
+				hud->SetStateInt("minigame3Letter1X", minigame3LetterXs[0]);
+				hud->SetStateInt("minigame3Letter2X", minigame3LetterXs[1]);
+				hud->SetStateInt("minigame3Letter3X", minigame3LetterXs[2]);
+				hud->SetStateInt("minigame3Letter4X", minigame3LetterXs[3]);
+				hud->SetStateInt("minigame3Letter5X", minigame3LetterXs[4]);
+				hud->SetStateInt("minigame3Letter6X", minigame3LetterXs[5]);
+				hud->SetStateInt("minigame3Letter7X", minigame3LetterXs[6]);
+				hud->SetStateInt("minigame3Letter8X", minigame3LetterXs[7]);
 				
 				nextDateActionTime = gameLocal.time + 3000;
 				minigamePoint = 1;
@@ -9527,7 +9555,7 @@ void idPlayer::Think( void ) {
 				hud->HandleNamedEvent("hideMinigame3Title");
 				hud->SetStateInt("minigame3Time", 30);
 				nextDateActionTime = gameLocal.time + 1000;
-				minigame1Next = gameLocal.time + 1500;
+				minigame3Next = gameLocal.time + 200;
 				minigamePoint = 2;
 			}
 			else if (minigamePoint == 2)
@@ -9578,6 +9606,42 @@ void idPlayer::Think( void ) {
 						}
 					}
 				}
+
+				//If it's time for a new letter to move, do that
+				if (gameLocal.time > minigame3Next)
+				{
+					minigame3LettersActive[rand() % 8] = true;
+					minigame3Next = gameLocal.time + 200;
+				}
+
+				//Move Letters
+				for (int i = 0; i < 4; i++)
+				{
+					if (minigame3LettersActive[i])
+					{
+						minigame3LetterXs[i] += 5;
+						if (minigame3LetterXs[i] >= 640)
+						{
+							minigame3LetterXs[i] = -50;
+							minigame3LettersActive[i] = false;
+						}
+						hud->SetStateInt(minigame3LetterNameXs[i], minigame3LetterXs[i]);
+					}
+				}
+				for (int i = 4; i < 8; i++)
+				{
+					if (minigame3LettersActive[i])
+					{
+						minigame3LetterXs[i] -= 5;
+						if (minigame3LetterXs[i] <= -50)
+						{
+							minigame3LetterXs[i] = 645;
+							minigame3LettersActive[i] = false;
+						}
+						hud->SetStateInt(minigame3LetterNameXs[i], minigame3LetterXs[i]);
+					}
+				}
+
 				
 			}
 			//Good end to the date
