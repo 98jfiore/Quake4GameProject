@@ -1396,6 +1396,15 @@ idPlayer::idPlayer() {
 	minigame3LetterNameXs[6] = "minigame3Letter7X";
 	minigame3LetterNameXs[7] = "minigame3Letter8X";
 
+	minigame3LetterYs[0] = 40;
+	minigame3LetterYs[1] = 125;
+	minigame3LetterYs[2] = 210;
+	minigame3LetterYs[3] = 295;
+	minigame3LetterYs[4] = 20;
+	minigame3LetterYs[5] = 105;
+	minigame3LetterYs[6] = 190;
+	minigame3LetterYs[7] = 275;
+
 }
 
 /*
@@ -9481,7 +9490,7 @@ void idPlayer::Think( void ) {
 						//If the question can intersect with player, check collision
 						if (minigame1QuestionYs[i] + 52 >= 250 && minigame1QuestionYs[i] <= 290)
 						{
-							if (minigamePlayerX < minigame1LeftClear[i] || minigamePlayerX > minigame1RightClear[i])
+							if (minigamePlayerX < minigame1LeftClear[i] || minigamePlayerX + 40 > minigame1RightClear[i])
 							{
 								minigamePoint = 4;
 							}
@@ -9626,6 +9635,16 @@ void idPlayer::Think( void ) {
 							minigame3LettersActive[i] = false;
 						}
 						hud->SetStateInt(minigame3LetterNameXs[i], minigame3LetterXs[i]);
+						//Check connection
+						if ((minigamePlayerX > minigame3LetterXs[i] && minigamePlayerX < minigame3LetterXs[i] + 45) || (minigamePlayerX + 40 > minigame3LetterXs[i] && minigamePlayerX + 40 < minigame3LetterXs[i] + 45))
+						{
+							if ((minigamePlayerY > minigame3LetterYs[i] && minigamePlayerY < minigame3LetterYs[i] + 45) || (minigamePlayerY + 40 > minigame3LetterYs[i] && minigamePlayerY + 40 < minigame3LetterYs[i] + 45))
+							{
+								minigame3LetterXs[i] = -50;
+								minigame3LettersActive[i] = false;
+								hud->SetStateInt(minigame3LetterNameXs[i], minigame3LetterXs[i]);
+							}
+						}
 					}
 				}
 				for (int i = 4; i < 8; i++)
@@ -9639,6 +9658,16 @@ void idPlayer::Think( void ) {
 							minigame3LettersActive[i] = false;
 						}
 						hud->SetStateInt(minigame3LetterNameXs[i], minigame3LetterXs[i]);
+						//Check connection
+						if ((minigamePlayerX > minigame3LetterXs[i] && minigamePlayerX < minigame3LetterXs[i] + 45) || (minigamePlayerX + 40 > minigame3LetterXs[i] && minigamePlayerX + 40 < minigame3LetterXs[i] + 45))
+						{
+							if ((minigamePlayerY > minigame3LetterYs[i] && minigamePlayerY < minigame3LetterYs[i] + 45) || (minigamePlayerY + 40 > minigame3LetterYs[i] && minigamePlayerY + 40 < minigame3LetterYs[i] + 45))
+							{
+								minigame3LetterXs[i] = 645;
+								minigame3LettersActive[i] = false;
+								hud->SetStateInt(minigame3LetterNameXs[i], minigame3LetterXs[i]);
+							}
+						}
 					}
 				}
 

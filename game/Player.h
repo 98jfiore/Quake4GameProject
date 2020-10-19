@@ -453,6 +453,7 @@ public:
 	int						minigame1RightClear[5];
 	int						minigame1LeftClear[5];
 	int						minigame3LetterXs[8];
+	int						minigame3LetterYs[8];
 	bool					minigame3LettersActive[8];
 	int						minigame3Next;
 	const char *			minigame3LetterNameXs[8];
