@@ -1354,6 +1354,7 @@ idPlayer::idPlayer() {
 
 
 	inDate = false;
+	goodDateCount = 0;
 	inMinigame = false;
 	whichMinigame = -1;
 	minigamePoint = 0;
@@ -3866,6 +3867,7 @@ void idPlayer::DrawHUD( idUserInterface *_hud ) {
 		}	
 
 		UpdateHudStats( _hud );
+		hud->SetStateInt("player_health", goodDateCount);
 
 		if ( focusBrackets ) {
 			// If 2d_calc is still true then the gui didnt render so we can abandon it
@@ -15263,6 +15265,8 @@ void idPlayer::ContinueDate(int choice)
 		hud->HandleNamedEvent("hideDialog");
 		hud->HandleNamedEvent("hideMGameResult");
 		hud->SetStateString("dateResult", "GOOD DATE <3");
+		goodDateCount++;
+		hud->SetStateInt("player_health", goodDateCount);
 		hud->HandleNamedEvent("showResult");
 		datePoint = 22;
 	}

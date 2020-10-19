@@ -435,6 +435,7 @@ public:
 	bool					waitingOnChoice;
 	bool					talking;
 	short					datePoint;
+	int						goodDateCount;
 	int						nextDateActionTime;
 	int						dateActionWait;
 	idAI*					currDate;
