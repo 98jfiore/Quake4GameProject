@@ -1395,14 +1395,15 @@ idPlayer::idPlayer() {
 	minigame2ArrowOnNames[5] = "showMinigame2ArrowUpLeft";
 	minigame2ArrowOnNames[6] = "showMinigame2ArrowDownRight";
 	minigame2ArrowOnNames[7] = "showMinigame2ArrowDownLeft";
+	minigame2ArrowOnNames[8] = "minigame2HideArrows";
 
 	minigame2ArrowMovements[0][0] = 0;
-	minigame2ArrowMovements[0][1] = -6;
+	minigame2ArrowMovements[0][1] = -4;
 	minigame2ArrowMovements[1][0] = 0;
-	minigame2ArrowMovements[1][1] = 6;
-	minigame2ArrowMovements[2][0] = -6;
+	minigame2ArrowMovements[1][1] = 4;
+	minigame2ArrowMovements[2][0] = -4;
 	minigame2ArrowMovements[2][1] = 0;
-	minigame2ArrowMovements[3][0] = 6;
+	minigame2ArrowMovements[3][0] = 4;
 	minigame2ArrowMovements[3][1] = 0;
 	minigame2ArrowMovements[4][0] = 3;
 	minigame2ArrowMovements[4][1] = -3;
@@ -1412,6 +1413,8 @@ idPlayer::idPlayer() {
 	minigame2ArrowMovements[6][1] = 3;
 	minigame2ArrowMovements[7][0] = -3;
 	minigame2ArrowMovements[7][1] = 3;
+	minigame2ArrowMovements[8][0] = 0;
+	minigame2ArrowMovements[8][1] = 0;
 
 	minigame3LetterNameXs[0] = "minigame3Letter1X";
 	minigame3LetterNameXs[1] = "minigame3Letter2X";
@@ -9594,7 +9597,7 @@ void idPlayer::Think( void ) {
 				hud->SetStateInt("minigame2Time", 30);
 				nextDateActionTime = gameLocal.time + 1000;
 				minigame2Next = gameLocal.time + 1000;
-				minigame2ArrowOn = 0;
+				minigame2ArrowOn = 8;
 				minigamePoint = 2;
 			}
 			else if (minigamePoint == 2)
@@ -9610,9 +9613,17 @@ void idPlayer::Think( void ) {
 
 				if (gameLocal.time > minigame2Next)
 				{
-					minigame2ArrowOn = rand() % 8;
+					if (minigame2ArrowOn == 8)
+					{
+						minigame2ArrowOn = rand() % 8;
+						minigame2Next = gameLocal.time + 1700;
+					}
+					else
+					{
+						minigame2ArrowOn = 8;
+						minigame2Next = gameLocal.time + 300;
+					}
 					hud->HandleNamedEvent(minigame2ArrowOnNames[minigame2ArrowOn]);
-					minigame2Next = gameLocal.time + 1200;
 				}
 
 				//If the user is moving left or right, do that
@@ -9623,7 +9634,7 @@ void idPlayer::Think( void ) {
 					{
 						if (minigamePlayerX < 600)
 						{
-							minigamePlayerX += 10;
+							minigamePlayerX += 8;
 							hud->SetStateInt("minigamePlayerX", minigamePlayerX);
 						}
 					}
@@ -9631,7 +9642,7 @@ void idPlayer::Think( void ) {
 					{
 						if (minigamePlayerX > 0)
 						{
-							minigamePlayerX -= 10;
+							minigamePlayerX -= 8;
 							hud->SetStateInt("minigamePlayerX", minigamePlayerX);
 						}
 					}
@@ -9639,7 +9650,7 @@ void idPlayer::Think( void ) {
 					{
 						if (minigamePlayerY < 340)
 						{
-							minigamePlayerY += 10;
+							minigamePlayerY += 8;
 							hud->SetStateInt("minigamePlayerY", minigamePlayerY);
 						}
 					}
@@ -9647,7 +9658,7 @@ void idPlayer::Think( void ) {
 					{
 						if (minigamePlayerY > 0)
 						{
-							minigamePlayerY -= 10;
+							minigamePlayerY -= 8;
 							hud->SetStateInt("minigamePlayerY", minigamePlayerY);
 						}
 					}
@@ -9658,6 +9669,12 @@ void idPlayer::Think( void ) {
 				hud->SetStateInt("minigamePlayerX", minigamePlayerX);
 				minigamePlayerY += minigame2ArrowMovements[minigame2ArrowOn][1];
 				hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+
+				//Make sure player hasn't fallen off and failed
+				if (minigamePlayerX + 20 < 180 || minigamePlayerX + 20 > 460 || minigamePlayerY + 20 < 50 || minigamePlayerY + 20 > 330)
+				{
+					minigamePoint = 4;
+				}
 
 			}
 			//Good end to the date
