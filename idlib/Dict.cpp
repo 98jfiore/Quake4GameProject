@@ -335,7 +335,7 @@ bool idDict::GetAngles( const char *key, const char *defaultString, idAngles &ou
 
 	found = GetString( key, defaultString, &s );
 	out.Zero();	
-	sscanf( s, "%f %f %f", &out.pitch, &out.yaw, &out.roll );
+	sscanf_s( s, "%f %f %f", &out.pitch, &out.yaw, &out.roll );
 	return found;
 }
 
@@ -354,7 +354,7 @@ bool idDict::GetVector( const char *key, const char *defaultString, idVec3 &out 
 
 	found = GetString( key, defaultString, &s );
 	out.Zero();
-	sscanf( s, "%f %f %f", &out.x, &out.y, &out.z );
+	sscanf_s( s, "%f %f %f", &out.x, &out.y, &out.z );
 	return found;
 }
 
@@ -373,7 +373,7 @@ bool idDict::GetVec2( const char *key, const char *defaultString, idVec2 &out ) 
 
 	found = GetString( key, defaultString, &s );
 	out.Zero();
-	sscanf( s, "%f %f", &out.x, &out.y );
+	sscanf_s( s, "%f %f", &out.x, &out.y );
 	return found;
 }
 
@@ -392,7 +392,7 @@ bool idDict::GetVec4( const char *key, const char *defaultString, idVec4 &out ) 
 
 	found = GetString( key, defaultString, &s );
 	out.Zero();
-	sscanf( s, "%f %f %f %f", &out.x, &out.y, &out.z, &out.w );
+	sscanf_s( s, "%f %f %f %f", &out.x, &out.y, &out.z, &out.w );
 	return found;
 }
 
@@ -411,7 +411,7 @@ bool idDict::GetMatrix( const char *key, const char *defaultString, idMat3 &out 
 
 	found = GetString( key, defaultString, &s );
 	out.Identity();		// sccanf has a bug in it on Mac OS 9.  Sigh.
-	sscanf( s, "%f %f %f %f %f %f %f %f %f", &out[0].x, &out[0].y, &out[0].z, &out[1].x, &out[1].y, &out[1].z, &out[2].x, &out[2].y, &out[2].z );
+	sscanf_s( s, "%f %f %f %f %f %f %f %f %f", &out[0].x, &out[0].y, &out[0].z, &out[1].x, &out[1].y, &out[1].z, &out[2].x, &out[2].y, &out[2].z );
 	return found;
 }
 

@@ -117,7 +117,7 @@ class idException {
 public:
 	char error[2048];
 
-	idException( const char *text = "" ) { strcpy( error, text ); }
+	idException( const char *text = "" ) { strcpy_s( error, text ); }
 };
 
 

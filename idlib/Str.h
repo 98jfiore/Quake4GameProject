@@ -509,7 +509,7 @@ ID_INLINE idStr::idStr( const unsigned u ) {
 	int l;
 
 	Init();
-	l = sprintf( text, "%u", u );
+	l = sprintf_s( text, "%u", u );
 	EnsureAlloced( l + 1 );
 	strcpy( data, text );
 	len = l;
@@ -602,7 +602,7 @@ ID_INLINE idStr operator+( const idStr &a, const float b ) {
 	char	text[ 64 ];
 	idStr	result( a );
 
-	sprintf( text, "%f", b );
+	sprintf_s( text, "%f", b );
 	result.Append( text );
 
 	return result;
@@ -612,7 +612,7 @@ ID_INLINE idStr operator+( const idStr &a, const int b ) {
 	char	text[ 64 ];
 	idStr	result( a );
 
-	sprintf( text, "%d", b );
+	sprintf_s( text, "%d", b );
 	result.Append( text );
 
 	return result;
@@ -622,7 +622,7 @@ ID_INLINE idStr operator+( const idStr &a, const unsigned b ) {
 	char	text[ 64 ];
 	idStr	result( a );
 
-	sprintf( text, "%u", b );
+	sprintf_s( text, "%u", b );
 	result.Append( text );
 
 	return result;
@@ -631,7 +631,7 @@ ID_INLINE idStr operator+( const idStr &a, const unsigned b ) {
 ID_INLINE idStr &idStr::operator+=( const float a ) {
 	char text[ 64 ];
 
-	sprintf( text, "%f", a );
+	sprintf_s( text, "%f", a );
 	Append( text );
 
 	return *this;
@@ -640,7 +640,7 @@ ID_INLINE idStr &idStr::operator+=( const float a ) {
 ID_INLINE idStr &idStr::operator+=( const int a ) {
 	char text[ 64 ];
 
-	sprintf( text, "%d", a );
+	sprintf_s( text, "%d", a );
 	Append( text );
 
 	return *this;
@@ -649,7 +649,7 @@ ID_INLINE idStr &idStr::operator+=( const int a ) {
 ID_INLINE idStr &idStr::operator+=( const unsigned a ) {
 	char text[ 64 ];
 
-	sprintf( text, "%u", a );
+	sprintf_s( text, "%u", a );
 	Append( text );
 
 	return *this;

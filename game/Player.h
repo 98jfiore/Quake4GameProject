@@ -453,7 +453,7 @@ public:
 	const char *			minigame1QuestionNames[5];
 	int						minigame1RightClear[5];
 	int						minigame1LeftClear[5];
-
+	
 	const char *			minigame2ArrowOnNames[9];
 	int						minigame2Next;
 	int						minigame2ArrowOn;

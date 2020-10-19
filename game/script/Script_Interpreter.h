@@ -148,9 +148,9 @@ ID_INLINE const char *idInterpreter::FloatToString( float value ) {
 	static char	text[ 32 ];
 
 	if ( value == ( float )( int )value ) {
-		sprintf( text, "%d", ( int )value );
+		sprintf_s( text, "%d", ( int )value );
 	} else {
-		sprintf( text, "%f", value );
+		sprintf_s( text, "%f", value );
 	}
 	return text;
 }

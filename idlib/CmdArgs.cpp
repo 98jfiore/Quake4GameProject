@@ -33,21 +33,21 @@ const char *idCmdArgs::Args(  int start, int end, bool escapeArgs ) const {
 	}
 	cmd_args[0] = '\0';
 	if ( escapeArgs ) {
-		strcat( cmd_args, "\"" );
+		strcat_s( cmd_args, "\"" );
 	}
 	for ( i = start; i <= end; i++ ) {
 		if ( i > start ) {
 			if ( escapeArgs ) {
-				strcat( cmd_args, "\" \"" );
+				strcat_s( cmd_args, "\" \"" );
 			} else {
-				strcat( cmd_args, " " );
+				strcat_s( cmd_args, " " );
 			}
 		}
 		if ( escapeArgs && strchr( argv[i], '\\' ) ) {
 			char *p = argv[i];
 			while ( *p != '\0' ) {
 				if ( *p == '\\' ) {
-					strcat( cmd_args, "\\\\" );
+					strcat_s( cmd_args, "\\\\" );
 				} else {
 					int l = strlen( cmd_args );
 					cmd_args[ l ] = *p;
@@ -56,11 +56,11 @@ const char *idCmdArgs::Args(  int start, int end, bool escapeArgs ) const {
 				p++;
 			}
 		} else {
-			strcat( cmd_args, argv[i] );
+			strcat_s( cmd_args, argv[i] );
 		}
 	}
 	if ( escapeArgs ) {
-		strcat( cmd_args, "\"" );
+		strcat_s( cmd_args, "\"" );
 	}
 
 	return cmd_args;

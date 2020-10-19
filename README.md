@@ -7,3 +7,7 @@ Finally, open up the Mod, and start playing. <br />
   ### What it does: <br />
     Enemies do not attack nor do allies
     All doors are open so no area is off limits
+    "Talking" to an enemy starts a date
+    In the date, use your movement keys to select dialog options and click to advance dialog
+    Your date will either end in immediate failure or a minigame.
+    You control each minigame by either clicking or using your movement keys.
