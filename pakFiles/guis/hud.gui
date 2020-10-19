@@ -70,6 +70,8 @@ windowDef Desktop
 		set "choice_box::visible" "0" ;
 		set "date_result::visible" "0" ;
 		set "minigame_1::visible" "0" ;
+		set "minigame_2::visible" "0" ;
+		set "minigame_3::visible" "0" ;
 		set "minigame_4::visible" "0" ;
 		set "minigameResult::visible" "0" ;
 	}
@@ -86,6 +88,8 @@ windowDef Desktop
 		set "choice_box::visible" "0" ;
 		set "date_result::visible" "0" ;
 		set "minigame_1::visible" "0" ;
+		set "minigame_2::visible" "0" ;
+		set "minigame_3::visible" "0" ;
 		set "minigame_4::visible" "0" ;
 		set "minigameResult::visible" "0" ;
 	}
@@ -144,6 +148,157 @@ windowDef Desktop
 
 	onNamedEvent hideMinigame1 {
 		set "minigame_1::visible" "0" ;
+	}
+
+	onNamedEvent showMinigame2 {
+		set "minigame_2::visible" "1" ;
+		set "minigame_2_title::visible" "1" ;
+		set "minigame_2_timer::visible" "0" ;
+		set "minigame_2_player::visible" "0" ;
+		set "minigame_2_border::visible" "0" ;
+		set "minigame_2_arrows::visible" "0" ;
+	}
+
+	onNamedEvent hideMinigame2Title {
+		set "minigame_2_title::visible" "0" ;
+		set "minigame_2_timer::visible" "1" ;
+		set "minigame_2_player::visible" "1" ;
+		set "minigame_2_border::visible" "1" ;
+	}
+
+	onNamedEvent hideMinigame2 {
+		set "minigame_2::visible" "0" ;
+	}
+	
+	onNamedEvent showMinigame2ArrowUp {
+		set "minigame_2_arrows::visible" "1" ;
+		set "minigame_2_arrow_u::visible" "1";
+		set "minigame_2_arrow_d::visible" "0";
+		set "minigame_2_arrow_l::visible" "0";
+		set "minigame_2_arrow_r::visible" "0";
+		set "minigame_2_arrow_ul::visible" "0";
+		set "minigame_2_arrow_ur::visible" "0";
+		set "minigame_2_arrow_dl::visible" "0";
+		set "minigame_2_arrow_dr::visible" "0";
+	}
+	
+	onNamedEvent showMinigame2ArrowDown {
+		set "minigame_2_arrows::visible" "1" ;
+		set "minigame_2_arrow_u::visible" "0";
+		set "minigame_2_arrow_d::visible" "1";
+		set "minigame_2_arrow_l::visible" "0";
+		set "minigame_2_arrow_r::visible" "0";
+		set "minigame_2_arrow_ul::visible" "0";
+		set "minigame_2_arrow_ur::visible" "0";
+		set "minigame_2_arrow_dl::visible" "0";
+		set "minigame_2_arrow_dr::visible" "0";
+	}
+	
+	onNamedEvent showMinigame2ArrowLeft {
+		set "minigame_2_arrows::visible" "1" ;
+		set "minigame_2_arrow_u::visible" "0";
+		set "minigame_2_arrow_d::visible" "0";
+		set "minigame_2_arrow_l::visible" "1";
+		set "minigame_2_arrow_r::visible" "0";
+		set "minigame_2_arrow_ul::visible" "0";
+		set "minigame_2_arrow_ur::visible" "0";
+		set "minigame_2_arrow_dl::visible" "0";
+		set "minigame_2_arrow_dr::visible" "0";
+	}
+	
+	onNamedEvent showMinigame2ArrowRight {
+		set "minigame_2_arrows::visible" "1" ;
+		set "minigame_2_arrow_u::visible" "0";
+		set "minigame_2_arrow_d::visible" "0";
+		set "minigame_2_arrow_l::visible" "0";
+		set "minigame_2_arrow_r::visible" "1";
+		set "minigame_2_arrow_ul::visible" "0";
+		set "minigame_2_arrow_ur::visible" "0";
+		set "minigame_2_arrow_dl::visible" "0";
+		set "minigame_2_arrow_dr::visible" "0";
+	}
+	
+	onNamedEvent showMinigame2ArrowUpLeft {
+		set "minigame_2_arrows::visible" "1" ;
+		set "minigame_2_arrow_u::visible" "0";
+		set "minigame_2_arrow_d::visible" "0";
+		set "minigame_2_arrow_l::visible" "0";
+		set "minigame_2_arrow_r::visible" "0";
+		set "minigame_2_arrow_ul::visible" "1";
+		set "minigame_2_arrow_ur::visible" "0";
+		set "minigame_2_arrow_dl::visible" "0";
+		set "minigame_2_arrow_dr::visible" "0";
+	}
+	
+	onNamedEvent showMinigame2ArrowUpRight {
+		set "minigame_2_arrows::visible" "1" ;
+		set "minigame_2_arrow_u::visible" "0";
+		set "minigame_2_arrow_d::visible" "0";
+		set "minigame_2_arrow_l::visible" "0";
+		set "minigame_2_arrow_r::visible" "0";
+		set "minigame_2_arrow_ul::visible" "0";
+		set "minigame_2_arrow_ur::visible" "1";
+		set "minigame_2_arrow_dl::visible" "0";
+		set "minigame_2_arrow_dr::visible" "0";
+	}
+	
+	onNamedEvent showMinigame2ArrowDownLeft {
+		set "minigame_2_arrows::visible" "1" ;
+		set "minigame_2_arrow_u::visible" "0";
+		set "minigame_2_arrow_d::visible" "0";
+		set "minigame_2_arrow_l::visible" "0";
+		set "minigame_2_arrow_r::visible" "0";
+		set "minigame_2_arrow_ul::visible" "0";
+		set "minigame_2_arrow_ur::visible" "0";
+		set "minigame_2_arrow_dl::visible" "1";
+		set "minigame_2_arrow_dr::visible" "0";
+	}
+	
+	onNamedEvent showMinigame2ArrowDownRight {
+		set "minigame_2_arrows::visible" "1" ;
+		set "minigame_2_arrow_u::visible" "0";
+		set "minigame_2_arrow_d::visible" "0";
+		set "minigame_2_arrow_l::visible" "0";
+		set "minigame_2_arrow_r::visible" "0";
+		set "minigame_2_arrow_ul::visible" "0";
+		set "minigame_2_arrow_ur::visible" "0";
+		set "minigame_2_arrow_dl::visible" "0";
+		set "minigame_2_arrow_dr::visible" "1";
+	}
+
+	onNamedEvent minigame2HideArrows {
+		set "minigame_2_arrows::visible" "0" ;
+		set "minigame_2_arrow_u::visible" "0";
+		set "minigame_2_arrow_d::visible" "0";
+		set "minigame_2_arrow_l::visible" "0";
+		set "minigame_2_arrow_r::visible" "0";
+		set "minigame_2_arrow_ul::visible" "0";
+		set "minigame_2_arrow_ur::visible" "0";
+		set "minigame_2_arrow_dl::visible" "0";
+		set "minigame_2_arrow_dr::visible" "1";
+	}
+
+	onNamedEvent showMinigame3 {
+		set "minigame_3::visible" "1" ;
+		set "minigame_3_title::visible" "1" ;
+		set "minigame_3_timer::visible" "0" ;
+		set "minigame_3_player::visible" "0" ;
+		set "minigame_3_lives::visible" "0" ;
+		set "minigame_3_goal::visible" "0" ; 
+		set "minigame_3_progress::visible" "0" ;
+	}
+
+	onNamedEvent hideMinigame3Title {
+		set "minigame_3_title::visible" "0" ;
+		set "minigame_3_timer::visible" "1" ;
+		set "minigame_3_player::visible" "1" ;
+		set "minigame_3_lives::visible" "1" ;
+		set "minigame_3_goal::visible" "1" ; 
+		set "minigame_3_progress::visible" "1" ;
+	}
+
+	onNamedEvent hideMinigame3 {
+		set "minigame_3::visible" "0" ;
 	}
 
 	onNamedEvent showMinigame4 {
@@ -2392,7 +2547,7 @@ windowDef Desktop
 				rect	20,41,596,320
 				visible	1
 				forecolor	1,1,1,1
-				text	"Dodging The Hard Questions"
+				text	"Dodge The Hard Questions"
 				textscale	1.5
 				font	"fonts/marine"
 				textalign	1
@@ -2545,6 +2700,235 @@ windowDef Desktop
 				}
 			}
 		}
+		windowDef minigame_3
+		{
+			rect	0,48,640,380
+			visible	1
+			backcolor	0,0,0,1
+			windowDef minigame_3_title
+			{
+				rect	20,41,596,320
+				visible	1
+				forecolor	1,1,1,1
+				text	"Announce Your Feelings"
+				textscale	1.5
+				font	"fonts/marine"
+				textalign	1
+				textstyle	2
+				textaligny	50
+			}
+			windowDef minigame_3_timer
+			{
+				rect	3,4,100,65
+				visible	1
+				forecolor	1,1,1,1
+				text	"gui::minigame3Time"
+				textscale	1
+				textalign	1
+				font	"fonts/marine"
+			}
+			windowDef minigame_3_player
+			{
+				rect	"gui::minigamePlayerX","gui::minigamePlayerY",40,40
+				visible	1
+				background	"gfx/guis/common/minigame1Player"
+				matcolor	1,1,1,1
+			}
+			windowDef minigame_3_letter1
+			{
+				rect	"gui::minigame3Letter1X",40,45,45
+				visible	1
+				background	"gfx/guis/common/hardQuestion"
+				matcolor	1,1,1,1
+				forecolor	0,0,0,1
+				text	"I"
+				textscale	0.6
+				font	"fonts/marine"
+				textalign	1
+				textstyle	1
+			}
+			windowDef minigame_3_letter2
+			{
+				rect	"gui::minigame3Letter2X",125,45,45
+				visible	1
+				background	"gfx/guis/common/hardQuestion"
+				matcolor	1,1,1,1
+				forecolor	0,0,0,1
+				text	"U"
+				textscale	0.6
+				font	"fonts/marine"
+				textalign	1
+				textstyle	1
+			}
+			windowDef minigame_3_letter3
+			{
+				rect	"gui::minigame3Letter3X",210,45,45
+				visible	1
+				background	"gfx/guis/common/hardQuestion"
+				matcolor	1,1,1,1
+				forecolor	0,0,0,1
+				text	"O"
+				textscale	0.6
+				font	"fonts/marine"
+				textalign	1
+				textstyle	1
+			}
+			windowDef minigame_3_letter4
+			{
+				rect	"gui::minigame3Letter4X",295,45,45
+				visible	1
+				background	"gfx/guis/common/hardQuestion"
+				matcolor	1,1,1,1
+				forecolor	0,0,0,1
+				text	"E"
+				textscale	0.6
+				font	"fonts/marine"
+				textalign	1
+				textstyle	1
+			}
+			windowDef minigame_3_letter5
+			{
+				rect	"gui::minigame3Letter5X",20,45,45
+				visible	1
+				background	"gfx/guis/common/hardQuestion"
+				matcolor	1,1,1,1
+				forecolor	0,0,0,1
+				text	"O"
+				textscale	0.6
+				font	"fonts/marine"
+				textalign	1
+				textstyle	1
+			}
+			windowDef minigame_3_letter6
+			{
+				rect	"gui::minigame3Letter6X",105,45,45
+				visible	1
+				background	"gfx/guis/common/hardQuestion"
+				matcolor	1,1,1,1
+				forecolor	0,0,0,1
+				text	"L"
+				textscale	0.6
+				font	"fonts/marine"
+				textalign	1
+				textstyle	1
+			}
+			windowDef minigame_3_letter7
+			{
+				rect	"gui::minigame3Letter7X",190,45,45
+				visible	1
+				background	"gfx/guis/common/hardQuestion"
+				matcolor	1,1,1,1
+				forecolor	0,0,0,1
+				text	"Y"
+				textscale	0.6
+				font	"fonts/marine"
+				textalign	1
+				textstyle	1
+			}
+			windowDef minigame_3_letter8
+			{
+				rect	"gui::minigame3Letter8X",275,45,45
+				visible	1
+				background	"gfx/guis/common/hardQuestion"
+				matcolor	1,1,1,1
+				forecolor	0,0,0,1
+				text	"V"
+				textscale	0.6
+				font	"fonts/marine"
+				textalign	1
+				textstyle	1
+			}
+			windowDef minigame_3_goal
+			{
+				rect	413,4,222,39
+				visible	1
+				forecolor	1,1,1,0.615
+				text	"I LOVE YOU"
+				textscale	0.6
+				font	"fonts/marine"
+			}
+			windowDef minigame_3_progress
+			{
+				rect	413,45,222,39
+				visible	1
+				forecolor	1,1,1,0.831
+				text	"gui::minigame3Progress"
+				textscale	0.6
+				font	"fonts/marine"
+			}
+			windowDef minigame_3_lives
+			{
+				rect	470,337,160,39
+				visible	1
+				windowDef minigame_3_livesBase
+				{
+					rect	0,0,120,39
+					visible	1
+					forecolor	1,1,1,0.831
+					text	"LIVES:"
+					textscale	0.6
+					font	"fonts/marine"
+				}
+				windowDef minigame_3_lives1
+				{
+					rect	120,0,50,39
+					visible	1
+					forecolor	1,1,1,0.831
+					text	"gui::minigame3Lives"
+					textscale	0.6
+					font	"fonts/marine"
+				}
+			}
+		}
+		windowDef minigame_4
+		{
+			rect	0,47,640,384
+			visible	1
+			backcolor	0,0,0,1
+			windowDef minigame_4_title
+			{
+				rect	20,41,596,300
+				visible	1
+				forecolor	1,1,1,1
+				text	"Building Yourself Up"
+				textscale	1.5
+				font	"fonts/marine"
+				textalign	1
+				textstyle	2
+				textaligny	50
+			}
+			windowDef minigame_4_timer
+			{
+				rect	3,4,100,65
+				visible	1
+				forecolor	1,1,1,1
+				text	"gui::minigame4Time"
+				textscale	1
+				textalign	1
+				font	"fonts/marine"
+			}
+			windowDef minigame_4_player
+			{
+				rect	"gui::minigamePlayerX","gui::minigamePlayerY","gui::minigamePlayerWidth","gui::minigamePlayerHeight"
+				visible	1
+				background	"gui::minigame4PlayerModel"
+				matcolor	1,1,1,1
+			}
+			windowDef minigame_4_goodGuide
+			{
+				rect	240,112,160,160
+				visible	1
+				background	"gfx/guis/common/minigame4GoodGuide"
+				matcolor	1,1,1,1
+			}
+			windowDef minigame_4_badGuide
+			{
+				rect	200,72,240,240
+				visible	1
+				background	"gfx/guis/common/minigame4BadGuide"
+				matcolor	1,1,1,1
+			}
+		}
 		windowDef border
 		{
 			rect	0,0,641,480
@@ -2648,53 +3032,107 @@ windowDef Desktop
 				matcolor	1,1,1,1
 			}
 		}
-		windowDef minigame_4
+		windowDef minigame_2
 		{
-			rect	0,47,640,384
+			rect	0,48,640,380
 			visible	1
 			backcolor	0,0,0,1
-			windowDef minigame_4_title
+			windowDef minigame_2_title
 			{
-				rect	20,41,596,300
+				rect	20,41,596,320
 				visible	1
 				forecolor	1,1,1,1
-				text	"Building Yourself Up"
+				text	"Humble Yourself"
 				textscale	1.5
 				font	"fonts/marine"
 				textalign	1
 				textstyle	2
 				textaligny	50
 			}
-			windowDef minigame_4_timer
+			windowDef minigame_2_timer
 			{
 				rect	3,4,100,65
 				visible	1
 				forecolor	1,1,1,1
-				text	"gui::minigame4Time"
+				text	"gui::minigame2Time"
 				textscale	1
 				textalign	1
 				font	"fonts/marine"
 			}
-			windowDef minigame_4_player
+			windowDef minigame_2_player
 			{
-				rect	"gui::minigamePlayerX","gui::minigamePlayerY","gui::minigamePlayerWidth","gui::minigamePlayerHeight"
+				rect	"gui::minigamePlayerX","gui::minigamePlayerY",40,40
 				visible	1
-				background	"gui::minigame4PlayerModel"
+				background	"gfx/guis/common/minigame4Player"
 				matcolor	1,1,1,1
 			}
-			windowDef minigame_4_goodGuide
+			windowDef minigame_2_border
 			{
-				rect	240,112,160,160
+				rect	180,50,280,280
 				visible	1
-				background	"gfx/guis/common/minigame4GoodGuide"
+				background	"gfx/guis/common/minigame2Border"
 				matcolor	1,1,1,1
 			}
-			windowDef minigame_4_badGuide
+			windowDef minigame_2_arrows
 			{
-				rect	200,72,240,240
+				rect	130,0,380,380
 				visible	1
-				background	"gfx/guis/common/minigame4BadGuide"
-				matcolor	1,1,1,1
+				windowDef minigame_2_arrow_u
+				{
+					rect	170,335,40,40
+					visible	1
+					background	"gfx/guis/common/minigame2UpArrow"
+					matcolor	1,1,1,1
+				}
+				windowDef minigame_2_arrow_l
+				{
+					rect	335,170,40,40
+					visible	1
+					background	"gfx/guis/common/minigame2LeftArrow"
+					matcolor	1,1,1,1
+				}
+				windowDef minigame_2_arrow_r
+				{
+					rect	5,170,40,40
+					visible	1
+					background	"gfx/guis/common/minigame2RightArrow"
+					matcolor	1,1,1,1
+				}
+				windowDef minigame_2_arrow_d
+				{
+					rect	170,5,40,40
+					visible	1
+					background	"gfx/guis/common/minigame2DownArrow"
+					matcolor	1,1,1,1
+				}
+				windowDef minigame_2_arrow_dl
+				{
+					rect	335,5,40,40
+					visible	1
+					background	"gfx/guis/common/minigame2DownLeftArrow"
+					matcolor	1,1,1,1
+				}
+				windowDef minigame_2_arrow_dr
+				{
+					rect	5,5,40,40
+					visible	1
+					background	"gfx/guis/common/minigame2DownRightArrow"
+					matcolor	1,1,1,1
+				}
+				windowDef minigame_2_arrow_ur
+				{
+					rect	5,335,40,40
+					visible	1
+					background	"gfx/guis/common/minigame2UpRightArrow"
+					matcolor	1,1,1,1
+				}
+				windowDef minigame_2_arrow_ul
+				{
+					rect	335,335,40,40
+					visible	1
+					background	"gfx/guis/common/minigame2UpLeftArrow"
+					matcolor	1,1,1,1
+				}
 			}
 		}
 	}
