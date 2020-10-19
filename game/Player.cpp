@@ -9544,6 +9544,103 @@ void idPlayer::Think( void ) {
 			}
 			return;
 		}
+		else if (whichMinigame == 2)
+		{
+			//If the minigame is starting, start it
+			if (minigamePoint == 0)
+			{
+				hud->HandleNamedEvent("hideDialog");
+				hud->HandleNamedEvent("showMinigame2");
+				//Initialize player positions
+				minigamePlayerX = 300;
+				minigamePlayerY = 170;
+				hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+				hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+
+				nextDateActionTime = gameLocal.time + 3000;
+				minigamePoint = 1;
+			}
+			else if (minigamePoint == 1)
+			{
+				//Start timer and show the minigame info
+				minigameStartTime = gameLocal.time + 1000;
+				hud->HandleNamedEvent("hideMinigame2Title");
+				hud->SetStateInt("minigame2Time", 30);
+				nextDateActionTime = gameLocal.time + 1000;
+				minigamePoint = 2;
+			}
+			else if (minigamePoint == 2)
+			{
+
+				//Tick the timer down, if the game is over, end it.
+				int time = 30 - ((gameLocal.time - minigameStartTime) / 1000);
+				hud->SetStateInt("minigame2Time", time);
+				if (time == 0)
+				{
+					minigamePoint = 3;
+				}
+
+				//If the user is moving left or right, do that
+				if (gameLocal.usercmds) {
+					// grab out usercmd
+					usercmd = gameLocal.usercmds[entityNumber];
+					if (usercmd.rightmove > 0)
+					{
+						if (minigamePlayerX < 600)
+						{
+							minigamePlayerX += 10;
+							hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+						}
+					}
+					else if (usercmd.rightmove < 0)
+					{
+						if (minigamePlayerX > 0)
+						{
+							minigamePlayerX -= 10;
+							hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+						}
+					}
+					if (usercmd.forwardmove < 0)
+					{
+						if (minigamePlayerY < 340)
+						{
+							minigamePlayerY += 10;
+							hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+						}
+					}
+					else if (usercmd.forwardmove > 0)
+					{
+						if (minigamePlayerY > 0)
+						{
+							minigamePlayerY -= 10;
+							hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+						}
+					}
+				}
+
+			}
+			//Good end to the date
+			else if (minigamePoint == 3)
+			{
+				hud->HandleNamedEvent("hideMinigame2");
+				inMinigame = false;
+				hud->SetStateString("minigameResult", "SUCCESS");
+				hud->HandleNamedEvent("showMGameResult");
+				datePoint = 21;
+				nextDateActionTime = gameLocal.time + dateActionWait;
+			}
+			//Bad end to the date
+			else if (minigamePoint == 4)
+			{
+				hud->HandleNamedEvent("hideMinigame2");
+				inMinigame = false;
+				hud->SetStateString("minigameResult", "FAILURE");
+				hud->HandleNamedEvent("showMGameResult");
+				datePoint = 20;
+				nextDateActionTime = gameLocal.time + dateActionWait;
+			}
+			return;
+		}
 		else if (whichMinigame == 3)
 		{
 			//If the minigame is starting, start it
@@ -9768,7 +9865,6 @@ void idPlayer::Think( void ) {
 			//Good end to the date
 			else if (minigamePoint == 3)
 			{
-				gameLocal.Printf("%i", minigame3ProgressPoint);
 				hud->HandleNamedEvent("hideMinigame3");
 				inMinigame = false;
 				hud->SetStateString("minigameResult", "SUCCESS");
@@ -9779,7 +9875,6 @@ void idPlayer::Think( void ) {
 			//Bad end to the date
 			else if (minigamePoint == 4)
 			{
-				gameLocal.Printf("%i", minigame3ProgressPoint);
 				hud->HandleNamedEvent("hideMinigame3");
 				inMinigame = false;
 				hud->SetStateString("minigameResult", "FAILURE");
