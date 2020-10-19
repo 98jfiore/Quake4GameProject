@@ -1396,6 +1396,23 @@ idPlayer::idPlayer() {
 	minigame2ArrowOnNames[6] = "showMinigame2ArrowDownRight";
 	minigame2ArrowOnNames[7] = "showMinigame2ArrowDownLeft";
 
+	minigame2ArrowMovements[0][0] = 0;
+	minigame2ArrowMovements[0][1] = -6;
+	minigame2ArrowMovements[1][0] = 0;
+	minigame2ArrowMovements[1][1] = 6;
+	minigame2ArrowMovements[2][0] = -6;
+	minigame2ArrowMovements[2][1] = 0;
+	minigame2ArrowMovements[3][0] = 6;
+	minigame2ArrowMovements[3][1] = 0;
+	minigame2ArrowMovements[4][0] = 3;
+	minigame2ArrowMovements[4][1] = -3;
+	minigame2ArrowMovements[5][0] = -3;
+	minigame2ArrowMovements[5][1] = -3;
+	minigame2ArrowMovements[6][0] = 3;
+	minigame2ArrowMovements[6][1] = 3;
+	minigame2ArrowMovements[7][0] = -3;
+	minigame2ArrowMovements[7][1] = 3;
+
 	minigame3LetterNameXs[0] = "minigame3Letter1X";
 	minigame3LetterNameXs[1] = "minigame3Letter2X";
 	minigame3LetterNameXs[2] = "minigame3Letter3X";
@@ -9635,6 +9652,12 @@ void idPlayer::Think( void ) {
 						}
 					}
 				}
+
+				//Move player based on arrow
+				minigamePlayerX += minigame2ArrowMovements[minigame2ArrowOn][0];
+				hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+				minigamePlayerY += minigame2ArrowMovements[minigame2ArrowOn][1];
+				hud->SetStateInt("minigamePlayerY", minigamePlayerY);
 
 			}
 			//Good end to the date

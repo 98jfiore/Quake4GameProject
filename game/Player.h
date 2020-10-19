@@ -457,6 +457,7 @@ public:
 	const char *			minigame2ArrowOnNames[8];
 	int						minigame2Next;
 	int						minigame2ArrowOn;
+	int						minigame2ArrowMovements[8][2];
 
 	int						minigame3LetterXs[8];
 	int						minigame3LetterYs[8];
