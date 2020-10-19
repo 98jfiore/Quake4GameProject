@@ -9511,6 +9511,11 @@ void idPlayer::Think( void ) {
 			{
 				hud->HandleNamedEvent("hideDialog");
 				hud->HandleNamedEvent("showMinigame3");
+				//Initialize player positions
+				minigamePlayerX = 300;
+				minigamePlayerY = 170;
+				hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+				hud->SetStateInt("minigamePlayerY", minigamePlayerY);
 				
 				nextDateActionTime = gameLocal.time + 3000;
 				minigamePoint = 1;
@@ -9536,6 +9541,43 @@ void idPlayer::Think( void ) {
 					minigamePoint = 3;
 				}
 
+				//If the user is moving left or right, do that
+				if (gameLocal.usercmds) {
+					// grab out usercmd
+					usercmd = gameLocal.usercmds[entityNumber];
+					if (usercmd.rightmove > 0)
+					{
+						if (minigamePlayerX < 600)
+						{
+							minigamePlayerX += 10;
+							hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+						}
+					}
+					else if (usercmd.rightmove < 0)
+					{
+						if (minigamePlayerX > 0)
+						{
+							minigamePlayerX -= 10;
+							hud->SetStateInt("minigamePlayerX", minigamePlayerX);
+						}
+					}
+					if (usercmd.forwardmove < 0)
+					{
+						if (minigamePlayerY < 340)
+						{
+							minigamePlayerY += 10;
+							hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+						}
+					}
+					else if (usercmd.forwardmove > 0)
+					{
+						if (minigamePlayerY > 0)
+						{
+							minigamePlayerY -= 10;
+							hud->SetStateInt("minigamePlayerY", minigamePlayerY);
+						}
+					}
+				}
 				
 			}
 			//Good end to the date
