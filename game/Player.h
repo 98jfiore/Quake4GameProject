@@ -456,7 +456,11 @@ public:
 	int						minigame3LetterYs[8];
 	bool					minigame3LettersActive[8];
 	int						minigame3Next;
+	int						minigame3Lives;
+	int						minigame3ProgressOrder[8];
+	int						minigame3ProgressPoint;
 	const char *			minigame3LetterNameXs[8];
+	const char *			minigame3ProgressNames[9];
 
 
 

@@ -1405,6 +1405,28 @@ idPlayer::idPlayer() {
 	minigame3LetterYs[6] = 190;
 	minigame3LetterYs[7] = 275;
 
+	minigame3ProgressOrder[0] = 0;
+	minigame3ProgressOrder[1] = 5;
+	minigame3ProgressOrder[2] = 2;
+	minigame3ProgressOrder[3] = 7;
+	minigame3ProgressOrder[4] = 3;
+	minigame3ProgressOrder[5] = 6;
+	minigame3ProgressOrder[6] = 4;
+	minigame3ProgressOrder[7] = 1;
+
+	minigame3ProgressNames[0] = "";
+	minigame3ProgressNames[1] = "I";
+	minigame3ProgressNames[2] = "I L";
+	minigame3ProgressNames[3] = "I LO";
+	minigame3ProgressNames[4] = "I LOV";
+	minigame3ProgressNames[5] = "I LOVE";
+	minigame3ProgressNames[6] = "I LOVE Y";
+	minigame3ProgressNames[7] = "I LOVE YO";
+	minigame3ProgressNames[8] = "I LOVE YOU";
+
+	minigame3ProgressPoint = 0;
+	minigame3Lives = 3;
+
 }
 
 /*
@@ -9565,6 +9587,10 @@ void idPlayer::Think( void ) {
 				hud->SetStateInt("minigame3Time", 30);
 				nextDateActionTime = gameLocal.time + 1000;
 				minigame3Next = gameLocal.time + 200;
+				minigame3Lives = 3;
+				hud->SetStateInt("minigame3Lives", minigame3Lives);
+				minigame3ProgressPoint = 0;
+				hud->SetStateString("minigame3Progress", minigame3ProgressNames[minigame3ProgressPoint]);
 				minigamePoint = 2;
 			}
 			else if (minigamePoint == 2)
@@ -9575,7 +9601,7 @@ void idPlayer::Think( void ) {
 				hud->SetStateInt("minigame3Time", time);
 				if (time == 0)
 				{
-					minigamePoint = 3;
+					minigamePoint = 4;
 				}
 
 				//If the user is moving left or right, do that
@@ -9643,6 +9669,40 @@ void idPlayer::Think( void ) {
 								minigame3LetterXs[i] = -50;
 								minigame3LettersActive[i] = false;
 								hud->SetStateInt(minigame3LetterNameXs[i], minigame3LetterXs[i]);
+								if (minigame3ProgressOrder[minigame3ProgressPoint] == 2 || minigame3ProgressOrder[minigame3ProgressPoint] == 4)
+								{
+									if (i == 2)
+									{
+										minigame3ProgressPoint++;
+										hud->SetStateString("minigame3Progress", minigame3ProgressNames[minigame3ProgressPoint]);
+									}
+									else
+									{
+										minigame3Lives--;
+										hud->SetStateInt("minigame3Lives", minigame3Lives);
+									}
+								}
+								else if (minigame3ProgressOrder[minigame3ProgressPoint] == i)
+								{
+									minigame3ProgressPoint++;
+									hud->SetStateString("minigame3Progress", minigame3ProgressNames[minigame3ProgressPoint]);
+								}
+								else
+								{
+									minigame3Lives--;
+									hud->SetStateInt("minigame3Lives", minigame3Lives);
+								}
+
+
+								if (minigame3ProgressPoint == 8)
+								{
+									minigamePoint = 3;
+								}
+
+								else if (minigame3Lives <= 0)
+								{
+									minigamePoint = 4;
+								}
 							}
 						}
 					}
@@ -9666,16 +9726,49 @@ void idPlayer::Think( void ) {
 								minigame3LetterXs[i] = 645;
 								minigame3LettersActive[i] = false;
 								hud->SetStateInt(minigame3LetterNameXs[i], minigame3LetterXs[i]);
+								if (minigame3ProgressOrder[minigame3ProgressPoint] == 2 || minigame3ProgressOrder[minigame3ProgressPoint] == 4)
+								{
+									if (i == 4)
+									{
+										minigame3ProgressPoint++;
+										hud->SetStateString("minigame3Progress", minigame3ProgressNames[minigame3ProgressPoint]);
+									}
+									else
+									{
+										minigame3Lives--;
+										hud->SetStateInt("minigame3Lives", minigame3Lives);
+									}
+								}
+								else if (minigame3ProgressOrder[minigame3ProgressPoint] == i)
+								{
+									minigame3ProgressPoint++;
+									hud->SetStateString("minigame3Progress", minigame3ProgressNames[minigame3ProgressPoint]);
+								}
+								else
+								{
+									minigame3Lives--;
+									hud->SetStateInt("minigame3Lives", minigame3Lives);
+								}
+
+								if (minigame3ProgressPoint == 8)
+								{
+									minigamePoint = 3;
+								}
+
+								else if (minigame3Lives <= 0)
+								{
+									minigamePoint = 4;
+								}
 							}
 						}
 					}
 				}
 
-				
 			}
 			//Good end to the date
 			else if (minigamePoint == 3)
 			{
+				gameLocal.Printf("%i", minigame3ProgressPoint);
 				hud->HandleNamedEvent("hideMinigame3");
 				inMinigame = false;
 				hud->SetStateString("minigameResult", "SUCCESS");
@@ -9686,6 +9779,7 @@ void idPlayer::Think( void ) {
 			//Bad end to the date
 			else if (minigamePoint == 4)
 			{
+				gameLocal.Printf("%i", minigame3ProgressPoint);
 				hud->HandleNamedEvent("hideMinigame3");
 				inMinigame = false;
 				hud->SetStateString("minigameResult", "FAILURE");
