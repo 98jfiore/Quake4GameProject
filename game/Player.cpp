@@ -9504,6 +9504,62 @@ void idPlayer::Think( void ) {
 			}
 			return;
 		}
+		else if (whichMinigame == 3)
+		{
+			//If the minigame is starting, start it
+			if (minigamePoint == 0)
+			{
+				hud->HandleNamedEvent("hideDialog");
+				hud->HandleNamedEvent("showMinigame3");
+				
+				nextDateActionTime = gameLocal.time + 3000;
+				minigamePoint = 1;
+			}
+			else if (minigamePoint == 1)
+			{
+				//Start timer and show the minigame info
+				minigameStartTime = gameLocal.time + 1000;
+				hud->HandleNamedEvent("hideMinigame3Title");
+				hud->SetStateInt("minigame3Time", 30);
+				nextDateActionTime = gameLocal.time + 1000;
+				minigame1Next = gameLocal.time + 1500;
+				minigamePoint = 2;
+			}
+			else if (minigamePoint == 2)
+			{
+
+				//Tick the timer down, if the game is over, end it.
+				int time = 30 - ((gameLocal.time - minigameStartTime) / 1000);
+				hud->SetStateInt("minigame3Time", time);
+				if (time == 0)
+				{
+					minigamePoint = 3;
+				}
+
+				
+			}
+			//Good end to the date
+			else if (minigamePoint == 3)
+			{
+				hud->HandleNamedEvent("hideMinigame3");
+				inMinigame = false;
+				hud->SetStateString("minigameResult", "SUCCESS");
+				hud->HandleNamedEvent("showMGameResult");
+				datePoint = 21;
+				nextDateActionTime = gameLocal.time + dateActionWait;
+			}
+			//Bad end to the date
+			else if (minigamePoint == 4)
+			{
+				hud->HandleNamedEvent("hideMinigame3");
+				inMinigame = false;
+				hud->SetStateString("minigameResult", "FAILURE");
+				hud->HandleNamedEvent("showMGameResult");
+				datePoint = 20;
+				nextDateActionTime = gameLocal.time + dateActionWait;
+			}
+			return;
+		}
 		//Which minigame are you doing?
 		else if (whichMinigame == 4)
 		{
