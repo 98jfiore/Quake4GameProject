@@ -9579,6 +9579,38 @@ void idPlayer::Think( void ) {
 				{
 					minigamePoint = 3;
 				}
+				else if (time == 3)
+				{
+					hud->HandleNamedEvent("showMinigame2ArrowUp");
+				}
+				else if (time == 6)
+				{
+					hud->HandleNamedEvent("showMinigame2ArrowDown");
+				}
+				else if (time == 9)
+				{
+					hud->HandleNamedEvent("showMinigame2ArrowLeft");
+				}
+				else if (time == 12)
+				{
+					hud->HandleNamedEvent("showMinigame2ArrowRight");
+				}
+				else if (time == 15)
+				{
+					hud->HandleNamedEvent("showMinigame2ArrowUpRight");
+				}
+				else if (time == 18)
+				{
+					hud->HandleNamedEvent("showMinigame2ArrowUpLeft");
+				}
+				else if (time == 21)
+				{
+					hud->HandleNamedEvent("showMinigame2ArrowDownRight");
+				}
+				else if (time == 24)
+				{
+					hud->HandleNamedEvent("showMinigame2ArrowDownLeft");
+				}
 
 				//If the user is moving left or right, do that
 				if (gameLocal.usercmds) {
