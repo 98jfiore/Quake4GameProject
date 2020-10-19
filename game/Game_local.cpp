@@ -7710,7 +7710,10 @@ idEntity* idGameLocal::HitScan(
 				//If the owner of the attack is a player, tell them to start dating
 				if (owner && owner->IsType(idPlayer::GetClassType()) && ent->IsType(idAI::GetClassType()))
 				{
-					static_cast<idPlayer*>(owner)->StartDate(static_cast<idAI*>(ent));
+					if (static_cast<idAI*>(ent)->CanIGoOnADate())
+					{
+						static_cast<idPlayer*>(owner)->StartDate(static_cast<idAI*>(ent));
+					}
 				}
 
 

@@ -145,6 +145,7 @@ idAI::idAI ( void ) {
 
 
 	inDate = false;
+	canDate = true;
 	canThink = true;
 
 }
@@ -5190,9 +5191,16 @@ bool idAI::CheckDeathCausesMissionFailure( void )
 
 void idAI::StartDate() 
 {
-	Event_ClearAnims();
+	stateThread.Clear();
 	inDate = true;
+	canDate = false;
 }
+
+bool idAI::CanIGoOnADate()
+{
+	return canDate;
+}
+
 
 
 void idAI::EndDate(bool good) 

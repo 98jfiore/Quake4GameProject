@@ -553,8 +553,10 @@ public:
 
 	// Date controllers
 	bool					inDate;
+	bool					canDate;
 	bool					canThink;
 	void					StartDate();
+	bool					CanIGoOnADate();
 	void					EndDate(bool good);
 	void					StopThink();
 	void					ContThink();
