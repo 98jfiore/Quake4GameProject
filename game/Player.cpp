@@ -1387,6 +1387,15 @@ idPlayer::idPlayer() {
 	minigame1RightClear[3] = 640;
 	minigame1RightClear[4] = 83;
 
+	minigame2ArrowOnNames[0] = "showMinigame2ArrowUp";
+	minigame2ArrowOnNames[1] = "showMinigame2ArrowDown";
+	minigame2ArrowOnNames[2] = "showMinigame2ArrowLeft";
+	minigame2ArrowOnNames[3] = "showMinigame2ArrowRight";
+	minigame2ArrowOnNames[4] = "showMinigame2ArrowUpRight";
+	minigame2ArrowOnNames[5] = "showMinigame2ArrowUpLeft";
+	minigame2ArrowOnNames[6] = "showMinigame2ArrowDownRight";
+	minigame2ArrowOnNames[7] = "showMinigame2ArrowDownLeft";
+
 	minigame3LetterNameXs[0] = "minigame3Letter1X";
 	minigame3LetterNameXs[1] = "minigame3Letter2X";
 	minigame3LetterNameXs[2] = "minigame3Letter3X";
@@ -9567,6 +9576,8 @@ void idPlayer::Think( void ) {
 				hud->HandleNamedEvent("hideMinigame2Title");
 				hud->SetStateInt("minigame2Time", 30);
 				nextDateActionTime = gameLocal.time + 1000;
+				minigame2Next = gameLocal.time + 1000;
+				minigame2ArrowOn = 0;
 				minigamePoint = 2;
 			}
 			else if (minigamePoint == 2)
@@ -9579,37 +9590,12 @@ void idPlayer::Think( void ) {
 				{
 					minigamePoint = 3;
 				}
-				else if (time == 3)
+
+				if (gameLocal.time > minigame2Next)
 				{
-					hud->HandleNamedEvent("showMinigame2ArrowUp");
-				}
-				else if (time == 6)
-				{
-					hud->HandleNamedEvent("showMinigame2ArrowDown");
-				}
-				else if (time == 9)
-				{
-					hud->HandleNamedEvent("showMinigame2ArrowLeft");
-				}
-				else if (time == 12)
-				{
-					hud->HandleNamedEvent("showMinigame2ArrowRight");
-				}
-				else if (time == 15)
-				{
-					hud->HandleNamedEvent("showMinigame2ArrowUpRight");
-				}
-				else if (time == 18)
-				{
-					hud->HandleNamedEvent("showMinigame2ArrowUpLeft");
-				}
-				else if (time == 21)
-				{
-					hud->HandleNamedEvent("showMinigame2ArrowDownRight");
-				}
-				else if (time == 24)
-				{
-					hud->HandleNamedEvent("showMinigame2ArrowDownLeft");
+					minigame2ArrowOn = rand() % 8;
+					hud->HandleNamedEvent(minigame2ArrowOnNames[minigame2ArrowOn]);
+					minigame2Next = gameLocal.time + 1200;
 				}
 
 				//If the user is moving left or right, do that
