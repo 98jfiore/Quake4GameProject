@@ -5191,7 +5191,9 @@ bool idAI::CheckDeathCausesMissionFailure( void )
 
 void idAI::StartDate() 
 {
-	stateThread.Clear();
+	IdleAnim(ANIMCHANNEL_HEAD, GetIdleAnimName(), 1);
+	IdleAnim(ANIMCHANNEL_TORSO, GetIdleAnimName(), 1);
+	IdleAnim(ANIMCHANNEL_LEGS, GetIdleAnimName(), 1);
 	inDate = true;
 	canDate = false;
 }
