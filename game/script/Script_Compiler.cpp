@@ -223,7 +223,7 @@ void idCompiler::Error( const char *message, ... ) const {
 	char	string[ 1024 ];
 
 	va_start( argptr, message );
-	vsprintf( string, message, argptr );
+	vsprintf_s( string, message, argptr );
 	va_end( argptr );
 
 	throw idCompileError( string );
@@ -241,7 +241,7 @@ void idCompiler::Warning( const char *message, ... ) const {
 	char	string[ 1024 ];
 
 	va_start( argptr, message );
-	vsprintf( string, message, argptr );
+	vsprintf_s( string, message, argptr );
 	va_end( argptr );
 
 	parserPtr->Warning( "%s", string );

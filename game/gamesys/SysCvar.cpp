@@ -32,7 +32,7 @@ const char *ui_teamArgs[]			= { "Marine", "Strogg", NULL };
 // RAVEN END
 
 struct gameVersion_s {
-	gameVersion_s( void ) { sprintf( string, "%s %s V%s %s %s", GAME_NAME, GAME_BUILD_TYPE, VERSION_STRING_DOTTED, BUILD_STRING, __DATE__ ); }
+	gameVersion_s( void ) { sprintf_s( string, "%s %s V%s %s %s", GAME_NAME, GAME_BUILD_TYPE, VERSION_STRING_DOTTED, BUILD_STRING, __DATE__ ); }
 	char	string[256];
 } gameVersion;
 

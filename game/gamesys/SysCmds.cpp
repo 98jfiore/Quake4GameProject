@@ -811,7 +811,7 @@ void Cmd_SetPlayerGravity_f( const idCmdArgs& args ) {
 	}
 
 	idVec3 gravity;
-	sscanf( args.Argv(1), "%f %f %f", &gravity.x, &gravity.y, &gravity.z );
+	sscanf_s( args.Argv(1), "%f %f %f", &gravity.x, &gravity.y, &gravity.z );
 	player->GetPhysics()->SetGravity( gravity );
 }
 // RAVEN END
@@ -1677,7 +1677,7 @@ PrintFloat
 static void PrintFloat( float f ) {
 	char buf[128], i;
 
-	for ( i = sprintf( buf, "%3.2f", f ); i < 7; i++ ) {
+	for ( i = sprintf_s( buf, "%3.2f", f ); i < 7; i++ ) {
 		buf[i] = ' ';
 	}
 	buf[i] = '\0';

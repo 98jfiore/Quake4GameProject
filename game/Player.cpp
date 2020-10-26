@@ -1354,6 +1354,7 @@ idPlayer::idPlayer() {
 
 
 	inDate = false;
+	whichTree = 0;
 	goodDateCount = 0;
 	inMinigame = false;
 	whichMinigame = -1;
@@ -10084,31 +10085,68 @@ void idPlayer::Think( void ) {
 			usercmd = gameLocal.usercmds[entityNumber];
 			buttonMask &= usercmd.buttons;
 			usercmd.buttons &= ~buttonMask;
-			if (usercmd.buttons & BUTTON_ATTACK && !waitingOnChoice)
+			
+			if (whichTree == 0)
 			{
-				gameLocal.Printf("Clicked\n");
-				ContinueDate();
+				if (usercmd.buttons & BUTTON_ATTACK && !waitingOnChoice)
+				{
+					gameLocal.Printf("Clicked\n");
+					ContinueDate1();
+				}
+				else if (waitingOnChoice)
+				{
+					if (usercmd.forwardmove > 0)
+					{
+						waitingOnChoice = false;
+						gameLocal.Printf("Chose Top\n");
+						ContinueDate1(2);
+					}
+					else if (usercmd.rightmove > 0)
+					{
+						waitingOnChoice = false;
+						gameLocal.Printf("Chose Right\n");
+						ContinueDate1(3);
+					}
+					else if (usercmd.rightmove < 0)
+					{
+						waitingOnChoice = false;
+						gameLocal.Printf("Chose Left\n");
+						ContinueDate1(1);
+					}
+				}
 			}
-			else if (waitingOnChoice)
+			else if (whichTree == 1)
 			{
-				if (usercmd.forwardmove > 0)
+				if (usercmd.buttons & BUTTON_ATTACK && !waitingOnChoice)
 				{
-					waitingOnChoice = false;
-					gameLocal.Printf("Chose Top\n");		
-					ContinueDate(2);
+					gameLocal.Printf("Clicked\n");
+					ContinueDate2();
 				}
-				else if (usercmd.rightmove > 0)
+				else if (waitingOnChoice)
 				{
-					waitingOnChoice = false;
-					gameLocal.Printf("Chose Right\n");
-					ContinueDate(3);
+					if (usercmd.forwardmove > 0)
+					{
+						waitingOnChoice = false;
+						gameLocal.Printf("Chose Top\n");
+						ContinueDate2(2);
+					}
+					else if (usercmd.rightmove > 0)
+					{
+						waitingOnChoice = false;
+						gameLocal.Printf("Chose Right\n");
+						ContinueDate2(3);
+					}
+					else if (usercmd.rightmove < 0)
+					{
+						waitingOnChoice = false;
+						gameLocal.Printf("Chose Left\n");
+						ContinueDate2(1);
+					}
 				}
-				else if (usercmd.rightmove < 0)
-				{
-					waitingOnChoice = false;
-					gameLocal.Printf("Chose Left\n");
-					ContinueDate(1);
-				}
+			}
+			else
+			{
+				whichTree = 0;
 			}
 		}
 		return;
@@ -14961,6 +14999,7 @@ void idPlayer::StartDate(idAI* dateMate)
 	hud->HandleNamedEvent("startDate");
 	StopRadioChatter();
 	dateMate->StartDate();
+	whichTree = rand() % 2;
 	aiManager.ReactToStartDate(this, dateMate);
 	nextDateActionTime = gameLocal.time + dateActionWait;
 }
@@ -14981,7 +15020,7 @@ void idPlayer::HideNotChoice(int choice)
 	}
 }
 
-void idPlayer::ContinueDate(int choice)
+void idPlayer::ContinueDate1(int choice)
 {
 	advanceDate = false;
 	if (datePoint == 0)
@@ -15116,7 +15155,7 @@ void idPlayer::ContinueDate(int choice)
 			whichMinigame = 3;
 			minigamePoint = 0;
 			datePoint = 19;
-			hud->SetStateString("dateDialog", "What... why would you... you lied!?");
+			hud->SetStateString("dateDialog", "You're so honest, I appreciate that, but do you even like me?");
 		}
 		talking = true;
 	}
@@ -15249,6 +15288,207 @@ void idPlayer::ContinueDate(int choice)
 			minigamePoint = 0;
 			datePoint = 21;
 			hud->SetStateString("dateDialog", "You are aren't you!  If you can't admit it I'm leaving!");
+		}
+		talking = true;
+	}
+	else if (datePoint == 20)
+	{
+		hud->HandleNamedEvent("hideDialog");
+		hud->HandleNamedEvent("hideMGameResult");
+		hud->SetStateString("dateResult", "BAD DATE </3");
+		hud->HandleNamedEvent("showResult");
+		datePoint = 22;
+	}
+	else if (datePoint == 21)
+	{
+		hud->HandleNamedEvent("hideDialog");
+		hud->HandleNamedEvent("hideMGameResult");
+		hud->SetStateString("dateResult", "GOOD DATE <3");
+		goodDateCount++;
+		hud->SetStateInt("player_health", goodDateCount);
+		hud->HandleNamedEvent("showResult");
+		datePoint = 22;
+	}
+	else
+	{
+		StopDate(currDate);
+		datePoint = 0;
+	}
+	nextDateActionTime = gameLocal.time + dateActionWait;
+}
+
+void idPlayer::ContinueDate2(int choice)
+{
+	advanceDate = false;
+	if (datePoint == 0)
+	{
+		hud->HandleNamedEvent("turnOffDateStart");
+		hud->SetStateString("dateDialog", "Woah, wait, you seriously want to date me?");
+		hud->HandleNamedEvent("showDialog");
+		datePoint = 1;
+	}
+	else if (datePoint == 1)
+	{
+		datePoint = 2;
+		hud->SetStateString("dateChoiceLeft", "More than anything in the world.");
+		hud->SetStateString("dateChoiceTop", "Yes, I’m very lonely");
+		hud->SetStateString("dateChoiceRight", "You seem like you need a confidence boost.");
+		hud->HandleNamedEvent("showChoices");
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 2)
+	{
+		HideNotChoice(choice);
+		hud->HandleNamedEvent("hideDialog");
+		if (choice == 1)
+		{
+			datePoint = 3;
+			hud->SetStateString("dateDialog", "Don’t you think you’re going a bit overboard?");
+		}
+		else if (choice == 2)
+		{
+			datePoint = 7;
+			hud->SetStateString("dateDialog", "You sound a bit lame.");
+		}
+		else
+		{
+			datePoint = 20;
+			hud->SetStateString("dateDialog", "Yeah… I’m not dealing with this.");
+		}
+		talking = true;
+	}
+	else if (datePoint == 3)
+	{
+		datePoint = 4;
+		hud->SetStateString("dateChoiceLeft", "Nothing is overboard when it comes to my love.");
+		hud->SetStateString("dateChoiceTop", "I’m sorry, I just really like you.");
+		hud->SetStateString("dateChoiceRight", "Yes.");
+		hud->HandleNamedEvent("showChoices");
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 4)
+	{
+		HideNotChoice(choice);
+		hud->HandleNamedEvent("hideDialog");
+		if (choice == 1)
+		{
+			datePoint = 20;
+			hud->SetStateString("dateDialog", "You’re… making me uncomfortable.");
+		}
+		else if (choice == 2)
+		{
+			datePoint = 5;
+			hud->SetStateString("dateDialog", "No, no, you’re fine, I’m just not used to this");
+		}
+		else
+		{
+			datePoint = 20;
+			hud->SetStateString("dateDialog", "Okay.");
+		}
+		talking = true;
+	}
+	else if (datePoint == 5)
+	{
+		datePoint = 6;
+		hud->SetStateString("dateChoiceLeft", "Well you better, there’s a lot more where that came from!");
+		hud->SetStateString("dateChoiceTop", "Well I never meant to overwhelm you.");
+		hud->SetStateString("dateChoiceRight", "I’ll try to think about that next time.");
+		hud->HandleNamedEvent("showChoices");
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 6)
+	{
+		HideNotChoice(choice);
+		hud->HandleNamedEvent("hideDialog");
+		if (choice == 1)
+		{
+			datePoint = 20;
+			hud->SetStateString("dateDialog", "Will you give it a break already?");
+		}
+		else if (choice == 2)
+		{
+			inMinigame = true;
+			whichMinigame = 2;
+			minigamePoint = 0;
+			datePoint = 17;
+			hud->SetStateString("dateDialog", "I know, I just wish you were a bit more thoughtful.");
+		}
+		else
+		{
+			inMinigame = true;
+			whichMinigame = 1;
+			minigamePoint = 0;
+			datePoint = 17;
+			hud->SetStateString("dateDialog", "Why should I believe that?");
+		}
+		talking = true;
+	}
+	else if (datePoint == 7)
+	{
+		datePoint = 8;
+		hud->SetStateString("dateChoiceLeft", "That's a bit harsh.");
+		hud->SetStateString("dateChoiceTop", "A bit?");
+		hud->SetStateString("dateChoiceRight", "How dare you call me that!");
+		hud->HandleNamedEvent("showChoices");
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 8)
+	{
+		HideNotChoice(choice);
+		hud->HandleNamedEvent("hideDialog");
+		if (choice == 1)
+		{
+			datePoint = 9;
+			hud->SetStateString("dateDialog", "Oh, sorry, I didn’t mean to upset you, I thought it was funny.");
+		}
+		else if (choice == 2)
+		{
+			inMinigame = true;
+			whichMinigame = 4;
+			minigamePoint = 0;
+			datePoint = 19;
+			hud->SetStateString("dateDialog", "Nothing more attractive than self deprecation. You need to show some confidence");
+		}
+		else
+		{
+			datePoint = 20;
+			hud->SetStateString("dateDialog", "Sorry, it was only a joke… I’ll just go...");
+		}
+		talking = true;
+	}
+	else if (datePoint == 9)
+	{
+		datePoint = 10;
+		hud->SetStateString("dateChoiceLeft", "Well it wasn’t.");
+		hud->SetStateString("dateChoiceTop", " I’m just sensitive.");
+		hud->SetStateString("dateChoiceRight", "It just hurt because of how highly I think of you.");
+		hud->HandleNamedEvent("showChoices");
+		waitingOnChoice = true;
+	}
+	else if (datePoint == 10)
+	{
+		HideNotChoice(choice);
+		hud->HandleNamedEvent("hideDialog");
+		if (choice == 1)
+		{\
+			datePoint = 20;
+			hud->SetStateString("dateDialog", "I’ll just leave you alone, I don’t want to upset you.");
+		}
+		else if (choice == 2)
+		{
+			inMinigame = true;
+			whichMinigame = 4;
+			minigamePoint = 0;
+			datePoint = 19;
+			hud->SetStateString("dateDialog", "I’m sorry, can you forgive me ? ");
+		}
+		else
+		{
+			inMinigame = true;
+			whichMinigame = 3;
+			minigamePoint = 0;
+			datePoint = 18;
+			hud->SetStateString("dateDialog", "What do you mean?");
 		}
 		talking = true;
 	}

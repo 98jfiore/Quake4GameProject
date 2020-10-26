@@ -540,7 +540,7 @@ rvTypeDefInt::Parse
 int	rvTypeDefInt::Parse( const char* source ) const {
 	int i;
 
-	sscanf( source, Format(), &i );
+	sscanf_s( source, Format(), &i );
 
 	return i;
 }
@@ -584,7 +584,7 @@ bool rvTypeDefInt::IsValid( const char* source ) const {
 float rvTypeDefFloat::Parse( const char* source ) const {
 	float f;
 
-	sscanf( source, Format(), &f );
+	sscanf_s( source, Format(), &f );
 
 	return f;
 }
@@ -628,7 +628,7 @@ rvTypeDefVec3::Parse
 idVec3 rvTypeDefVec3::Parse( const char* source ) const {
 	idVec3 v;
 
-	sscanf( source, Format(), &v[0], &v[1], &v[2] );
+	sscanf_s( source, Format(), &v[0], &v[1], &v[2] );
 
 	return v;
 }
@@ -756,7 +756,7 @@ rvTypeDefBool::Parse
 bool rvTypeDefBool::Parse( const char* source ) const {
 	unsigned int b;
 
-	sscanf( source, Format(), &b );
+	sscanf_s( source, Format(), &b );
 
 	return !!b;
 }

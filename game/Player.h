@@ -431,6 +431,7 @@ public:
 
 	// Is the player in a date>
 	bool					inDate;
+	int						whichTree;
 	bool					advanceDate;
 	bool					waitingOnChoice;
 	bool					talking;
@@ -854,7 +855,8 @@ public:
 
 	//Date methods
 	void					StartDate(idAI* dateMate);
-	void					ContinueDate(int choice = 0);
+	void					ContinueDate1(int choice = 0);
+	void					ContinueDate2(int choice = 0);
 	void					StopDate(idAI* dateMate);
 	void					HideNotChoice(int choice);
 

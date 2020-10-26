@@ -1574,7 +1574,7 @@ void rvVehicle::Event_LaunchProjectiles( const idList<idStr>* parms ) {
 
 	assert( parms && parms->Num() );
 
-	sscanf( (*parms)[0].c_str(), "%d", &pos );
+	sscanf_s( (*parms)[0].c_str(), "%d", &pos );
 	GetPosition( pos )->FireWeapon();
 }
 
