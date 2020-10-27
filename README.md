@@ -11,3 +11,9 @@ Finally, open up the Mod, and start playing. <br />
     In the date, use your movement keys to select dialog options and click to advance dialog
     Your date will either end in immediate failure or a minigame.
     You control each minigame by either clicking or using your movement keys.
+  ### Deliverables it accomplishes: <br />
+    Removes combat from the game <br />
+    You can roam around and ask Stroggs on dates <br />
+    When you ask a Strogg on a date, it cuts to a dating scene <br />
+    A dialog tree is used during the dates with multiple possible outcomes <br />
+    Dates can end in one of four minigames <br />
